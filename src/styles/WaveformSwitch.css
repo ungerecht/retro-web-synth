@@ -1,0 +1,41 @@
+.waveform-switch-container {
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px;
+}
+
+.waveform-switch {
+  display: grid;
+  grid-template-columns: 30px 30px;
+  grid-template-rows: 30px 30px;
+  grid-gap: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
+
+.waveform-switch > input {
+  display: none;
+}
+
+.waveform-switch > input:checked + label {
+  background-color: #f5f5f5;
+}
+
+.radio-icon {
+  display: flex;
+  max-height: 30px;
+  max-width: 30px;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0;
+}
+
+.radio-icon:hover {
+  background-color: #bdbdbd;
+}
