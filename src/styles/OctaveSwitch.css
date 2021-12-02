@@ -1,0 +1,44 @@
+.octave-switch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+.octave-switch > label {
+  font-size: 10px;
+  margin-top: 10px;
+}
+
+.octave-button {
+  display: flex;
+  justify-content: center;
+  border: none;
+  background: none;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.octave-button > svg {
+  color: #e0e0e0;
+}
+
+.octave-button > svg:hover {
+  color: #bdbdbd;
+}
+
+.octave-display {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 20px;
+  border: 2px groove black;
+}
+
+.octave-display > p {
+  margin: 0;
+}
