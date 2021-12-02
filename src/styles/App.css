@@ -1,0 +1,40 @@
+@font-face {
+  font-family: "PressStart2P";
+  src: url("../fonts/PressStart2P.ttf") format("truetype");
+}
+
+body {
+  margin: 0;
+  font-family: PressStart2P;
+}
+
+.container {
+  background-color: #ada59a;
+  margin: auto;
+  width: 100%;
+  height: 100vh;
+}
+
+.top-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.bottom-container {
+  display: flex;
+  justify-content: center;
+}
+
+.envelopes,
+.filter {
+  display: inline-block;
+  margin: 10px;
+}
+
+/* .envelopes {
+  background: #d00e57;
+}
+
+.filter {
+  background: #0096e3;
+} */
