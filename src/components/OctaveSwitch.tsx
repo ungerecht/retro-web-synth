@@ -3,7 +3,7 @@ import { upIcon, downIcon } from "../icons";
 import "../styles/OctaveSwitch.css";
 
 const OctaveSwitch = () => {
-  const [octave, setOctave] = useState(1);
+  const [octave, setOctave] = useState(4);
   return (
     <div className="octave-switch">
       <label>OCT</label>
