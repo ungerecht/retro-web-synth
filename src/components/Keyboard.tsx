@@ -1,41 +1,20 @@
 import React from "react";
 import Key from "./Key";
+import _ from "lodash";
+import { NOTES } from "../globals/constants";
+
 import "../styles/Keyboard.css";
 
-const Keyboard = () => {
-  /* 
-    render 24 keys
-    track input
-    play notes
-    */
-  return (
-    <div className="keyboard">
-      <Key note="f" />
-      <Key note="f#" />
-      <Key note="g" />
-      <Key note="g#" />
-      <Key note="a" />
-      <Key note="a#" />
-      <Key note="b" />
-      <Key note="c" />
-      <Key note="c#" />
-      <Key note="d" />
-      <Key note="d#" />
-      <Key note="e" />
-      <Key note="f" />
-      <Key note="f#" />
-      <Key note="g" />
-      <Key note="g#" />
-      <Key note="a" />
-      <Key note="a#" />
-      <Key note="b" />
-      <Key note="c" />
-      <Key note="c#" />
-      <Key note="d" />
-      <Key note="d#" />
-      <Key note="e" />
-    </div>
-  );
+interface KeyboardProps {
+  pressedKeys: string[];
+}
+
+const Keyboard = ({ pressedKeys }: KeyboardProps) => {
+  const keys = _.map(NOTES, (note, index) => {
+    return <Key key={index} note={note} pressedKeys={pressedKeys} />;
+  });
+
+  return <div className="keyboard">{keys}</div>;
 };
 
 export default Keyboard;

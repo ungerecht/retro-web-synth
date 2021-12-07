@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { sineIcon, squareIcon, triangleIcon, sawtoothIcon } from "../icons";
 import "../styles/WaveformSwitch.css";
 
-const WaveformSwitch = () => {
-  const [selected, setSelected] = useState("sine");
+interface WaveformProps {
+  waveform: OscillatorType;
+  setWaveform: (type: OscillatorType) => void;
+}
 
+const WaveformSwitch = ({ waveform, setWaveform }: WaveformProps) => {
   const onValueChange = (event: any) => {
-    setSelected(event.target.value);
+    setWaveform(event.target.value);
   };
-
-  console.log(selected);
 
   return (
     <div className="waveform-switch-container">
@@ -19,7 +20,7 @@ const WaveformSwitch = () => {
           type="radio"
           value="sine"
           id="sine"
-          checked={selected === "sine"}
+          checked={waveform === "sine"}
           onChange={onValueChange}
         />
         <label className="radio-icon" htmlFor="sine">
@@ -29,7 +30,7 @@ const WaveformSwitch = () => {
           type="radio"
           value="square"
           id="square"
-          checked={selected === "square"}
+          checked={waveform === "square"}
           onChange={onValueChange}
         />
         <label className="radio-icon" htmlFor="square">
@@ -39,7 +40,7 @@ const WaveformSwitch = () => {
           type="radio"
           value="triangle"
           id="triangle"
-          checked={selected === "triangle"}
+          checked={waveform === "triangle"}
           onChange={onValueChange}
         />
         <label className="radio-icon" htmlFor="triangle">
@@ -49,7 +50,7 @@ const WaveformSwitch = () => {
           type="radio"
           value="sawtooth"
           id="sawtooth"
-          checked={selected === "sawtooth"}
+          checked={waveform === "sawtooth"}
           onChange={onValueChange}
         />
         <label className="radio-icon" htmlFor="sawtooth">
