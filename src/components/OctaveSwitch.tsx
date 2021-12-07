@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { upIcon, downIcon } from "../icons";
 import "../styles/OctaveSwitch.css";
 
-const OctaveSwitch = () => {
-  const [octave, setOctave] = useState(4);
+interface OctaveProps {
+  octave: number;
+  setOctave: (octave: number) => void;
+}
+
+const OctaveSwitch = ({ octave, setOctave }: OctaveProps) => {
   return (
     <div className="octave-switch">
       <label>OCT</label>
