@@ -1,12 +1,12 @@
 import _ from "lodash";
 import React from "react";
 import { NOTE_TO_KEY } from "../globals/constants";
+
 import "../styles/Key.css";
 
 interface KeyProps {
   note: string;
   pressedKeys: string[];
-  //isPlaying: boolean;
 }
 
 const Key = (props: KeyProps) => {
