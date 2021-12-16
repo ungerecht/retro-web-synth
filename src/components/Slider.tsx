@@ -1,10 +1,11 @@
 import React from "react";
+import { Time } from "tone/build/esm/core/type/Units";
 import "../styles/Slider.css";
 
 interface SliderProps {
   label: string;
   max: number;
-  value: number;
+  value: Time | undefined;
   setEnvelope: (value: number, label: string) => void;
 }
 
@@ -22,7 +23,7 @@ const Slider = ({ label, max, value, setEnvelope }: SliderProps) => {
         min={0}
         max={max}
         step={0.001}
-        defaultValue={value}
+        defaultValue={value?.toString() ?? "0"}
         onChange={onValueChange}
       />
     </div>
