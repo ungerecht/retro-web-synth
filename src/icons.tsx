@@ -33,3 +33,109 @@ export const sawtoothIcon = (
     <path d="M11 22V6.83L2 16V13.17L13 2V17.17L22 8V10.83L11 22Z" />
   </svg>
 );
+
+export const allpassIcon = (
+  <svg width="24px" height="24px" viewBox="0 0 24 24">
+    <path fill="currentColor" stroke="black" stroke-width="2px" d="M0,12 H24" />
+  </svg>
+);
+
+export const lowpassIcon = (
+  <svg width="24px" height="24px" viewBox="0 0 24 24">
+    <path
+      fill="none"
+      stroke="black"
+      stroke-width="2px"
+      d="M0,6
+       h11
+       S23,6 23,20
+       "
+    />
+  </svg>
+);
+
+export const highpassIcon = (
+  <svg width="24px" height="24px" viewBox="0 0 24 24">
+    <path
+      fill="none"
+      stroke="black"
+      stroke-width="2px"
+      d="M24,6
+     h-11
+     S1,6 1,20
+     "
+    />
+  </svg>
+);
+
+export const lowshelfIcon = (
+  <svg width="24px" height="24px" viewBox="0 0 24 24">
+    <path
+      fill="none"
+      stroke="black"
+      stroke-width="2px"
+      d="M0,6
+       L8,6
+       C12,8 12,12 12,12
+       S12,18 16,18
+       L24,18
+       "
+    />
+  </svg>
+);
+
+export const highshelfIcon = (
+  <svg width="24px" height="24px" viewBox="0 0 24 24">
+    <path
+      fill="none"
+      stroke="black"
+      stroke-width="2px"
+      d="M0,18
+     L8,18
+     C12,16 12,12 12,12
+     S12,8 16,6
+     L24,6
+     "
+    />
+  </svg>
+);
+
+export const notchIcon = (
+  <svg width="24px" height="24px" viewBox="0 0 24 24">
+    <path
+      fill="none"
+      stroke="black"
+      stroke-width="2px"
+      d="M0,6
+      L6,6
+      C8,6 8,7 8,7
+      C11,18 12,18 12,18
+      
+      M24,6
+      L18,6
+      C16,6 16,7 16,7
+      C13,18 12,18 12,18
+      "
+    />
+  </svg>
+);
+
+export const bandpassIcon = (
+  <svg width="24px" height="24px" viewBox="0 0 24 24">
+    <path
+      fill="none"
+      stroke="black"
+      stroke-width="2px"
+      d="M0,18
+     L6,18
+     C8,18 8,17 8,17
+     C11,6 12,6 12,6
+
+     M24,18
+     L18,18
+     C16,18 16,17 16,17
+     C13,6 12,6 12,6
+     "
+    />
+  </svg>
+);
