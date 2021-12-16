@@ -2,10 +2,10 @@ import React from "react";
 import Slider from "./Slider";
 
 import "../styles/EnvelopeSliders.css";
-import { Envelope } from "../types";
+import { EnvelopeOptions } from "tone";
 
 interface EnvelopeProps {
-  envelope: Envelope;
+  envelope: Partial<EnvelopeOptions>;
   setEnvelope: (value: number, label: string) => void;
 }
 
