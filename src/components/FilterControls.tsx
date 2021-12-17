@@ -1,102 +1,70 @@
-import React from "react";
-import {
-  allpassIcon,
-  lowpassIcon,
-  highpassIcon,
-  lowshelfIcon,
-  highshelfIcon,
-  notchIcon,
-  bandpassIcon,
-} from "../icons";
-import { FilterOptions } from "tone";
+import React, { ChangeEvent } from "react";
+import _ from "lodash";
+import { FILTER_TYPES, ROLLOFFS } from "../globals/constants";
+import * as Icons from "../icons";
+import { Filter, FilterOptions, FilterRollOff } from "tone";
 
 import "../styles/FilterControls.css";
 
 interface FilterProps {
   filter: Partial<FilterOptions>;
   setFilterType: (type: BiquadFilterType) => void;
+  setFilterRolloff: (type: number) => void;
 }
 
-const FilterControls = ({ filter, setFilterType }: FilterProps) => {
-  const onTypeChange = (event: any) => {
-    setFilterType(event.target.value);
+const FilterControls = ({
+  filter,
+  setFilterType,
+  setFilterRolloff,
+}: FilterProps) => {
+  const onTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setFilterType(event.target.value as BiquadFilterType);
   };
+
+  const onRolloffChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setFilterRolloff(Number(event.target.value));
+  };
+
+  const filterTypeSwitch = _.map(FILTER_TYPES, (type: string, index) => {
+    return (
+      <React.Fragment key={index}>
+        <input
+          key={index}
+          type="radio"
+          value={type}
+          id={type}
+          checked={filter.type === type}
+          onChange={onTypeChange}
+        />
+        <label className="radio-icon" htmlFor={type}>
+          {Icons[type as keyof typeof Icons]}
+        </label>
+      </React.Fragment>
+    );
+  });
+
+  const filterRolloffSwitch = _.map(ROLLOFFS, (rolloff: string, index) => {
+    return (
+      <React.Fragment key={index}>
+        <input
+          type="radio"
+          value={rolloff}
+          id={rolloff}
+          checked={filter.rolloff === Number(rolloff)}
+          onChange={onRolloffChange}
+        />
+        <label className="radio-icon" htmlFor={rolloff}>
+          {rolloff}
+        </label>
+      </React.Fragment>
+    );
+  });
 
   return (
     <div className="filter-controls-container">
       <label>FILTER</label>
-      <div className="filter-type-switch">
-        <input
-          type="radio"
-          value="allpass"
-          id="allpass"
-          checked={filter.type === "allpass"}
-          onChange={onTypeChange}
-        />
-        <label className="radio-icon" htmlFor="allpass">
-          {allpassIcon}
-        </label>
-        <input
-          type="radio"
-          value="lowpass"
-          id="lowpass"
-          checked={filter.type === "lowpass"}
-          onChange={onTypeChange}
-        />
-        <label className="radio-icon" htmlFor="lowpass">
-          {lowpassIcon}
-        </label>
-        <input
-          type="radio"
-          value="highpass"
-          id="highpass"
-          checked={filter.type === "highpass"}
-          onChange={onTypeChange}
-        />
-        <label className="radio-icon" htmlFor="highpass">
-          {highpassIcon}
-        </label>
-        <input
-          type="radio"
-          value="lowshelf"
-          id="lowshelf"
-          checked={filter.type === "lowshelf"}
-          onChange={onTypeChange}
-        />
-        <label className="radio-icon" htmlFor="lowshelf">
-          {lowshelfIcon}
-        </label>
-        <input
-          type="radio"
-          value="highshelf"
-          id="highshelf"
-          checked={filter.type === "highshelf"}
-          onChange={onTypeChange}
-        />
-        <label className="radio-icon" htmlFor="highshelf">
-          {highshelfIcon}
-        </label>
-        <input
-          type="radio"
-          value="notch"
-          id="notch"
-          checked={filter.type === "notch"}
-          onChange={onTypeChange}
-        />
-        <label className="radio-icon" htmlFor="notch">
-          {notchIcon}
-        </label>
-        <input
-          type="radio"
-          value="bandpass"
-          id="bandpass"
-          checked={filter.type === "bandpass"}
-          onChange={onTypeChange}
-        />
-        <label className="radio-icon" htmlFor="bandpass">
-          {bandpassIcon}
-        </label>
-      </div>
+      <div className="filter-type-switch">{filterTypeSwitch}</div>
+      <div className="filter-rolloff-switch">{filterRolloffSwitch}</div>
     </div>
   );
 };
