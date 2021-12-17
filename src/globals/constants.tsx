@@ -1,3 +1,17 @@
+import { FilterRollOff } from "tone";
+
+const ROLLOFFS: string[] = ["-12", "-24", "-48", "-96"];
+
+const FILTER_TYPES: string[] = [
+  "allpass",
+  "lowpass",
+  "highpass",
+  "lowshelf",
+  "highshelf",
+  "notch",
+  "bandpass",
+];
+
 const NOTES: string[] = [
   "C",
   "Db",
@@ -53,4 +67,4 @@ const NOTE_TO_KEY: note = {
   B: "u",
 };
 
-export { NOTES, KEY_TO_NOTE, NOTE_TO_KEY, VALID_KEYS };
+export { NOTES, KEY_TO_NOTE, NOTE_TO_KEY, VALID_KEYS, FILTER_TYPES, ROLLOFFS };
