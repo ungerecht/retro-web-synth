@@ -34,18 +34,18 @@ export const sawtoothIcon = (
   </svg>
 );
 
-export const allpassIcon = (
+export const allpass = (
   <svg width="24px" height="24px" viewBox="0 0 24 24">
-    <path fill="currentColor" stroke="black" stroke-width="2px" d="M0,12 H24" />
+    <path fill="currentColor" stroke="black" strokeWidth="2px" d="M0,12 H24" />
   </svg>
 );
 
-export const lowpassIcon = (
+export const lowpass = (
   <svg width="24px" height="24px" viewBox="0 0 24 24">
     <path
       fill="none"
       stroke="black"
-      stroke-width="2px"
+      strokeWidth="2px"
       d="M0,6
        h11
        S23,6 23,20
@@ -54,12 +54,12 @@ export const lowpassIcon = (
   </svg>
 );
 
-export const highpassIcon = (
+export const highpass = (
   <svg width="24px" height="24px" viewBox="0 0 24 24">
     <path
       fill="none"
       stroke="black"
-      stroke-width="2px"
+      strokeWidth="2px"
       d="M24,6
      h-11
      S1,6 1,20
@@ -68,12 +68,12 @@ export const highpassIcon = (
   </svg>
 );
 
-export const lowshelfIcon = (
+export const lowshelf = (
   <svg width="24px" height="24px" viewBox="0 0 24 24">
     <path
       fill="none"
       stroke="black"
-      stroke-width="2px"
+      strokeWidth="2px"
       d="M0,6
        L8,6
        C12,8 12,12 12,12
@@ -84,12 +84,12 @@ export const lowshelfIcon = (
   </svg>
 );
 
-export const highshelfIcon = (
+export const highshelf = (
   <svg width="24px" height="24px" viewBox="0 0 24 24">
     <path
       fill="none"
       stroke="black"
-      stroke-width="2px"
+      strokeWidth="2px"
       d="M0,18
      L8,18
      C12,16 12,12 12,12
@@ -100,12 +100,12 @@ export const highshelfIcon = (
   </svg>
 );
 
-export const notchIcon = (
+export const notch = (
   <svg width="24px" height="24px" viewBox="0 0 24 24">
     <path
       fill="none"
       stroke="black"
-      stroke-width="2px"
+      strokeWidth="2px"
       d="M0,6
       L6,6
       C8,6 8,7 8,7
@@ -120,12 +120,12 @@ export const notchIcon = (
   </svg>
 );
 
-export const bandpassIcon = (
+export const bandpass = (
   <svg width="24px" height="24px" viewBox="0 0 24 24">
     <path
       fill="none"
       stroke="black"
-      stroke-width="2px"
+      strokeWidth="2px"
       d="M0,18
      L6,18
      C8,18 8,17 8,17
