@@ -195,15 +195,15 @@ class SynthController extends React.Component<{}, SynthState> {
     });
   };
 
-  setFilterRolloff = (rolloff: Tone.FilterRollOff) => {
+  setFilterRolloff = (rolloff: number) => {
     this.setState((prevState) => ({
       filter: {
         ...prevState.filter,
-        rolloff,
+        rolloff: rolloff as Tone.FilterRollOff,
       },
     }));
     this.filter.set({
-      rolloff,
+      rolloff: rolloff as Tone.FilterRollOff,
     });
   };
 
@@ -246,6 +246,7 @@ class SynthController extends React.Component<{}, SynthState> {
           <FilterControls
             filter={this.state.filter}
             setFilterType={this.setFilterType}
+            setFilterRolloff={this.setFilterRolloff}
           />
           <OctaveSwitch octave={this.state.octave} setOctave={this.setOctave} />
         </div>
