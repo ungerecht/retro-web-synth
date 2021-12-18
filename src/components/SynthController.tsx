@@ -5,6 +5,7 @@ import EnvelopeSliders from "./EnvelopeSliders";
 import OctaveSwitch from "./OctaveSwitch";
 import FilterControls from "./FilterControls";
 import Keyboard from "./Keyboard";
+import Knob from "./Knob";
 
 import * as Tone from "tone";
 
@@ -17,17 +18,20 @@ type SynthState = {
   filter: Partial<Tone.FilterOptions>;
   octave: number;
   pressedKeys: string[];
+  volume: number;
 };
 
 class SynthController extends React.Component<{}, SynthState> {
   synth: Tone.PolySynth;
   filter: Tone.Filter;
+  masterVolume: Tone.Volume;
   state: SynthState;
   constructor(props: any) {
     super(props);
 
     this.synth = new Tone.PolySynth();
     this.filter = new Tone.Filter();
+    this.masterVolume = new Tone.Volume(-10);
 
     this.state = {
       waveform: "sine",
@@ -46,6 +50,7 @@ class SynthController extends React.Component<{}, SynthState> {
       },
       octave: 4,
       pressedKeys: [],
+      volume: -10,
     };
   }
 
@@ -73,8 +78,9 @@ class SynthController extends React.Component<{}, SynthState> {
     //set filter options to default
     this.filter.set(this.state.filter);
 
-    //connect the synth to filter, then to audio output
-    this.synth.chain(this.filter, Tone.Destination);
+    //connect synth -> filter -> master volume -> output
+    this.synth.chain(this.filter, this.masterVolume, Tone.Destination);
+    console.log(this.masterVolume.volume.value);
   };
 
   onKeyDown = (event: KeyboardEvent) => {
@@ -231,10 +237,42 @@ class SynthController extends React.Component<{}, SynthState> {
     });
   };
 
+  setFilterGain = (gain: number) => {
+    this.setState((prevState) => ({
+      filter: {
+        ...prevState.filter,
+        gain,
+      },
+    }));
+    this.filter.set({
+      gain,
+    });
+  };
+
+  onVolumeChange = (volume: number) => {
+    this.setState({ volume });
+    if (volume === -60) {
+      this.masterVolume.volume.value = Number.NEGATIVE_INFINITY;
+    } else {
+      this.masterVolume.volume.value = volume;
+    }
+  };
+
   render() {
     return (
       <div className="container">
         <div className="top-container">
+          <div className="volume-knob-container">
+            <label className="volume-knob-label">VOLUME</label>
+            <Knob
+              min={-60}
+              max={0}
+              value={this.state.volume}
+              onValueChange={this.onVolumeChange}
+              width={50}
+              height={50}
+            />
+          </div>
           <WaveformSwitch
             waveform={this.state.waveform}
             setWaveform={this.setWaveform}
@@ -247,6 +285,8 @@ class SynthController extends React.Component<{}, SynthState> {
             filter={this.state.filter}
             setFilterType={this.setFilterType}
             setFilterRolloff={this.setFilterRolloff}
+            setFilterQ={this.setFilterQ}
+            setFilterGain={this.setFilterGain}
           />
           <OctaveSwitch octave={this.state.octave} setOctave={this.setOctave} />
         </div>
