@@ -5,6 +5,22 @@
   margin: 10px;
 }
 
+.filter-knobs-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.filter-Q-knob,
+.filter-gain-knob {
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
 .filter-controls-container > label {
   font-size: 12px;
   text-align: center;
@@ -13,8 +29,6 @@
 .filter-type-switch,
 .filter-rolloff-switch {
   display: grid;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .filter-type-switch {
@@ -29,6 +43,7 @@
   grid-template-columns: 35px;
   grid-template-rows: 20px 20px 20px 20px;
   grid-gap: 2px;
+  width: fit-content;
 }
 
 .filter-type-switch > input,
