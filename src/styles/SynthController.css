@@ -1,7 +1,7 @@
 .container {
-  background-color: #ada59a;
+  background-color: darkcyan;
   margin: auto;
-  width: 100%;
+  width: 75%;
   height: 100vh;
 }
 
@@ -13,4 +13,17 @@
 .bottom-container {
   display: flex;
   justify-content: center;
+}
+
+.volume-knob-container {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.volume-knob-label {
+  font-size: 12px;
+  margin-bottom: 10px;
 }
