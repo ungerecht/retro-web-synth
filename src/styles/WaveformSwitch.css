@@ -1,9 +1,13 @@
 .waveform-switch-container {
-  font-size: 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 10px;
+}
+
+.waveform-switch-container > label {
+  font-size: 12px;
+  text-align: center;
 }
 
 .waveform-switch {
@@ -26,8 +30,6 @@
 
 .waveform-switch > .radio-icon {
   display: flex;
-  max-height: 40px;
-  max-width: 40px;
   border-right: 2px solid black;
   border-bottom: 2px solid black;
   border-radius: 5px;
