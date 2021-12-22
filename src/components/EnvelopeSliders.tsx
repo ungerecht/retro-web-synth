@@ -6,36 +6,72 @@ import { EnvelopeOptions } from "tone";
 
 interface EnvelopeProps {
   envelope: Partial<EnvelopeOptions>;
-  setEnvelope: (value: number, label: string) => void;
+  setAttack: (value: number) => void;
+  setDecay: (value: number) => void;
+  setSustain: (value: number) => void;
+  setRelease: (value: number) => void;
 }
 
-const EnvelopeSliders = ({ envelope, setEnvelope }: EnvelopeProps) => {
+const EnvelopeSliders = ({
+  envelope,
+  setAttack,
+  setDecay,
+  setSustain,
+  setRelease,
+}: EnvelopeProps) => {
   return (
-    <div className="envelopes">
-      <Slider
-        label="ATK"
-        max={2}
-        value={envelope.attack}
-        setEnvelope={setEnvelope}
-      />
-      <Slider
-        label="DEC"
-        max={2}
-        value={envelope.decay}
-        setEnvelope={setEnvelope}
-      />
-      <Slider
-        label="SUS"
-        max={1}
-        value={envelope.sustain}
-        setEnvelope={setEnvelope}
-      />
-      <Slider
-        label="REL"
-        max={5}
-        value={envelope.release}
-        setEnvelope={setEnvelope}
-      />
+    <div className="envelope-container">
+      <label>ENVELOPE</label>
+      <div className="sliders-container">
+        <div className="slider">
+          <label>ATK</label>
+          <Slider
+            min={0}
+            max={2}
+            step={0.01}
+            width={50}
+            height={100}
+            value={Number(envelope.attack)}
+            onValueChange={setAttack}
+          />
+        </div>
+        <div className="slider">
+          <label>DEC</label>
+          <Slider
+            min={0}
+            max={2}
+            step={0.01}
+            width={50}
+            height={100}
+            value={Number(envelope.decay)}
+            onValueChange={setDecay}
+          />
+        </div>
+        <div className="slider">
+          <label>SUS</label>
+          <Slider
+            min={0}
+            max={1}
+            step={0.01}
+            width={50}
+            height={100}
+            value={Number(envelope.sustain)}
+            onValueChange={setSustain}
+          />
+        </div>
+        <div className="slider">
+          <label>REL</label>
+          <Slider
+            min={0}
+            max={5}
+            step={0.01}
+            width={50}
+            height={100}
+            value={Number(envelope.release)}
+            onValueChange={setRelease}
+          />
+        </div>
+      </div>
     </div>
   );
 };
