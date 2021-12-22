@@ -5,43 +5,27 @@
   margin: 10px;
 }
 
-.filter-knobs-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.filter-Q-knob,
-.filter-gain-knob {
-  font-size: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  margin-right: 10px;
-}
-
 .filter-controls-container > label {
   font-size: 12px;
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .filter-type-switch,
 .filter-rolloff-switch {
   display: grid;
+  justify-content: center;
 }
 
 .filter-type-switch {
-  margin-top: 10px;
   grid-template-columns: 34px 34px 34px 34px 34px 34px 34px;
   grid-template-rows: 34px;
   grid-gap: 2px;
 }
 
 .filter-rolloff-switch {
-  margin-top: 4px;
-  grid-template-columns: 35px;
-  grid-template-rows: 20px 20px 20px 20px;
+  grid-template-columns: 35px 35px 35px 35px;
+  grid-template-rows: 20px;
   grid-gap: 2px;
   width: fit-content;
 }
@@ -73,4 +57,28 @@
 
 .radio-icon:hover {
   background-color: #bdbdbd;
+}
+
+.filter-knobs-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.filter-Q-knob > p,
+.filter-frequency-knob > p,
+.filter-gain-knob > p {
+  margin-bottom: 0;
+  margin-top: 1px;
+}
+
+.filter-Q-knob,
+.filter-gain-knob,
+.filter-frequency-knob {
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
