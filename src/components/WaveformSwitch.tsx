@@ -1,5 +1,6 @@
 import React from "react";
-import { sineIcon, squareIcon, triangleIcon, sawtoothIcon } from "../icons";
+import { WAVEFORMS } from "../globals/constants";
+import * as Icons from "../icons";
 import "../styles/WaveformSwitch.css";
 
 interface WaveformProps {
@@ -12,51 +13,27 @@ const WaveformSwitch = ({ waveform, setWaveform }: WaveformProps) => {
     setWaveform(event.target.value);
   };
 
+  const renderWaveformButtons = WAVEFORMS.map((wf, i) => {
+    return (
+      <React.Fragment key={i}>
+        <input
+          type="radio"
+          value={wf}
+          id={wf}
+          checked={wf === waveform}
+          onChange={onValueChange}
+        />
+        <label className="radio-icon" htmlFor={wf}>
+          {Icons[wf as keyof typeof Icons]}
+        </label>
+      </React.Fragment>
+    );
+  });
+
   return (
     <div className="waveform-switch-container">
       <label>WAVEFORM</label>
-      <div className="waveform-switch">
-        <input
-          type="radio"
-          value="sine"
-          id="sine"
-          checked={waveform === "sine"}
-          onChange={onValueChange}
-        />
-        <label className="radio-icon" htmlFor="sine">
-          {sineIcon}
-        </label>
-        <input
-          type="radio"
-          value="square"
-          id="square"
-          checked={waveform === "square"}
-          onChange={onValueChange}
-        />
-        <label className="radio-icon" htmlFor="square">
-          {squareIcon}
-        </label>
-        <input
-          type="radio"
-          value="triangle"
-          id="triangle"
-          checked={waveform === "triangle"}
-          onChange={onValueChange}
-        />
-        <label className="radio-icon" htmlFor="triangle">
-          {triangleIcon}
-        </label>
-        <input
-          type="radio"
-          value="sawtooth"
-          id="sawtooth"
-          checked={waveform === "sawtooth"}
-          onChange={onValueChange}
-        />
-        <label className="radio-icon" htmlFor="sawtooth">
-          {sawtoothIcon}
-        </label>
-      </div>
+      <div className="waveform-switch">{renderWaveformButtons}</div>
     </div>
   );
 };
