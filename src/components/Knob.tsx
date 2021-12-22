@@ -6,10 +6,19 @@ interface KnobProps {
   value: number;
   width: number;
   height: number;
+  step: number;
   onValueChange: (value: number) => void;
 }
 
-const Knob = ({ min, max, value, width, height, onValueChange }: KnobProps) => {
+const Knob = ({
+  min,
+  max,
+  value,
+  width,
+  height,
+  step,
+  onValueChange,
+}: KnobProps) => {
   const minAngle = 45;
   const maxAngle = 315;
   const smallestSide = Math.min(width, height);
@@ -17,7 +26,7 @@ const Knob = ({ min, max, value, width, height, onValueChange }: KnobProps) => {
   const [circleY] = useState(height / 2);
   const [radius] = useState((smallestSide / 2) * 0.85);
 
-  const handleScroll = (event: any) => {
+  const onScroll = (event: any) => {
     let newValue;
     if (event.deltaY < 0) {
       //scrolling up
@@ -25,7 +34,9 @@ const Knob = ({ min, max, value, width, height, onValueChange }: KnobProps) => {
       if (value === max) return; //value is at max
 
       //scroll faster holding shift
-      event.shiftKey ? (newValue = value + 4) : (newValue = value + 1);
+      event.shiftKey
+        ? (newValue = value + 4 * step)
+        : (newValue = value + step);
 
       if (newValue > max) newValue = max; //set newValue to max if it went over
 
@@ -36,7 +47,9 @@ const Knob = ({ min, max, value, width, height, onValueChange }: KnobProps) => {
       if (value === min) return; //value is at min
 
       //scroll faster holding shift
-      event.shiftKey ? (newValue = value - 4) : (newValue = value - 1);
+      event.shiftKey
+        ? (newValue = value - 4 * step)
+        : (newValue = value - step);
 
       if (newValue < min) newValue = min; //set newValue to min if it went over
 
@@ -52,12 +65,12 @@ const Knob = ({ min, max, value, width, height, onValueChange }: KnobProps) => {
     return (percentage * (max - min)) / 100 + min;
   };
 
-  const cartesianToPolar = (x: number, y: number) => {
-    return Math.round(
-      Math.atan((y - circleY) / (x - circleX)) / (Math.PI / 180) +
-        (x > circleX ? 270 : 90)
-    );
-  };
+  // const cartesianToPolar = (x: number, y: number) => {
+  //   return Math.round(
+  //     Math.atan((y - circleY) / (x - circleX)) / (Math.PI / 180) +
+  //       (x > circleX ? 270 : 90)
+  //   );
+  // };
 
   const polarToCartesian = (angle: number, radius: number) => {
     const a = ((angle - 270) * Math.PI) / 180.0;
@@ -90,7 +103,7 @@ const Knob = ({ min, max, value, width, height, onValueChange }: KnobProps) => {
     <svg
       width={width}
       height={height}
-      onWheel={handleScroll}
+      onWheel={onScroll}
       className="knob-wheel"
     >
       <circle
