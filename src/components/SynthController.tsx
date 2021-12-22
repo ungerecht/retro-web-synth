@@ -42,9 +42,9 @@ class SynthController extends React.Component<{}, SynthState> {
         release: 1, //0 - 5
       },
       filter: {
-        Q: 1, //0 - 20
-        frequency: 440,
-        gain: 0,
+        Q: 0, //0 - 20
+        frequency: 440, // 20 - 20k
+        gain: 0, // 0 - 5
         rolloff: -12, //-12 | -24 | -48 | -96
         type: "allpass", //lowpass | highpass | lowshelf | highshelf | notch | allpass | bandpass
       },
@@ -80,7 +80,6 @@ class SynthController extends React.Component<{}, SynthState> {
 
     //connect synth -> filter -> master volume -> output
     this.synth.chain(this.filter, this.masterVolume, Tone.Destination);
-    console.log(this.masterVolume.volume.value);
   };
 
   onKeyDown = (event: KeyboardEvent) => {
@@ -126,61 +125,60 @@ class SynthController extends React.Component<{}, SynthState> {
     });
   };
 
-  setEnvelope = (value: number, label: string) => {
-    switch (label) {
-      case "ATK":
-        this.setState((prevState) => ({
-          envelope: {
-            ...prevState.envelope,
-            attack: value,
-          },
-        }));
-        this.synth.set({
-          envelope: {
-            attack: value,
-          },
-        });
-        return;
-      case "DEC":
-        this.setState((prevState) => ({
-          envelope: {
-            ...prevState.envelope,
-            decay: value,
-          },
-        }));
-        this.synth.set({
-          envelope: {
-            decay: value,
-          },
-        });
-        return;
-      case "SUS":
-        this.setState((prevState) => ({
-          envelope: {
-            ...prevState.envelope,
-            sustain: value,
-          },
-        }));
-        this.synth.set({
-          envelope: {
-            sustain: value,
-          },
-        });
-        return;
-      case "REL":
-        this.setState((prevState) => ({
-          envelope: {
-            ...prevState.envelope,
-            release: value,
-          },
-        }));
-        this.synth.set({
-          envelope: {
-            release: value,
-          },
-        });
-        return;
-    }
+  setEnvelopeAttack = (value: number) => {
+    this.setState((prevState) => ({
+      envelope: {
+        ...prevState.envelope,
+        attack: value,
+      },
+    }));
+    this.synth.set({
+      envelope: {
+        attack: value,
+      },
+    });
+  };
+
+  setEnvelopeDecay = (value: number) => {
+    this.setState((prevState) => ({
+      envelope: {
+        ...prevState.envelope,
+        decay: value,
+      },
+    }));
+    this.synth.set({
+      envelope: {
+        decay: value,
+      },
+    });
+  };
+
+  setEnvelopeSustain = (value: number) => {
+    this.setState((prevState) => ({
+      envelope: {
+        ...prevState.envelope,
+        sustain: value,
+      },
+    }));
+    this.synth.set({
+      envelope: {
+        sustain: value,
+      },
+    });
+  };
+
+  setEnvelopeRelease = (value: number) => {
+    this.setState((prevState) => ({
+      envelope: {
+        ...prevState.envelope,
+        release: value,
+      },
+    }));
+    this.synth.set({
+      envelope: {
+        release: value,
+      },
+    });
   };
 
   setOctave = (octave: number) => {
@@ -225,7 +223,7 @@ class SynthController extends React.Component<{}, SynthState> {
     });
   };
 
-  setFilterFrequency = (frequency: Tone.Unit.Frequency) => {
+  setFilterFrequency = (frequency: number) => {
     this.setState((prevState) => ({
       filter: {
         ...prevState.filter,
@@ -271,7 +269,9 @@ class SynthController extends React.Component<{}, SynthState> {
               onValueChange={this.onVolumeChange}
               width={50}
               height={50}
+              step={1}
             />
+            <p>{`${this.state.volume}db`}</p>
           </div>
           <WaveformSwitch
             waveform={this.state.waveform}
@@ -279,14 +279,19 @@ class SynthController extends React.Component<{}, SynthState> {
           />
           <EnvelopeSliders
             envelope={this.state.envelope}
-            setEnvelope={this.setEnvelope}
+            setAttack={this.setEnvelopeAttack}
+            setDecay={this.setEnvelopeDecay}
+            setSustain={this.setEnvelopeSustain}
+            setRelease={this.setEnvelopeRelease}
           />
           <FilterControls
-            filter={this.state.filter}
+            filterState={this.state.filter}
+            filter={this.filter}
             setFilterType={this.setFilterType}
             setFilterRolloff={this.setFilterRolloff}
             setFilterQ={this.setFilterQ}
             setFilterGain={this.setFilterGain}
+            setFilterFrequency={this.setFilterFrequency}
           />
           <OctaveSwitch octave={this.state.octave} setOctave={this.setOctave} />
         </div>
