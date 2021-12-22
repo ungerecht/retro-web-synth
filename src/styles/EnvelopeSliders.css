@@ -1,4 +1,29 @@
-.envelopes {
-  display: inline-block;
-  margin: 10px;
+.envelope-container {
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.envelope-container > label {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.sliders-container {
+  display: flex;
+}
+
+.slider {
+  display: flex;
+  flex-direction: column;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.slider > label {
+  font-size: 10px;
+  text-align: center;
+  margin-bottom: 10px;
 }
