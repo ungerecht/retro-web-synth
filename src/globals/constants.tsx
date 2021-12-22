@@ -1,6 +1,6 @@
-import { FilterRollOff } from "tone";
-
 const ROLLOFFS: string[] = ["-12", "-24", "-48", "-96"];
+
+const WAVEFORMS: string[] = ["sine", "square", "triangle", "sawtooth"];
 
 const FILTER_TYPES: string[] = [
   "allpass",
@@ -67,4 +67,12 @@ const NOTE_TO_KEY: note = {
   B: "u",
 };
 
-export { NOTES, KEY_TO_NOTE, NOTE_TO_KEY, VALID_KEYS, FILTER_TYPES, ROLLOFFS };
+export {
+  NOTES,
+  KEY_TO_NOTE,
+  NOTE_TO_KEY,
+  VALID_KEYS,
+  FILTER_TYPES,
+  ROLLOFFS,
+  WAVEFORMS,
+};
