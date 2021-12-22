@@ -1,5 +1,5 @@
 .container {
-  background-color: darkcyan;
+  background-color: #7f7f7f;
   margin: auto;
   width: 75%;
   height: 100vh;
@@ -26,4 +26,8 @@
 .volume-knob-label {
   font-size: 12px;
   margin-bottom: 10px;
+}
+
+.volume-knob-container > p {
+  font-size: 10px;
 }
