@@ -1,4 +1,4 @@
-.slider-container {
+/* .slider-container {
   width: 30px;
   height: 130px;
   padding: 0;
@@ -25,10 +25,10 @@
   -webkit-appearance: none;
   appearance: none;
   width: 10px;
-  height: 29px;
-  border: none;
+  height: 32px;
+  border: 4px solid;
   border-radius: 3px;
-  background: black;
+  background: white;
   margin-top: 0;
 }
 
@@ -43,4 +43,4 @@
 
 .slider-container > label {
   font-size: 10px;
-}
+} */
