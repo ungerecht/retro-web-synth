@@ -1,0 +1,11 @@
+.filter-display-container {
+  height: fit-content;
+  border: 3px solid black;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+canvas {
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+}
