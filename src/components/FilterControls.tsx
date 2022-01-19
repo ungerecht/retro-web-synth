@@ -71,13 +71,10 @@ const FilterControls = ({
   return (
     <div className="filter-controls-container">
       <label>FILTER</label>
-      <div className="filter-side-container">
-        <div className="filter-type-switch">{renderFilterTypeButtons}</div>
-        <FilterDisplay filter={filter} />
-        <div className="filter-rolloff-switch">
-          {renderFilterRolloffButtons}
-        </div>
-      </div>
+
+      <div className="filter-type-switch">{renderFilterTypeButtons}</div>
+      <FilterDisplay filter={filter} />
+      <div className="filter-rolloff-switch">{renderFilterRolloffButtons}</div>
       <div className="filter-knobs-container">
         <div className="filter-Q-knob">
           <label>Q</label>
