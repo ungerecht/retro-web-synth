@@ -3,31 +3,16 @@
   margin: auto;
   width: 75%;
   height: 100vh;
+  border: 3px solid black;
 }
 
 .top-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .bottom-container {
   display: flex;
   justify-content: center;
-}
-
-.volume-knob-container {
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.volume-knob-label {
-  font-size: 12px;
-  margin-bottom: 10px;
-}
-
-.volume-knob-container > p {
-  font-size: 10px;
 }
