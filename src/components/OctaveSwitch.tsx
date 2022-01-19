@@ -10,7 +10,7 @@ interface OctaveProps {
 const OctaveSwitch = ({ octave, setOctave }: OctaveProps) => {
   return (
     <div className="octave-switch">
-      <label>OCT</label>
+      <label>OCTAVE</label>
       <button
         className="octave-button"
         onClick={() => {
