@@ -4,6 +4,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 10px;
+  background-color: cadetblue;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 5px;
 }
 
 .envelope-container > label {
