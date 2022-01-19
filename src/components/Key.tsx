@@ -10,6 +10,7 @@ interface KeyProps {
 }
 
 const Key = (props: KeyProps) => {
+  //build classname for Key, adding sharp or pressed
   let keyClassName = "key";
   if (keyIsSharp(props.note)) keyClassName += " sharp";
   if (keyIsPressed(props.note, props.pressedKeys)) keyClassName += " pressed";
