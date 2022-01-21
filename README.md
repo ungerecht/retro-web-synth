@@ -8,8 +8,8 @@ This project was created as a portfolio piece to practice and learn new front-en
 
 ## Features
 - Play a variety of waveforms and tweak the sound with effects.
-- ADSR Envelope
-- Filter
+- ADSR Envelope sliders
+- Filter and frequency response graph
 
 ## Technologies Used
 - Environment
