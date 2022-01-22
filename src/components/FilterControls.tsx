@@ -13,6 +13,7 @@ interface FilterControlsProps {
   setFilterType: (type: BiquadFilterType) => void;
   setFilterRolloff: (rolloff: number) => void;
   setFilterQ: (Q: number) => void;
+  setFilterDetune: (detune: number) => void;
   setFilterGain: (gain: number) => void;
   setFilterFrequency: (frequency: number) => void;
 }
@@ -23,6 +24,7 @@ const FilterControls = ({
   setFilterType,
   setFilterRolloff,
   setFilterQ,
+  setFilterDetune,
   setFilterGain,
   setFilterFrequency,
 }: FilterControlsProps) => {
@@ -88,6 +90,19 @@ const FilterControls = ({
             step={1}
           />
           <p>{`${filterState.Q}`}</p>
+        </div>
+        <div className="filter-detune-knob">
+          <label>DETUNE</label>
+          <Knob
+            value={filterState.detune as number}
+            width={50}
+            height={50}
+            onValueChange={setFilterDetune}
+            min={-200}
+            max={200}
+            step={10}
+          />
+          <p>{`${filterState.detune}`}</p>
         </div>
         <div className="filter-frequency-knob">
           <label>FREQ</label>
