@@ -70,19 +70,20 @@
   margin-top: 10px;
 }
 
-.filter-Q-knob > p,
-.filter-frequency-knob > p,
-.filter-gain-knob > p {
-  margin-bottom: 0;
-  margin-top: 1px;
-  font-size: 9px;
-}
-
 .filter-Q-knob,
+.filter-detune-knob,
 .filter-gain-knob,
 .filter-frequency-knob {
   font-size: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.filter-Q-knob > p,
+.filter-detune-knob > p,
+.filter-frequency-knob > p,
+.filter-gain-knob > p {
+  margin-bottom: 0;
+  font-size: 9px;
 }
