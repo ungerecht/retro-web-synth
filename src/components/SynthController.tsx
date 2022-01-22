@@ -1,7 +1,7 @@
 import React from "react";
 
 import VolumeKnob from "./VolumeKnob";
-import ReverbKnob from "./ReverbKnob";
+import ReverbControls from "./ReverbControls";
 import WaveformSwitch from "./WaveformSwitch";
 import EnvelopeSliders from "./EnvelopeSliders";
 import OctaveSwitch from "./OctaveSwitch";
@@ -20,14 +20,14 @@ type SynthState = {
   octave: number;
   pressedKeys: string[];
   volume: number;
-  reverb: number;
+  reverb: { decay: number; wet: number };
 };
 
 class SynthController extends React.Component<{}, SynthState> {
   synth: Tone.PolySynth;
   filter: Tone.Filter;
   masterVolume: Tone.Volume;
-  masterReverb: Tone.Reverb;
+  reverb: Tone.Reverb;
   state: SynthState;
   constructor(props: any) {
     super(props);
@@ -35,27 +35,31 @@ class SynthController extends React.Component<{}, SynthState> {
     this.synth = new Tone.PolySynth();
     this.filter = new Tone.Filter();
     this.masterVolume = new Tone.Volume(-10);
-    this.masterReverb = new Tone.Reverb({ decay: 1, wet: 0.5 });
+    this.reverb = new Tone.Reverb();
 
     this.state = {
       waveform: "sine",
       envelope: {
-        attack: 0.01, //0 - 2
-        decay: 1, //0 - 2
-        sustain: 0.1, //0 - 1
-        release: 1, //0 - 5
+        attack: 0.01, // 0 - 2
+        decay: 1, // 0 - 2
+        sustain: 0.1, // 0 - 1
+        release: 1, // 0 - 5
       },
       filter: {
-        Q: 1, //0 - 20
+        Q: 1, // 0 - 20
+        detune: 0, // -200 - 200
         frequency: 440, // 20 - 20k
         gain: 0, // 0 - 5
-        rolloff: -12, //-12 | -24 | -48 | -96
-        type: "allpass", //lowpass | highpass | lowshelf | highshelf | notch | allpass | bandpass
+        rolloff: -12, // -12 | -24 | -48 | -96
+        type: "allpass", // lowpass | highpass | lowshelf | highshelf | notch | allpass | bandpass
       },
       octave: 4,
       pressedKeys: [],
-      volume: -10,
-      reverb: 1,
+      volume: -10, // -60 - 0
+      reverb: {
+        decay: 1, // 1 - 30
+        wet: 0, // 0 - 1
+      },
     };
   }
 
@@ -83,10 +87,13 @@ class SynthController extends React.Component<{}, SynthState> {
     //set filter options to default
     this.filter.set(this.state.filter);
 
+    //set reverb options to default
+    this.reverb.set(this.state.reverb);
+
     //connect synth -> filter -> master volume -> output
     this.synth.chain(
       this.filter,
-      this.masterReverb,
+      this.reverb,
       this.masterVolume,
       Tone.Destination
     );
@@ -234,6 +241,18 @@ class SynthController extends React.Component<{}, SynthState> {
     });
   };
 
+  setFilterDetune = (detune: number) => {
+    this.setState((prevState) => ({
+      filter: {
+        ...prevState.filter,
+        detune,
+      },
+    }));
+    this.filter.set({
+      detune,
+    });
+  };
+
   setFilterFrequency = (frequency: number) => {
     this.setState((prevState) => ({
       filter: {
@@ -267,10 +286,24 @@ class SynthController extends React.Component<{}, SynthState> {
     }
   };
 
-  setReverb = (reverb: number) => {
-    this.setState({ reverb });
-    this.masterReverb.decay = reverb;
-    console.log(this.masterReverb);
+  setReverbDecay = (decay: number) => {
+    this.setState((prevState) => ({
+      reverb: {
+        ...prevState.reverb,
+        decay,
+      },
+    }));
+    this.reverb.set({ decay });
+  };
+
+  setReverbWet = (wet: number) => {
+    this.setState((prevState) => ({
+      reverb: {
+        ...prevState.reverb,
+        wet,
+      },
+    }));
+    this.reverb.set({ wet });
   };
 
   render() {
@@ -278,7 +311,11 @@ class SynthController extends React.Component<{}, SynthState> {
       <div className="container">
         <div className="top-container">
           <VolumeKnob volume={this.state.volume} setVolume={this.setVolume} />
-          <ReverbKnob reverb={this.state.reverb} setReverb={this.setReverb} />
+          <ReverbControls
+            reverb={this.state.reverb}
+            setReverbDecay={this.setReverbDecay}
+            setReverbWet={this.setReverbWet}
+          />
           <WaveformSwitch
             waveform={this.state.waveform}
             setWaveform={this.setWaveform}
@@ -298,6 +335,7 @@ class SynthController extends React.Component<{}, SynthState> {
             setFilterType={this.setFilterType}
             setFilterRolloff={this.setFilterRolloff}
             setFilterQ={this.setFilterQ}
+            setFilterDetune={this.setFilterDetune}
             setFilterGain={this.setFilterGain}
             setFilterFrequency={this.setFilterFrequency}
           />
