@@ -32,7 +32,7 @@ const WaveformSwitch = ({ waveform, setWaveform }: WaveformProps) => {
 
   return (
     <div className="waveform-switch-container">
-      <label>WAVEFORM</label>
+      <label className="unselectable">WAVEFORM</label>
       <div className="waveform-switch">{renderWaveformButtons}</div>
     </div>
   );

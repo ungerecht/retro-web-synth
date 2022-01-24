@@ -21,10 +21,10 @@ const EnvelopeSliders = ({
 }: EnvelopeProps) => {
   return (
     <div className="envelope-container">
-      <label>ENVELOPE</label>
+      <label className="unselectable">ENVELOPE</label>
       <div className="sliders-container">
         <div className="slider">
-          <label>ATK</label>
+          <label className="unselectable">ATK</label>
           <Slider
             min={0}
             max={2}
@@ -36,7 +36,7 @@ const EnvelopeSliders = ({
           />
         </div>
         <div className="slider">
-          <label>DEC</label>
+          <label className="unselectable">DEC</label>
           <Slider
             min={0}
             max={2}
@@ -48,7 +48,7 @@ const EnvelopeSliders = ({
           />
         </div>
         <div className="slider">
-          <label>SUS</label>
+          <label className="unselectable">SUS</label>
           <Slider
             min={0}
             max={1}
@@ -60,7 +60,7 @@ const EnvelopeSliders = ({
           />
         </div>
         <div className="slider">
-          <label>REL</label>
+          <label className="unselectable">REL</label>
           <Slider
             min={0}
             max={5}

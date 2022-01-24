@@ -46,7 +46,7 @@ const FilterControls = ({
           checked={filterState.type === type}
           onChange={onTypeChange}
         />
-        <label className="radio-icon" htmlFor={type}>
+        <label className="radio-icon unselectable" htmlFor={type}>
           {Icons[type as keyof typeof Icons]}
         </label>
       </React.Fragment>
@@ -63,7 +63,7 @@ const FilterControls = ({
           checked={filterState.rolloff === Number(rolloff)}
           onChange={onRolloffChange}
         />
-        <label className="radio-icon" htmlFor={rolloff}>
+        <label className="radio-icon unselectable" htmlFor={rolloff}>
           {rolloff}
         </label>
       </React.Fragment>
@@ -72,14 +72,14 @@ const FilterControls = ({
 
   return (
     <div className="filter-controls-container">
-      <label>FILTER</label>
+      <label className="unselectable">FILTER</label>
 
       <div className="filter-type-switch">{renderFilterTypeButtons}</div>
       <FilterDisplay filter={filter} />
       <div className="filter-rolloff-switch">{renderFilterRolloffButtons}</div>
       <div className="filter-knobs-container">
         <div className="filter-Q-knob">
-          <label>Q</label>
+          <label className="unselectable">Q</label>
           <Knob
             value={filterState.Q as number}
             width={50}
@@ -89,10 +89,10 @@ const FilterControls = ({
             max={20}
             step={1}
           />
-          <p>{`${filterState.Q}`}</p>
+          <p className="unselectable">{`${filterState.Q}`}</p>
         </div>
         <div className="filter-detune-knob">
-          <label>DETUNE</label>
+          <label className="unselectable">DETUNE</label>
           <Knob
             value={filterState.detune as number}
             width={50}
@@ -102,10 +102,10 @@ const FilterControls = ({
             max={200}
             step={10}
           />
-          <p>{`${filterState.detune}`}</p>
+          <p className="unselectable">{`${filterState.detune}`}</p>
         </div>
         <div className="filter-frequency-knob">
-          <label>FREQ</label>
+          <label className="unselectable">FREQ</label>
           <Knob
             value={filterState.frequency as number}
             width={50}
@@ -115,10 +115,10 @@ const FilterControls = ({
             max={20000}
             step={100}
           />
-          <p>{`${filterState.frequency}hz`}</p>
+          <p className="unselectable">{`${filterState.frequency}hz`}</p>
         </div>
         <div className="filter-gain-knob">
-          <label>GAIN</label>
+          <label className="unselectable">GAIN</label>
           <Knob
             value={filterState.gain as number}
             width={50}
@@ -128,7 +128,7 @@ const FilterControls = ({
             max={5}
             step={1}
           />
-          <p>{`${filterState.gain}`}</p>
+          <p className="unselectable">{`${filterState.gain}`}</p>
         </div>
       </div>
     </div>

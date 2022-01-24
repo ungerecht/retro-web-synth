@@ -15,10 +15,10 @@ const ReverbControls = ({
 }: ReverbProps) => {
   return (
     <div className="reverb-controls-container">
-      <label>REVERB</label>
+      <label className="unselectable">REVERB</label>
       <div className="reverb-knobs-container">
         <div className="reverb-wet-knob">
-          <label>WET</label>
+          <label className="unselectable">WET</label>
           <Knob
             min={0}
             max={1}
@@ -28,10 +28,10 @@ const ReverbControls = ({
             height={50}
             step={0.1}
           />
-          <p>{`${(reverb.wet * 100).toFixed(0)}%`}</p>
+          <p className="unselectable">{`${(reverb.wet * 100).toFixed(0)}%`}</p>
         </div>
         <div className="reverb-decay-knob">
-          <label>DECAY</label>
+          <label className="unselectable">DECAY</label>
           <Knob
             min={1}
             max={30}
@@ -41,7 +41,7 @@ const ReverbControls = ({
             height={50}
             step={1}
           />
-          <p>{`${reverb.decay}`}</p>
+          <p className="unselectable">{`${reverb.decay}`}</p>
         </div>
       </div>
     </div>

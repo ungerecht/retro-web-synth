@@ -10,7 +10,7 @@ interface VolumeProps {
 const VolumeKnob = ({ volume, setVolume }: VolumeProps) => {
   return (
     <div className="volume-knob-container">
-      <label>VOLUME</label>
+      <label className="unselectable">VOLUME</label>
       <Knob
         min={-60}
         max={0}
@@ -20,7 +20,7 @@ const VolumeKnob = ({ volume, setVolume }: VolumeProps) => {
         height={50}
         step={1}
       />
-      <p>{`${volume}db`}</p>
+      <p className="unselectable">{`${volume}db`}</p>
     </div>
   );
 };
