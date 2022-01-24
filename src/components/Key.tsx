@@ -7,17 +7,30 @@ import "../styles/Key.css";
 interface KeyProps {
   note: string;
   pressedKeys: string[];
+  playNote: (note: string) => void;
+  stopNote: (note: string) => void;
 }
 
-const Key = (props: KeyProps) => {
+const Key = ({ note, pressedKeys, playNote, stopNote }: KeyProps) => {
   //build classname for Key, adding sharp or pressed
   let keyClassName = "key";
-  if (keyIsSharp(props.note)) keyClassName += " sharp";
-  if (keyIsPressed(props.note, props.pressedKeys)) keyClassName += " pressed";
+  if (keyIsSharp(note)) keyClassName += " sharp";
+  if (keyIsPressed(note, pressedKeys)) keyClassName += " pressed";
 
   return (
-    <div className={keyClassName}>
-      <span>{props.note}</span>
+    <div
+      className={keyClassName}
+      onMouseDown={() => {
+        playNote(note);
+      }}
+      onMouseUp={() => {
+        stopNote(note);
+      }}
+      onMouseLeave={() => {
+        stopNote(note);
+      }}
+    >
+      <span className="unselectable">{note}</span>
     </div>
   );
 };

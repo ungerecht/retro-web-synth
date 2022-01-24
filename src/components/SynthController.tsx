@@ -10,7 +10,7 @@ import Keyboard from "./Keyboard";
 
 import * as Tone from "tone";
 
-import { KEY_TO_NOTE, VALID_KEYS } from "../globals/constants";
+import { KEY_TO_NOTE, NOTE_TO_KEY, VALID_KEYS } from "../globals/constants";
 import "../styles/SynthController.css";
 
 type SynthState = {
@@ -130,6 +130,28 @@ class SynthController extends React.Component<{}, SynthState> {
       //trigger release of note
       this.synth.triggerRelease(KEY_TO_NOTE[key] + this.state.octave);
     }
+  };
+
+  playNote = (note: string) => {
+    //add key to pressedKeys
+    this.setState((prevState) => ({
+      pressedKeys: [...prevState.pressedKeys, NOTE_TO_KEY[note]],
+    }));
+
+    //play atack of note
+    this.synth.triggerAttack(note + this.state.octave);
+  };
+
+  stopNote = (note: string) => {
+    const key = NOTE_TO_KEY[note];
+
+    //remove key from pressedKeys
+    this.setState({
+      pressedKeys: this.state.pressedKeys.filter((k) => k !== key),
+    });
+
+    //trigger release of note
+    this.synth.triggerRelease(note + this.state.octave);
   };
 
   setWaveform = (type: OscillatorType) => {
@@ -342,7 +364,11 @@ class SynthController extends React.Component<{}, SynthState> {
         </div>
         <div className="bottom-container">
           <OctaveSwitch octave={this.state.octave} setOctave={this.setOctave} />
-          <Keyboard pressedKeys={this.state.pressedKeys} />
+          <Keyboard
+            pressedKeys={this.state.pressedKeys}
+            playNote={this.playNote}
+            stopNote={this.stopNote}
+          />
         </div>
       </div>
     );

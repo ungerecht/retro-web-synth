@@ -7,11 +7,21 @@ import "../styles/Keyboard.css";
 
 interface KeyboardProps {
   pressedKeys: string[];
+  playNote: (note: string) => void;
+  stopNote: (note: string) => void;
 }
 
-const Keyboard = ({ pressedKeys }: KeyboardProps) => {
+const Keyboard = ({ pressedKeys, playNote, stopNote }: KeyboardProps) => {
   const keys = _.map(NOTES, (note, index) => {
-    return <Key key={index} note={note} pressedKeys={pressedKeys} />;
+    return (
+      <Key
+        key={index}
+        note={note}
+        pressedKeys={pressedKeys}
+        playNote={playNote}
+        stopNote={stopNote}
+      />
+    );
   });
 
   return <div className="keyboard">{keys}</div>;
