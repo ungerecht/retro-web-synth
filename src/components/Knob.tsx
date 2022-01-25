@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 interface KnobProps {
   min: number;
@@ -22,40 +22,56 @@ const Knob = ({
   const minAngle = 45;
   const maxAngle = 315;
   const smallestSide = Math.min(width, height);
-  const [circleX] = useState(width / 2);
-  const [circleY] = useState(height / 2);
-  const [radius] = useState((smallestSide / 2) * 0.85);
+  const circleX = width / 2;
+  const circleY = height / 2;
+  const radius = (smallestSide / 2) * 0.85;
 
-  const onScroll = (event: any) => {
-    let newValue;
-    if (event.deltaY < 0) {
-      //scrolling up
+  const knob = useRef<SVGSVGElement>(null);
 
-      if (value === max) return; //value is at max
+  useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      let newValue;
+      if (event.deltaY < 0) {
+        //scrolling up
 
-      //scroll faster holding shift
-      event.shiftKey
-        ? (newValue = value + 4 * step)
-        : (newValue = value + step);
+        if (value === max) return; //value is at max
 
-      if (newValue > max) newValue = max; //set newValue to max if it went over
+        //scroll faster holding shift
+        event.shiftKey
+          ? (newValue = value + 4 * step)
+          : (newValue = value + step);
 
-      onValueChange(newValue);
-    } else {
-      //scrolling down
+        if (newValue > max) newValue = max; //set newValue to max if it went over
 
-      if (value === min) return; //value is at min
+        onValueChange(newValue);
+      } else {
+        //scrolling down
 
-      //scroll faster holding shift
-      event.shiftKey
-        ? (newValue = value - 4 * step)
-        : (newValue = value - step);
+        if (value === min) return; //value is at min
 
-      if (newValue < min) newValue = min; //set newValue to min if it went over
+        //scroll faster holding shift
+        event.shiftKey
+          ? (newValue = value - 4 * step)
+          : (newValue = value - step);
 
-      onValueChange(newValue);
+        if (newValue < min) newValue = min; //set newValue to min if it went over
+
+        onValueChange(newValue);
+      }
+    };
+
+    if (knob) {
+      const current = knob.current;
+      if (current) {
+        current.addEventListener("wheel", handleWheel);
+
+        return () => {
+          current.removeEventListener("wheel", handleWheel);
+        };
+      }
     }
-  };
+  }, [min, max, onValueChange, step, value]);
 
   const valueToPercentage = (v: number, min: number, max: number) => {
     return ((v - min) * 100) / (max - min);
@@ -100,12 +116,7 @@ const Knob = ({
   const tickLines: string = drawTickCoordinates();
 
   return (
-    <svg
-      width={width}
-      height={height}
-      onWheel={onScroll}
-      className="knob-wheel"
-    >
+    <svg width={width} height={height} ref={knob} className="knob-wheel">
       <circle
         cx={circleX}
         cy={circleY}

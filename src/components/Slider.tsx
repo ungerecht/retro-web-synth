@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 interface SliderProps {
   min: number;
@@ -25,33 +25,49 @@ const Slider = ({
   const barWidth = 40;
   const barHeight = 12;
 
-  const onScroll = (event: any) => {
-    let newValue;
-    if (event.deltaY < 0) {
-      //scrolling up
+  const slider = useRef<SVGSVGElement>(null);
 
-      if (value === max) return; //value is at max
+  useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      let newValue;
+      if (event.deltaY < 0) {
+        //scrolling up
 
-      //scroll faster holding shift
-      event.shiftKey
-        ? (newValue = value + step * 4)
-        : (newValue = value + step);
+        if (value === max) return; //value is at max
 
-      if (newValue > max) newValue = max; //set newValue to max if it went over
-    } else {
-      //scrolling down
+        //scroll faster holding shift
+        event.shiftKey
+          ? (newValue = value + step * 4)
+          : (newValue = value + step);
 
-      if (value === min) return; //value is at min
+        if (newValue > max) newValue = max; //set newValue to max if it went over
+      } else {
+        //scrolling down
 
-      //scroll faster holding shift
-      event.shiftKey
-        ? (newValue = value - step * 4)
-        : (newValue = value - step);
+        if (value === min) return; //value is at min
 
-      if (newValue < min) newValue = min; //set newValue to min if it went over
+        //scroll faster holding shift
+        event.shiftKey
+          ? (newValue = value - step * 4)
+          : (newValue = value - step);
+
+        if (newValue < min) newValue = min; //set newValue to min if it went over
+      }
+      onValueChange(newValue);
+    };
+
+    if (slider) {
+      const current = slider.current;
+      if (current) {
+        current.addEventListener("wheel", handleWheel);
+
+        return () => {
+          current.removeEventListener("wheel", handleWheel);
+        };
+      }
     }
-    onValueChange(newValue);
-  };
+  }, [min, max, onValueChange, step, value]);
 
   const valueToPercentage = (v: number, min: number, max: number) => {
     return ((v - min) * 100) / (max - min);
@@ -90,7 +106,7 @@ const Slider = ({
   const tickLines: string = drawTickCoordinates();
 
   return (
-    <svg width={width} height={height} onWheel={onScroll}>
+    <svg width={width} height={height} ref={slider}>
       <path d={tickLines} stroke="white" strokeWidth={2} />
       <rect
         x={middle - trackWidth / 2}
