@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface SliderProps {
   min: number;
@@ -24,8 +24,9 @@ const Slider = ({
   const trackHeight = height;
   const barWidth = 40;
   const barHeight = 12;
-
   const slider = useRef<SVGSVGElement>(null);
+
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
@@ -105,8 +106,47 @@ const Slider = ({
 
   const tickLines: string = drawTickCoordinates();
 
+  const handleMouseDown = (event: any) => {
+    console.log("mouse down");
+    setIsDragging(true);
+  };
+
+  const handleMouseUp = (event: any) => {
+    console.log("mouse up");
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (event: any) => {
+    if (isDragging) {
+      let newValue = value - event.movementY * step;
+
+      if (newValue >= max) {
+        newValue = max;
+      }
+      if (newValue <= min) {
+        newValue = min;
+      }
+      onValueChange(newValue);
+    }
+  };
+
+  const handleMouseLeave = (event: any) => {
+    if (isDragging) {
+      console.log("out");
+      setIsDragging(false);
+    }
+  };
+
   return (
-    <svg width={width} height={height} ref={slider}>
+    <svg
+      width={width}
+      height={height}
+      ref={slider}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
       <path d={tickLines} stroke="white" strokeWidth={2} />
       <rect
         x={middle - trackWidth / 2}
