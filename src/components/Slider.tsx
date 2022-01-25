@@ -107,18 +107,24 @@ const Slider = ({
   const tickLines: string = drawTickCoordinates();
 
   const handleMouseDown = (event: any) => {
-    console.log("mouse down");
     setIsDragging(true);
   };
 
   const handleMouseUp = (event: any) => {
-    console.log("mouse up");
     setIsDragging(false);
   };
 
   const handleMouseMove = (event: any) => {
     if (isDragging) {
-      let newValue = value - event.movementY * step;
+      let movementPercentage = valueToPercentage(
+        event.movementY,
+        0,
+        height - barHeight
+      );
+
+      let movementValue = percentageToValue(movementPercentage, min, max);
+
+      let newValue = value - movementValue;
 
       if (newValue >= max) {
         newValue = max;
@@ -132,7 +138,6 @@ const Slider = ({
 
   const handleMouseLeave = (event: any) => {
     if (isDragging) {
-      console.log("out");
       setIsDragging(false);
     }
   };
