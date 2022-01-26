@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 
 interface KnobProps {
   min: number;
@@ -27,6 +27,8 @@ const Knob = ({
   const radius = (smallestSide / 2) * 0.85;
 
   const knob = useRef<SVGSVGElement>(null);
+
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
@@ -81,18 +83,18 @@ const Knob = ({
     return (percentage * (max - min)) / 100 + min;
   };
 
-  // const cartesianToPolar = (x: number, y: number) => {
-  //   return Math.round(
-  //     Math.atan((y - circleY) / (x - circleX)) / (Math.PI / 180) +
-  //       (x > circleX ? 270 : 90)
-  //   );
-  // };
-
   const polarToCartesian = (angle: number, radius: number) => {
     const a = ((angle - 270) * Math.PI) / 180.0;
     const x = circleX + radius * Math.cos(a);
     const y = circleY + radius * Math.sin(a);
     return { x, y };
+  };
+
+  const cartesianToPolar = (x: number, y: number) => {
+    return Math.round(
+      Math.atan((y - circleY) / (x - circleX)) / (Math.PI / 180) +
+        (x > circleX ? 270 : 90)
+    );
   };
 
   const percentage = valueToPercentage(value, min, max);
@@ -105,18 +107,78 @@ const Knob = ({
     for (let i = 1; i < 8; i += 1) {
       tcs[i - 1] = polarToCartesian(i * 45, radius);
     }
-
     let s = "";
     for (let i = 0; i < tcs.length; i += 1) {
       s += `M${circleX} ${circleY} L ${tcs[i].x} ${tcs[i].y} `;
     }
+
     return s;
   };
 
   const tickLines: string = drawTickCoordinates();
 
+  const getValueFromMouseEvent = (event: MouseEvent) => {
+    //get parent svg
+    let parentSVG = event.target as Element;
+    if (parentSVG.nodeName !== "svg") {
+      parentSVG = parentSVG.parentNode as Element;
+    }
+
+    //get parent svg's bounding client rect - we only need this to get the svg's position on the page
+    let bounding = parentSVG.getBoundingClientRect();
+
+    //calculate mouse coordinates relative to the parent SVG
+    let relativeCoords = {
+      x: event.clientX - bounding.x,
+      y: event.clientY - bounding.y,
+    };
+
+    //convert relative mouse coordinates to polar angle
+    let polar = cartesianToPolar(relativeCoords.x, relativeCoords.y);
+    if (polar > maxAngle) polar = maxAngle;
+    if (polar < minAngle) polar = minAngle;
+
+    //convert polar angle to value
+    let percentage = valueToPercentage(polar, minAngle, maxAngle);
+    let newValue = percentageToValue(percentage, min, max);
+
+    return newValue;
+  };
+
+  const handleMouseDown = (event: MouseEvent) => {
+    setIsDragging(true);
+    let newValue = getValueFromMouseEvent(event);
+    onValueChange(newValue);
+  };
+
+  const handleMouseUp = (event: MouseEvent) => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (event: MouseEvent) => {
+    if (isDragging) {
+      let newValue = getValueFromMouseEvent(event);
+      onValueChange(newValue);
+    }
+  };
+
+  const handleMouseLeave = (event: MouseEvent) => {
+    if (isDragging) {
+      setIsDragging(false);
+    }
+  };
+
   return (
-    <svg width={width} height={height} ref={knob} className="knob-wheel">
+    <svg
+      width={width}
+      height={height}
+      ref={knob}
+      className="knob-wheel"
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
       <circle
         cx={circleX}
         cy={circleY}
