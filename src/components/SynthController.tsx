@@ -252,6 +252,7 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setFilterQ = (Q: number) => {
+    Q = Math.round(Q);
     this.setState((prevState) => ({
       filter: {
         ...prevState.filter,
@@ -264,6 +265,7 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setFilterDetune = (detune: number) => {
+    detune = Math.round(detune);
     this.setState((prevState) => ({
       filter: {
         ...prevState.filter,
@@ -276,6 +278,7 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setFilterFrequency = (frequency: number) => {
+    frequency = Math.round(frequency);
     this.setState((prevState) => ({
       filter: {
         ...prevState.filter,
@@ -288,6 +291,7 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setFilterGain = (gain: number) => {
+    gain = Math.round(gain);
     this.setState((prevState) => ({
       filter: {
         ...prevState.filter,
@@ -300,6 +304,7 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setVolume = (volume: number) => {
+    volume = Math.round(volume);
     this.setState({ volume });
     if (volume === -60) {
       this.masterVolume.volume.value = Number.NEGATIVE_INFINITY;
@@ -309,6 +314,7 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setReverbDecay = (decay: number) => {
+    decay = Math.round(decay);
     this.setState((prevState) => ({
       reverb: {
         ...prevState.reverb,
