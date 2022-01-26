@@ -26,7 +26,7 @@ const ReverbControls = ({
             onValueChange={setReverbWet}
             width={50}
             height={50}
-            step={0.1}
+            step={0.01}
           />
           <p className="unselectable">{`${(reverb.wet * 100).toFixed(0)}%`}</p>
         </div>
