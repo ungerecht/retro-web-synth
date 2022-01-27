@@ -34,6 +34,7 @@ const EnvelopeSliders = ({
             value={Number(envelope.attack)}
             onValueChange={setAttack}
           />
+          <p className="unselectable value">{`${envelope.attack}`}</p>
         </div>
         <div className="column">
           <label className="unselectable title-small">DEC</label>
@@ -46,6 +47,7 @@ const EnvelopeSliders = ({
             value={Number(envelope.decay)}
             onValueChange={setDecay}
           />
+          <p className="unselectable value">{`${envelope.decay}`}</p>
         </div>
         <div className="column">
           <label className="unselectable title-small">SUS</label>
@@ -58,6 +60,7 @@ const EnvelopeSliders = ({
             value={Number(envelope.sustain)}
             onValueChange={setSustain}
           />
+          <p className="unselectable value">{`${envelope.sustain}`}</p>
         </div>
         <div className="column">
           <label className="unselectable title-small">REL</label>
@@ -70,6 +73,7 @@ const EnvelopeSliders = ({
             value={Number(envelope.release)}
             onValueChange={setRelease}
           />
+          <p className="unselectable value">{`${envelope.release}`}</p>
         </div>
       </div>
     </div>
