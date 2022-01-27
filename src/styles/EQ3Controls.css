@@ -1,0 +1,48 @@
+.EQ3-controls-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px;
+  background-color: cadetblue;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.EQ3-controls-container > label {
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.EQ3-gain-knobs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.EQ3-frequency-knobs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.EQ3-low-knob,
+.EQ3-mid-knob,
+.EQ3-high-knob,
+.EQ3-lowFrequency-knob,
+.EQ3-highFrequency-knob {
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.EQ3-low-knob > p,
+.EQ3-mid-knob > p,
+.EQ3-high-knob > p,
+.EQ3-lowFrequency-knob > p,
+.EQ3-highFrequency-knob > p {
+  font-size: 10px;
+  margin-bottom: 0;
+}
