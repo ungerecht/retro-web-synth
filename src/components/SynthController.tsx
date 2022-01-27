@@ -451,9 +451,9 @@ class SynthController extends React.Component<{}, SynthState> {
             setEQ3LowFrequency={this.setEQ3LowFrequency}
             setEQ3HighFrequency={this.setEQ3HighFrequency}
           />
+          <OctaveSwitch octave={this.state.octave} setOctave={this.setOctave} />
         </div>
         <div className="bottom-container">
-          <OctaveSwitch octave={this.state.octave} setOctave={this.setOctave} />
           <Keyboard
             pressedKeys={this.state.pressedKeys}
             playNote={this.playNote}
