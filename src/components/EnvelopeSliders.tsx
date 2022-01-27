@@ -20,11 +20,11 @@ const EnvelopeSliders = ({
   setRelease,
 }: EnvelopeProps) => {
   return (
-    <div className="envelope-container">
-      <label className="unselectable">ENVELOPE</label>
-      <div className="sliders-container">
-        <div className="slider">
-          <label className="unselectable">ATK</label>
+    <div className="control-container">
+      <label className="unselectable title-big">ENVELOPE</label>
+      <div className="row">
+        <div className="column">
+          <label className="unselectable title-small">ATK</label>
           <Slider
             min={0}
             max={2}
@@ -35,8 +35,8 @@ const EnvelopeSliders = ({
             onValueChange={setAttack}
           />
         </div>
-        <div className="slider">
-          <label className="unselectable">DEC</label>
+        <div className="column">
+          <label className="unselectable title-small">DEC</label>
           <Slider
             min={0}
             max={2}
@@ -47,8 +47,8 @@ const EnvelopeSliders = ({
             onValueChange={setDecay}
           />
         </div>
-        <div className="slider">
-          <label className="unselectable">SUS</label>
+        <div className="column">
+          <label className="unselectable title-small">SUS</label>
           <Slider
             min={0}
             max={1}
@@ -59,8 +59,8 @@ const EnvelopeSliders = ({
             onValueChange={setSustain}
           />
         </div>
-        <div className="slider">
-          <label className="unselectable">REL</label>
+        <div className="column">
+          <label className="unselectable title-small">REL</label>
           <Slider
             min={0}
             max={5}

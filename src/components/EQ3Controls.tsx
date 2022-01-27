@@ -26,77 +26,75 @@ const EQ3Controls = ({
   setEQ3HighFrequency,
 }: EQ3Props) => {
   return (
-    <div className="EQ3-controls-container">
-      <label className="unselectable">EQUALIZER</label>
-      <div className="EQ3-knobs-container">
-        <div className="EQ3-gain-knobs">
-          <div className="EQ3-low-knob">
-            <label className="unselectable">LOW</label>
-            <Knob
-              min={-60}
-              max={6}
-              value={eq3.low}
-              onValueChange={setEQ3Low}
-              width={50}
-              height={50}
-              step={1}
-            />
-            <p className="unselectable">{`${eq3.low}db`}</p>
-          </div>
-          <div className="EQ3-mid-knob">
-            <label className="unselectable">MID</label>
-            <Knob
-              min={-60}
-              max={6}
-              value={eq3.mid}
-              onValueChange={setEQ3Mid}
-              width={50}
-              height={50}
-              step={1}
-            />
-            <p className="unselectable">{`${eq3.mid}db`}</p>
-          </div>
-          <div className="EQ3-high-knob">
-            <label className="unselectable">HIGH</label>
-            <Knob
-              min={-60}
-              max={6}
-              value={eq3.high}
-              onValueChange={setEQ3High}
-              width={50}
-              height={50}
-              step={1}
-            />
-            <p className="unselectable">{`${eq3.high}db`}</p>
-          </div>
+    <div className="control-container">
+      <label className="unselectable title-big">EQUALIZER</label>
+      <div className="row">
+        <div className="column">
+          <label className="unselectable title-small">LOW</label>
+          <Knob
+            min={-60}
+            max={6}
+            value={eq3.low}
+            onValueChange={setEQ3Low}
+            width={50}
+            height={50}
+            step={1}
+          />
+          <p className="unselectable value">{`${eq3.low}db`}</p>
         </div>
-        <div className="EQ3-frequency-knobs">
-          <div className="EQ3-lowFrequency-knob">
-            <label className="unselectable">FREQLOW</label>
-            <Knob
-              min={50}
-              max={5000}
-              value={eq3.lowFrequency}
-              onValueChange={setEQ3LowFrequency}
-              width={50}
-              height={50}
-              step={1}
-            />
-            <p className="unselectable">{`${eq3.lowFrequency}hz`}</p>
-          </div>
-          <div className="EQ3-highFrequency-knob">
-            <label className="unselectable">FREQHIGH</label>
-            <Knob
-              min={200}
-              max={18000}
-              value={eq3.highFrequency}
-              onValueChange={setEQ3HighFrequency}
-              width={50}
-              height={50}
-              step={1}
-            />
-            <p className="unselectable">{`${eq3.highFrequency}hz`}</p>
-          </div>
+        <div className="column">
+          <label className="unselectable title-small">MID</label>
+          <Knob
+            min={-60}
+            max={6}
+            value={eq3.mid}
+            onValueChange={setEQ3Mid}
+            width={50}
+            height={50}
+            step={1}
+          />
+          <p className="unselectable value">{`${eq3.mid}db`}</p>
+        </div>
+        <div className="column">
+          <label className="unselectable title-small">HIGH</label>
+          <Knob
+            min={-60}
+            max={6}
+            value={eq3.high}
+            onValueChange={setEQ3High}
+            width={50}
+            height={50}
+            step={1}
+          />
+          <p className="unselectable value">{`${eq3.high}db`}</p>
+        </div>
+      </div>
+      <div className="row">
+        <div className="column">
+          <label className="unselectable title-small">FREQLOW</label>
+          <Knob
+            min={50}
+            max={5000}
+            value={eq3.lowFrequency}
+            onValueChange={setEQ3LowFrequency}
+            width={50}
+            height={50}
+            step={1}
+          />
+          <p className="unselectable value">{`${eq3.lowFrequency}hz`}</p>
+        </div>
+        <div className="column">
+          <label className="unselectable title-small">FREQHIGH</label>
+          <Knob
+            min={200}
+            max={18000}
+            value={eq3.highFrequency}
+            onValueChange={setEQ3HighFrequency}
+            width={50}
+            height={50}
+            step={1}
+          />
+          <p className="unselectable value">{`${eq3.highFrequency}hz`}</p>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
-import { upIcon, downIcon } from "../icons";
 import "../styles/OctaveSwitch.css";
+import { left, right } from "../icons";
 
 interface OctaveProps {
   octave: number;
@@ -9,27 +9,27 @@ interface OctaveProps {
 
 const OctaveSwitch = ({ octave, setOctave }: OctaveProps) => {
   return (
-    <div className="octave-switch">
-      <label className="unselectable">OCTAVE</label>
-      <button
-        className="octave-button"
-        onClick={() => {
-          setOctave(octave + 1);
-        }}
-      >
-        {upIcon}
-      </button>
-      <div className="octave-display">
-        <p className="unselectable">{octave}</p>
+    <div className="control-container">
+      <label className="unselectable title-big">OCTAVE</label>
+      <div className="row">
+        <button
+          className="octave-button"
+          onClick={() => {
+            setOctave(octave - 1);
+          }}
+        >
+          {left}
+        </button>
+        <p className="unselectable octave">{octave}</p>
+        <button
+          className="octave-button"
+          onClick={() => {
+            setOctave(octave + 1);
+          }}
+        >
+          {right}
+        </button>
       </div>
-      <button
-        className="octave-button"
-        onClick={() => {
-          setOctave(octave - 1);
-        }}
-      >
-        {downIcon}
-      </button>
     </div>
   );
 };
