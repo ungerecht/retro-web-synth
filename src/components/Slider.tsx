@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 
 interface SliderProps {
   min: number;
@@ -106,37 +106,53 @@ const Slider = ({
 
   const tickLines: string = drawTickCoordinates();
 
-  const handleMouseDown = (event: any) => {
-    setIsDragging(true);
+  const getValueFromMouseEvent = (event: MouseEvent) => {
+    //get parent svg
+    let parentSVG = event.target as Element;
+    if (parentSVG.nodeName !== "svg") {
+      parentSVG = parentSVG.parentNode as Element;
+    }
+
+    //get parent svg's bounding client rect - we need this to get the svg's position on the page
+    let bounding = parentSVG.getBoundingClientRect();
+
+    //calculate mouse y relative to the parent SVG
+    let relativeY = event.clientY - bounding.y;
+
+    console.log(relativeY);
+
+    //convert y coordinate to value
+    let percentage = valueToPercentage(
+      relativeY,
+      100 - barHeight / 2,
+      0 + barHeight / 2
+    );
+    let newValue = percentageToValue(percentage, min, max);
+
+    if (newValue > max) newValue = max;
+    if (newValue < min) newValue = min;
+
+    return newValue;
   };
 
-  const handleMouseUp = (event: any) => {
+  const handleMouseDown = (event: MouseEvent) => {
+    setIsDragging(true);
+    let newValue = getValueFromMouseEvent(event);
+    onValueChange(newValue);
+  };
+
+  const handleMouseUp = (event: MouseEvent) => {
     setIsDragging(false);
   };
 
-  const handleMouseMove = (event: any) => {
+  const handleMouseMove = (event: MouseEvent) => {
     if (isDragging) {
-      let movementPercentage = valueToPercentage(
-        event.movementY,
-        0,
-        height - barHeight
-      );
-
-      let movementValue = percentageToValue(movementPercentage, min, max);
-
-      let newValue = value - movementValue;
-
-      if (newValue >= max) {
-        newValue = max;
-      }
-      if (newValue <= min) {
-        newValue = min;
-      }
+      let newValue = getValueFromMouseEvent(event);
       onValueChange(newValue);
     }
   };
 
-  const handleMouseLeave = (event: any) => {
+  const handleMouseLeave = (event: MouseEvent) => {
     if (isDragging) {
       setIsDragging(false);
     }
