@@ -1,44 +1,26 @@
-.octave-switch {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-}
-
-.octave-switch > label {
-  font-size: 12px;
-  margin-top: 10px;
+.octave {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .octave-button {
   display: flex;
-  justify-content: center;
-  border: none;
-  background: none;
-  padding: 0;
-  width: 40px;
-  height: 40px;
-}
-
-.octave-button > svg {
-  color: #e0e0e0;
-}
-
-.octave-button > svg:hover {
-  color: #bdbdbd;
-}
-
-.octave-display {
-  background-color: white;
-  display: flex;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+  border-left: none;
+  border-top: none;
+  border-radius: 5px;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 20px;
-  border: 2px groove black;
+  background-color: #e0e0e0;
+  font-size: 9px;
+  width: fit-content;
+  height: fit-content;
+  padding: 3px;
 }
 
-.octave-display > p {
-  margin: 0;
+.octave-button:hover {
+  background-color: #bdbdbd;
 }
