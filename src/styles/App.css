@@ -41,6 +41,7 @@ label {
 .title-small {
   font-size: 10px;
   margin-bottom: 3px;
+  margin-top: 5px;
 }
 
 .row {
@@ -53,7 +54,7 @@ label {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5px;
+  padding: 5px 5px 0 5px;
 }
 
 .value {
