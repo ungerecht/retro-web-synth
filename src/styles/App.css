@@ -17,3 +17,48 @@ body {
   -ms-user-select: none;
   user-select: none;
 }
+
+.control-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 4px;
+  background-color: cadetblue;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+label {
+  text-align: center;
+}
+
+.title-big {
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.title-small {
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+}
+
+.value {
+  font-size: 9px;
+  margin-top: 2px;
+  margin-bottom: 0;
+  text-align: center;
+}
