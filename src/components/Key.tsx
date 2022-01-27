@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React from "react";
+import React, { useState } from "react";
 import { NOTE_TO_KEY } from "../globals/constants";
 
 import "../styles/Key.css";
@@ -12,6 +12,8 @@ interface KeyProps {
 }
 
 const Key = ({ note, pressedKeys, playNote, stopNote }: KeyProps) => {
+  const [isClicked, setIsClicked] = useState(false);
+
   //build classname for Key, adding sharp or pressed
   let keyClassName = "key";
   if (keyIsSharp(note)) keyClassName += " sharp";
@@ -21,13 +23,15 @@ const Key = ({ note, pressedKeys, playNote, stopNote }: KeyProps) => {
     <div
       className={keyClassName}
       onMouseDown={() => {
+        setIsClicked(true);
         playNote(note);
       }}
       onMouseUp={() => {
+        setIsClicked(false);
         stopNote(note);
       }}
       onMouseLeave={() => {
-        stopNote(note);
+        if (isClicked) stopNote(note);
       }}
     >
       <span className="unselectable">{note}</span>
