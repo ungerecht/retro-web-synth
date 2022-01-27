@@ -1,0 +1,25 @@
+.radio-button {
+  display: none;
+}
+
+input:checked + label {
+  background-color: #f5f5f5;
+}
+
+.radio-icon {
+  display: flex;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0;
+  padding: 3px;
+  font-size: 9px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+input:not(:checked) + .radio-icon:hover {
+  background-color: #bdbdbd;
+}
