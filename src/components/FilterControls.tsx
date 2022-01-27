@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
 import FilterDisplay from "./FilterDisplay";
+import Button from "./Button";
 import { FILTER_TYPES, ROLLOFFS } from "../globals/constants";
-import * as Icons from "../icons";
 import { Filter, FilterOptions } from "tone";
 
 import "../styles/FilterControls.css";
@@ -38,48 +38,35 @@ const FilterControls = ({
 
   const renderFilterTypeButtons = FILTER_TYPES.map((type, i) => {
     return (
-      <React.Fragment key={i}>
-        <input
-          type="radio"
-          value={type}
-          id={type}
-          checked={filterState.type === type}
-          onChange={onTypeChange}
-        />
-        <label className="radio-icon unselectable" htmlFor={type}>
-          {Icons[type as keyof typeof Icons]}
-        </label>
-      </React.Fragment>
+      <Button
+        key={i}
+        value={type}
+        selected={filterState.type as string}
+        onValueChange={onTypeChange}
+      />
     );
   });
 
   const renderFilterRolloffButtons = ROLLOFFS.map((rolloff, i) => {
     return (
-      <React.Fragment key={i}>
-        <input
-          type="radio"
-          value={rolloff}
-          id={rolloff}
-          checked={filterState.rolloff === Number(rolloff)}
-          onChange={onRolloffChange}
-        />
-        <label className="radio-icon unselectable" htmlFor={rolloff}>
-          {rolloff}
-        </label>
-      </React.Fragment>
+      <Button
+        key={i}
+        value={rolloff}
+        selected={filterState.rolloff?.toString() || ""}
+        onValueChange={onRolloffChange}
+      />
     );
   });
 
   return (
-    <div className="filter-controls-container">
-      <label className="unselectable">FILTER</label>
-
-      <div className="filter-type-switch">{renderFilterTypeButtons}</div>
+    <div className="control-container">
+      <label className="unselectable title-big">FILTER</label>
+      <div className="row">{renderFilterTypeButtons}</div>
       <FilterDisplay filter={filter} />
-      <div className="filter-rolloff-switch">{renderFilterRolloffButtons}</div>
-      <div className="filter-knobs-container">
-        <div className="filter-Q-knob">
-          <label className="unselectable">Q</label>
+      <div className="row">{renderFilterRolloffButtons}</div>
+      <div className="row">
+        <div className="column">
+          <label className="unselectable title-small">Q</label>
           <Knob
             value={filterState.Q as number}
             width={50}
@@ -89,10 +76,10 @@ const FilterControls = ({
             max={20}
             step={1}
           />
-          <p className="unselectable">{`${filterState.Q}`}</p>
+          <p className="unselectable value">{`${filterState.Q}`}</p>
         </div>
-        <div className="filter-detune-knob">
-          <label className="unselectable">DETUNE</label>
+        <div className="column">
+          <label className="unselectable title-small">DETUNE</label>
           <Knob
             value={filterState.detune as number}
             width={50}
@@ -102,10 +89,10 @@ const FilterControls = ({
             max={200}
             step={10}
           />
-          <p className="unselectable">{`${filterState.detune}`}</p>
+          <p className="unselectable value">{`${filterState.detune}`}</p>
         </div>
-        <div className="filter-frequency-knob">
-          <label className="unselectable">FREQ</label>
+        <div className="column">
+          <label className="unselectable title-small">FREQ</label>
           <Knob
             value={filterState.frequency as number}
             width={50}
@@ -115,10 +102,10 @@ const FilterControls = ({
             max={20000}
             step={100}
           />
-          <p className="unselectable">{`${filterState.frequency}hz`}</p>
+          <p className="unselectable value">{`${filterState.frequency}hz`}</p>
         </div>
-        <div className="filter-gain-knob">
-          <label className="unselectable">GAIN</label>
+        <div className="column">
+          <label className="unselectable title-small">GAIN</label>
           <Knob
             value={filterState.gain as number}
             width={50}
@@ -128,7 +115,7 @@ const FilterControls = ({
             max={5}
             step={1}
           />
-          <p className="unselectable">{`${filterState.gain}`}</p>
+          <p className="unselectable value">{`${filterState.gain}`}</p>
         </div>
       </div>
     </div>

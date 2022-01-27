@@ -1,6 +1,6 @@
 import React from "react";
 import { WAVEFORMS } from "../globals/constants";
-import * as Icons from "../icons";
+import Button from "./Button";
 import "../styles/WaveformSwitch.css";
 
 interface WaveformProps {
@@ -15,25 +15,19 @@ const WaveformSwitch = ({ waveform, setWaveform }: WaveformProps) => {
 
   const renderWaveformButtons = WAVEFORMS.map((wf, i) => {
     return (
-      <React.Fragment key={i}>
-        <input
-          type="radio"
-          value={wf}
-          id={wf}
-          checked={wf === waveform}
-          onChange={onValueChange}
-        />
-        <label className="radio-icon" htmlFor={wf}>
-          {Icons[wf as keyof typeof Icons]}
-        </label>
-      </React.Fragment>
+      <Button
+        key={i}
+        value={wf}
+        selected={waveform}
+        onValueChange={onValueChange}
+      />
     );
   });
 
   return (
-    <div className="waveform-switch-container">
-      <label className="unselectable">WAVEFORM</label>
-      <div className="waveform-switch">{renderWaveformButtons}</div>
+    <div className="control-container">
+      <label className="unselectable title-big">WAVEFORM</label>
+      <div className="row">{renderWaveformButtons}</div>
     </div>
   );
 };
