@@ -189,6 +189,7 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setEnvelopeAttack = (value: number) => {
+    value = parseFloat(value.toFixed(2));
     this.setState((prevState) => ({
       envelope: {
         ...prevState.envelope,
@@ -203,6 +204,7 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setEnvelopeDecay = (value: number) => {
+    value = parseFloat(value.toFixed(2));
     this.setState((prevState) => ({
       envelope: {
         ...prevState.envelope,
@@ -217,6 +219,7 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setEnvelopeSustain = (value: number) => {
+    value = parseFloat(value.toFixed(2));
     this.setState((prevState) => ({
       envelope: {
         ...prevState.envelope,
@@ -231,6 +234,7 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setEnvelopeRelease = (value: number) => {
+    value = parseFloat(value.toFixed(2));
     this.setState((prevState) => ({
       envelope: {
         ...prevState.envelope,
