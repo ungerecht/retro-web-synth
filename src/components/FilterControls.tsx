@@ -63,7 +63,7 @@ const FilterControls = ({
   });
 
   return (
-    <div className="control-container">
+    <div className="control-container filter-container">
       <label className="unselectable title-big">FILTER</label>
       <div className="row justify-between">{renderFilterTypeButtons}</div>
       <FilterDisplay filter={filter} />

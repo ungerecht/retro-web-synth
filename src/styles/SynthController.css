@@ -7,9 +7,13 @@
 }
 
 .top-container {
-  display: flex;
+  display: grid;
+  gap: 5px;
+  grid-template-columns: 104px 134px min-content min-content;
+  grid-template-rows: 105px 56px;
   justify-content: center;
   align-items: flex-start;
+  margin: 10px;
 }
 
 .bottom-container {

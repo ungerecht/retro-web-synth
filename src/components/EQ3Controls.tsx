@@ -26,9 +26,9 @@ const EQ3Controls = ({
   setEQ3HighFrequency,
 }: EQ3Props) => {
   return (
-    <div className="control-container">
+    <div className="control-container EQ3-container">
       <label className="unselectable title-big">EQUALIZER</label>
-      <div className="row">
+      <div className="row justify-between">
         <div className="column">
           <label className="unselectable title-small">Low</label>
           <Knob

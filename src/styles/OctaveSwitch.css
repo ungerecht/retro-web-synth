@@ -24,3 +24,8 @@
 .octave-button:hover {
   background-color: #bdbdbd;
 }
+
+.octave-container {
+  grid-column: 1;
+  grid-row: 2;
+}

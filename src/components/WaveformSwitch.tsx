@@ -27,9 +27,14 @@ const WaveformSwitch = ({ waveform, setWaveform }: WaveformProps) => {
   });
 
   return (
-    <div className="control-container">
+    <div className="control-container waveform-container">
       <label className="unselectable title-big">WAVEFORM</label>
-      <div className="row">{renderWaveformButtons}</div>
+      <div
+        className="row justify-center"
+        style={{ display: "grid", gridTemplateColumns: "34px 34px" }}
+      >
+        {renderWaveformButtons}
+      </div>
     </div>
   );
 };

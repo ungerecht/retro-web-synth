@@ -9,7 +9,7 @@ interface VolumeProps {
 
 const VolumeKnob = ({ volume, setVolume }: VolumeProps) => {
   return (
-    <div className="control-container">
+    <div className="control-container volume-container">
       <label className="unselectable title-big">VOLUME</label>
       <div className="row justify-center">
         <div className="column">

@@ -20,9 +20,9 @@ const EnvelopeSliders = ({
   setRelease,
 }: EnvelopeProps) => {
   return (
-    <div className="control-container">
+    <div className="control-container envelope-container">
       <label className="unselectable title-big">ENVELOPE</label>
-      <div className="row">
+      <div className="row justify-center">
         <div className="column">
           <label className="unselectable title-small">Atk</label>
           <Slider

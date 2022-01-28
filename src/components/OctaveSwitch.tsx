@@ -9,9 +9,9 @@ interface OctaveProps {
 
 const OctaveSwitch = ({ octave, setOctave }: OctaveProps) => {
   return (
-    <div className="control-container">
+    <div className="control-container octave-container">
       <label className="unselectable title-big">OCTAVE</label>
-      <div className="row">
+      <div className="row justify-between">
         <button
           className="octave-button"
           onClick={() => {

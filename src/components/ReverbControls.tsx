@@ -14,9 +14,9 @@ const ReverbControls = ({
   setReverbWet,
 }: ReverbProps) => {
   return (
-    <div className="control-container">
+    <div className="control-container reverb-container">
       <label className="unselectable title-big">REVERB</label>
-      <div className="row">
+      <div className="row justify-between">
         <div className="column">
           <label className="unselectable title-small">Wet</label>
           <Knob

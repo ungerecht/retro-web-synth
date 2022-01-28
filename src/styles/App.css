@@ -22,7 +22,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 4px;
   background-color: cadetblue;
   border: 2px solid black;
   border-radius: 10px;
