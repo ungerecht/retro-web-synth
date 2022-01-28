@@ -19,6 +19,8 @@ const WaveformSwitch = ({ waveform, setWaveform }: WaveformProps) => {
         key={i}
         value={wf}
         selected={waveform}
+        width={26}
+        height={26}
         onValueChange={onValueChange}
       />
     );

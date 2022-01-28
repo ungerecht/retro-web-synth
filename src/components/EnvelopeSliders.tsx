@@ -24,7 +24,7 @@ const EnvelopeSliders = ({
       <label className="unselectable title-big">ENVELOPE</label>
       <div className="row">
         <div className="column">
-          <label className="unselectable title-small">ATK</label>
+          <label className="unselectable title-small">Atk</label>
           <Slider
             min={0}
             max={2}
@@ -37,7 +37,7 @@ const EnvelopeSliders = ({
           <p className="unselectable value">{`${envelope.attack}`}</p>
         </div>
         <div className="column">
-          <label className="unselectable title-small">DEC</label>
+          <label className="unselectable title-small">Dec</label>
           <Slider
             min={0}
             max={2}
@@ -50,7 +50,7 @@ const EnvelopeSliders = ({
           <p className="unselectable value">{`${envelope.decay}`}</p>
         </div>
         <div className="column">
-          <label className="unselectable title-small">SUS</label>
+          <label className="unselectable title-small">Sus</label>
           <Slider
             min={0}
             max={1}
@@ -63,7 +63,7 @@ const EnvelopeSliders = ({
           <p className="unselectable value">{`${envelope.sustain}`}</p>
         </div>
         <div className="column">
-          <label className="unselectable title-small">REL</label>
+          <label className="unselectable title-small">Rel</label>
           <Slider
             min={0}
             max={5}

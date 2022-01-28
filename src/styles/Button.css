@@ -16,8 +16,6 @@ input:checked + label {
   background-color: #e0e0e0;
   padding: 3px;
   font-size: 9px;
-  margin-left: 2px;
-  margin-right: 2px;
 }
 
 input:not(:checked) + .radio-icon:hover {

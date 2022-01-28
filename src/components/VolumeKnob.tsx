@@ -11,7 +11,7 @@ const VolumeKnob = ({ volume, setVolume }: VolumeProps) => {
   return (
     <div className="control-container">
       <label className="unselectable title-big">VOLUME</label>
-      <div className="row">
+      <div className="row justify-center">
         <div className="column">
           <Knob
             min={-60}

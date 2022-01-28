@@ -12,7 +12,7 @@ const FilterDisplay = ({ filter }: FilterDisplayProps) => {
     return width * Math.sqrt((freq - 20) / (20000 - 20));
   };
 
-  const width = 250;
+  const width = 286;
   const height = 150;
 
   const response = filter.getFrequencyResponse(width);

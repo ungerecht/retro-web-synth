@@ -18,7 +18,7 @@ const ReverbControls = ({
       <label className="unselectable title-big">REVERB</label>
       <div className="row">
         <div className="column">
-          <label className="unselectable title-small">WET</label>
+          <label className="unselectable title-small">Wet</label>
           <Knob
             min={0}
             max={1}
@@ -33,7 +33,7 @@ const ReverbControls = ({
           )}%`}</p>
         </div>
         <div className="column">
-          <label className="unselectable title-small">DECAY</label>
+          <label className="unselectable title-small">Decay</label>
           <Knob
             min={1}
             max={30}

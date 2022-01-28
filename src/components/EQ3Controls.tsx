@@ -30,7 +30,7 @@ const EQ3Controls = ({
       <label className="unselectable title-big">EQUALIZER</label>
       <div className="row">
         <div className="column">
-          <label className="unselectable title-small">LOW</label>
+          <label className="unselectable title-small">Low</label>
           <Knob
             min={-60}
             max={6}
@@ -43,7 +43,7 @@ const EQ3Controls = ({
           <p className="unselectable value">{`${eq3.low}db`}</p>
         </div>
         <div className="column">
-          <label className="unselectable title-small">MID</label>
+          <label className="unselectable title-small">Mid</label>
           <Knob
             min={-60}
             max={6}
@@ -56,7 +56,7 @@ const EQ3Controls = ({
           <p className="unselectable value">{`${eq3.mid}db`}</p>
         </div>
         <div className="column">
-          <label className="unselectable title-small">HIGH</label>
+          <label className="unselectable title-small">High</label>
           <Knob
             min={-60}
             max={6}
@@ -69,9 +69,9 @@ const EQ3Controls = ({
           <p className="unselectable value">{`${eq3.high}db`}</p>
         </div>
       </div>
-      <div className="row">
-        <div className="column">
-          <label className="unselectable title-small">FREQLOW</label>
+      <div className="row justify-between">
+        <div className="column eq-freq-knob">
+          <label className="unselectable title-small">FreqLow</label>
           <Knob
             min={50}
             max={5000}
@@ -83,8 +83,8 @@ const EQ3Controls = ({
           />
           <p className="unselectable value">{`${eq3.lowFrequency}hz`}</p>
         </div>
-        <div className="column">
-          <label className="unselectable title-small">FREQHIGH</label>
+        <div className="column eq-freq-knob">
+          <label className="unselectable title-small">FreqHigh</label>
           <Knob
             min={200}
             max={18000}
