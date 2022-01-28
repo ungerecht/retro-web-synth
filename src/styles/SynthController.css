@@ -10,7 +10,7 @@
   display: grid;
   gap: 5px;
   grid-template-columns: 104px 134px min-content min-content;
-  grid-template-rows: 105px 56px;
+  grid-template-rows: 105px 56px 56px 134px;
   justify-content: center;
   align-items: flex-start;
   margin: 10px;
