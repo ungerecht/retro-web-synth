@@ -13,6 +13,7 @@ import * as Tone from "tone";
 import { KEY_TO_NOTE, NOTE_TO_KEY, VALID_KEYS } from "../globals/constants";
 import "../styles/SynthController.css";
 import EQ3Controls from "./EQ3Controls";
+import DistortionControls from "./DistortionControls";
 
 type SynthState = {
   waveform: OscillatorType;
@@ -29,6 +30,7 @@ type SynthState = {
     lowFrequency: number;
     highFrequency: number;
   };
+  distortion: number;
 };
 
 class SynthController extends React.Component<{}, SynthState> {
@@ -37,6 +39,7 @@ class SynthController extends React.Component<{}, SynthState> {
   masterVolume: Tone.Volume;
   reverb: Tone.Reverb;
   EQ3: Tone.EQ3;
+  distortion: Tone.Distortion;
   state: SynthState;
   constructor(props: any) {
     super(props);
@@ -46,6 +49,7 @@ class SynthController extends React.Component<{}, SynthState> {
     this.masterVolume = new Tone.Volume(-10);
     this.reverb = new Tone.Reverb();
     this.EQ3 = new Tone.EQ3();
+    this.distortion = new Tone.Distortion(0);
 
     this.state = {
       waveform: "sine",
@@ -77,6 +81,7 @@ class SynthController extends React.Component<{}, SynthState> {
         lowFrequency: 400,
         highFrequency: 2500,
       },
+      distortion: 0,
     };
   }
 
@@ -110,12 +115,16 @@ class SynthController extends React.Component<{}, SynthState> {
     //set EQ3 options to default
     this.EQ3.set(this.state.eq3);
 
-    console.log(this.EQ3);
+    //set distortion options to default
+    this.distortion.set({ distortion: this.state.distortion });
 
-    //connect synth -> filter -> EQ3 -> reverb -> master volume -> output
+    console.log(this.distortion);
+
+    //connect synth -> filter -> EQ3 -> distortion -> reverb -> master volume -> output
     this.synth.chain(
       this.filter,
       this.EQ3,
+      this.distortion,
       this.reverb,
       this.masterVolume,
       Tone.Destination
@@ -416,6 +425,14 @@ class SynthController extends React.Component<{}, SynthState> {
     this.EQ3.set({ highFrequency });
   };
 
+  setDistortion = (distortion: number) => {
+    distortion = parseFloat(distortion.toFixed(2));
+    this.setState((prevState) => ({
+      distortion,
+    }));
+    this.distortion.set({ distortion });
+  };
+
   render() {
     return (
       <div className="container">
@@ -456,6 +473,10 @@ class SynthController extends React.Component<{}, SynthState> {
             setEQ3HighFrequency={this.setEQ3HighFrequency}
           />
           <OctaveSwitch octave={this.state.octave} setOctave={this.setOctave} />
+          <DistortionControls
+            distortion={this.state.distortion}
+            setDistortion={this.setDistortion}
+          />
         </div>
         <div className="bottom-container">
           <Keyboard
