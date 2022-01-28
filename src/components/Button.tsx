@@ -5,10 +5,18 @@ import "../styles/Button.css";
 interface ButtonProps {
   value: string;
   selected: string;
+  height: number;
+  width: number;
   onValueChange: (event: any) => void;
 }
 
-const Button = ({ value, selected, onValueChange }: ButtonProps) => {
+const Button = ({
+  value,
+  selected,
+  height,
+  width,
+  onValueChange,
+}: ButtonProps) => {
   const icon = Icons[value as keyof typeof Icons];
   return (
     <React.Fragment>
@@ -21,11 +29,19 @@ const Button = ({ value, selected, onValueChange }: ButtonProps) => {
         className="radio-button"
       />
       {icon ? (
-        <label className="radio-icon" htmlFor={value}>
+        <label
+          className="radio-icon"
+          htmlFor={value}
+          style={{ width: width, height: height }}
+        >
           {icon}
         </label>
       ) : (
-        <label className="radio-icon unselectable" htmlFor={value}>
+        <label
+          className="radio-icon unselectable"
+          htmlFor={value}
+          style={{ width: width, height: height }}
+        >
           {value}
         </label>
       )}
