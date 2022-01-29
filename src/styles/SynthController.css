@@ -7,7 +7,7 @@
 }
 
 .top-container {
-  display: grid;
+  display: flex;
   gap: 5px;
   grid-template-columns: 104px 134px min-content min-content;
   grid-template-rows: 105px 56px 56px 134px;

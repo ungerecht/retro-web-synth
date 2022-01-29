@@ -37,8 +37,13 @@ label {
   margin-bottom: 10px;
 }
 
-.title-small {
+.title-medium {
   font-size: 10px;
+  margin-bottom: 5px;
+}
+
+.title-small {
+  font-size: 8px;
   margin-bottom: 3px;
 }
 
