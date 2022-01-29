@@ -2,7 +2,7 @@
   background-color: #7f7f7f;
   margin: auto;
   width: 75%;
-  height: 100vh;
+  height: fit-content;
   border: 3px solid black;
 }
 
@@ -19,4 +19,5 @@
 .bottom-container {
   display: flex;
   justify-content: center;
+  margin: 10px;
 }
