@@ -13,7 +13,6 @@ interface FilterControlsProps {
   setFilterType: (type: BiquadFilterType) => void;
   setFilterRolloff: (rolloff: number) => void;
   setFilterQ: (Q: number) => void;
-  setFilterDetune: (detune: number) => void;
   setFilterGain: (gain: number) => void;
   setFilterFrequency: (frequency: number) => void;
 }
@@ -24,7 +23,6 @@ const FilterControls = ({
   setFilterType,
   setFilterRolloff,
   setFilterQ,
-  setFilterDetune,
   setFilterGain,
   setFilterFrequency,
 }: FilterControlsProps) => {
@@ -65,12 +63,19 @@ const FilterControls = ({
   return (
     <div className="control-container filter-container">
       <label className="unselectable title-big">FILTER</label>
-      <div className="row justify-between">{renderFilterTypeButtons}</div>
       <FilterDisplay filter={filter} />
-      <div className="row">{renderFilterRolloffButtons}</div>
-      <div className="row">
+      <div className="column">
+        <label className="unselectable title-medium">TYPE</label>
+        <div className="row">{renderFilterTypeButtons}</div>
+      </div>
+      <div className="column">
+        <label className="unselectable title-small">ROLLOFF</label>
+        <div className="row">{renderFilterRolloffButtons}</div>
+      </div>
+
+      <div className="row justify-between">
         <div className="column filter-knob">
-          <label className="unselectable title-small">Q</label>
+          <label className="unselectable title-small">RES</label>
           <Knob
             value={filterState.Q as number}
             width={50}
@@ -83,20 +88,7 @@ const FilterControls = ({
           <p className="unselectable value">{`${filterState.Q}`}</p>
         </div>
         <div className="column filter-knob">
-          <label className="unselectable title-small">Detune</label>
-          <Knob
-            value={filterState.detune as number}
-            width={50}
-            height={50}
-            onValueChange={setFilterDetune}
-            min={-200}
-            max={200}
-            step={10}
-          />
-          <p className="unselectable value">{`${filterState.detune}`}</p>
-        </div>
-        <div className="column filter-knob">
-          <label className="unselectable title-small">Freq</label>
+          <label className="unselectable title-small">CUTOFF</label>
           <Knob
             value={filterState.frequency as number}
             width={50}
@@ -109,7 +101,7 @@ const FilterControls = ({
           <p className="unselectable value">{`${filterState.frequency}Hz`}</p>
         </div>
         <div className="column filter-knob">
-          <label className="unselectable title-small">Gain</label>
+          <label className="unselectable title-small">GAIN</label>
           <Knob
             value={filterState.gain as number}
             width={50}
