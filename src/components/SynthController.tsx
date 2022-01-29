@@ -1,9 +1,6 @@
 import React from "react";
 
-import VolumeKnob from "./VolumeKnob";
-import ReverbControls from "./ReverbControls";
-import WaveformSwitch from "./WaveformSwitch";
-import EnvelopeSliders from "./EnvelopeSliders";
+import OscillatorControls from "./OscillatorControls";
 import OctaveSwitch from "./OctaveSwitch";
 import FilterControls from "./FilterControls";
 import Keyboard from "./Keyboard";
@@ -13,15 +10,19 @@ import * as Tone from "tone";
 import { KEY_TO_NOTE, NOTE_TO_KEY, VALID_KEYS } from "../globals/constants";
 import "../styles/SynthController.css";
 import EQ3Controls from "./EQ3Controls";
-import DistortionControls from "./DistortionControls";
+
+import EffectsControls from "./EffectsControls";
 
 type SynthState = {
   waveform: OscillatorType;
+  osc1volume: number;
+  osc1phase: number;
+  osc1detune: number;
   envelope: Partial<Tone.EnvelopeOptions>;
   filter: Partial<Tone.FilterOptions>;
   octave: number;
   pressedKeys: string[];
-  volume: number;
+  masterVolume: number;
   reverb: { decay: number; wet: number };
   eq3: {
     low: number;
@@ -30,7 +31,7 @@ type SynthState = {
     lowFrequency: number;
     highFrequency: number;
   };
-  distortion: number;
+  distortion: { distortion: number; wet: number };
 };
 
 class SynthController extends React.Component<{}, SynthState> {
@@ -43,7 +44,6 @@ class SynthController extends React.Component<{}, SynthState> {
   state: SynthState;
   constructor(props: any) {
     super(props);
-
     this.synth = new Tone.PolySynth();
     this.filter = new Tone.Filter();
     this.masterVolume = new Tone.Volume(-10);
@@ -53,6 +53,9 @@ class SynthController extends React.Component<{}, SynthState> {
 
     this.state = {
       waveform: "sine",
+      osc1volume: 0,
+      osc1phase: 0,
+      osc1detune: 0,
       envelope: {
         attack: 0.01, // 0 - 2
         decay: 1, // 0 - 2
@@ -69,10 +72,14 @@ class SynthController extends React.Component<{}, SynthState> {
       },
       octave: 4,
       pressedKeys: [],
-      volume: -10, // -60 - 0
+      masterVolume: -10, // -60 - 0
       reverb: {
         decay: 1, // 1 - 30
         wet: 0, // 0 - 1
+      },
+      distortion: {
+        distortion: 0,
+        wet: 0,
       },
       eq3: {
         low: 0,
@@ -81,7 +88,6 @@ class SynthController extends React.Component<{}, SynthState> {
         lowFrequency: 400,
         highFrequency: 2500,
       },
-      distortion: 0,
     };
   }
 
@@ -102,8 +108,10 @@ class SynthController extends React.Component<{}, SynthState> {
     this.synth.set({
       oscillator: {
         type: this.state.waveform,
+        phase: this.state.osc1phase,
       },
       envelope: this.state.envelope,
+      detune: this.state.osc1detune,
     });
 
     //set filter options to default
@@ -116,9 +124,9 @@ class SynthController extends React.Component<{}, SynthState> {
     this.EQ3.set(this.state.eq3);
 
     //set distortion options to default
-    this.distortion.set({ distortion: this.state.distortion });
+    this.distortion.set(this.state.distortion);
 
-    console.log(this.distortion);
+    console.log(this.synth);
 
     //connect synth -> filter -> EQ3 -> distortion -> reverb -> master volume -> output
     this.synth.chain(
@@ -300,19 +308,6 @@ class SynthController extends React.Component<{}, SynthState> {
     });
   };
 
-  setFilterDetune = (detune: number) => {
-    detune = Math.round(detune);
-    this.setState((prevState) => ({
-      filter: {
-        ...prevState.filter,
-        detune,
-      },
-    }));
-    this.filter.set({
-      detune,
-    });
-  };
-
   setFilterFrequency = (frequency: number) => {
     frequency = Math.round(frequency);
     this.setState((prevState) => ({
@@ -339,14 +334,31 @@ class SynthController extends React.Component<{}, SynthState> {
     });
   };
 
-  setVolume = (volume: number) => {
+  setOscVolume = (volume: number) => {
     volume = Math.round(volume);
-    this.setState({ volume });
+    this.setState({ osc1volume: volume });
     if (volume === -60) {
-      this.masterVolume.volume.value = Number.NEGATIVE_INFINITY;
-    } else {
-      this.masterVolume.volume.value = volume;
+      volume = Number.NEGATIVE_INFINITY;
     }
+    this.synth.set({
+      volume,
+    });
+  };
+
+  setOscPhase = (phase: number) => {
+    this.setState({ osc1phase: phase });
+    this.synth.set({
+      oscillator: {
+        phase,
+      },
+    });
+  };
+
+  setOscDetune = (detune: number) => {
+    this.setState({ osc1detune: detune });
+    this.synth.set({
+      detune,
+    });
   };
 
   setReverbDecay = (decay: number) => {
@@ -428,31 +440,42 @@ class SynthController extends React.Component<{}, SynthState> {
   setDistortion = (distortion: number) => {
     distortion = parseFloat(distortion.toFixed(2));
     this.setState((prevState) => ({
-      distortion,
+      distortion: {
+        ...prevState.distortion,
+        distortion,
+      },
     }));
     this.distortion.set({ distortion });
+  };
+
+  setDistortionWet = (wet: number) => {
+    this.setState((prevState) => ({
+      distortion: {
+        ...prevState.distortion,
+        wet,
+      },
+    }));
+    this.distortion.set({ wet });
   };
 
   render() {
     return (
       <div className="container">
         <div className="top-container">
-          <VolumeKnob volume={this.state.volume} setVolume={this.setVolume} />
-          <ReverbControls
-            reverb={this.state.reverb}
-            setReverbDecay={this.setReverbDecay}
-            setReverbWet={this.setReverbWet}
-          />
-          <WaveformSwitch
+          <OscillatorControls
             waveform={this.state.waveform}
-            setWaveform={this.setWaveform}
-          />
-          <EnvelopeSliders
             envelope={this.state.envelope}
+            volume={this.state.osc1volume}
+            phase={this.state.osc1phase}
+            detune={this.state.osc1detune}
+            setWaveform={this.setWaveform}
             setAttack={this.setEnvelopeAttack}
             setDecay={this.setEnvelopeDecay}
             setSustain={this.setEnvelopeSustain}
             setRelease={this.setEnvelopeRelease}
+            setVolume={this.setOscVolume}
+            setPhase={this.setOscPhase}
+            setDetune={this.setOscDetune}
           />
           <FilterControls
             filterState={this.state.filter}
@@ -460,7 +483,6 @@ class SynthController extends React.Component<{}, SynthState> {
             setFilterType={this.setFilterType}
             setFilterRolloff={this.setFilterRolloff}
             setFilterQ={this.setFilterQ}
-            setFilterDetune={this.setFilterDetune}
             setFilterGain={this.setFilterGain}
             setFilterFrequency={this.setFilterFrequency}
           />
@@ -472,13 +494,17 @@ class SynthController extends React.Component<{}, SynthState> {
             setEQ3LowFrequency={this.setEQ3LowFrequency}
             setEQ3HighFrequency={this.setEQ3HighFrequency}
           />
-          <OctaveSwitch octave={this.state.octave} setOctave={this.setOctave} />
-          <DistortionControls
+          <EffectsControls
+            reverb={this.state.reverb}
             distortion={this.state.distortion}
+            setReverbDecay={this.setReverbDecay}
+            setReverbWet={this.setReverbWet}
             setDistortion={this.setDistortion}
+            setDistortionWet={this.setDistortionWet}
           />
         </div>
         <div className="bottom-container">
+          <OctaveSwitch octave={this.state.octave} setOctave={this.setOctave} />
           <Keyboard
             pressedKeys={this.state.pressedKeys}
             playNote={this.playNote}
