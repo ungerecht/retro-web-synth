@@ -37,6 +37,7 @@ type SynthState = {
 class SynthController extends React.Component<{}, SynthState> {
   synth: Tone.PolySynth;
   filter: Tone.Filter;
+  lfo: Tone.LFO;
   masterVolume: Tone.Volume;
   reverb: Tone.Reverb;
   EQ3: Tone.EQ3;
@@ -46,15 +47,16 @@ class SynthController extends React.Component<{}, SynthState> {
     super(props);
     this.synth = new Tone.PolySynth();
     this.filter = new Tone.Filter();
+    this.lfo = new Tone.LFO(10, 0, 10);
     this.masterVolume = new Tone.Volume(-10);
-    this.reverb = new Tone.Reverb();
+    this.reverb = new Tone.Reverb({ wet: 0, decay: 1 });
     this.EQ3 = new Tone.EQ3();
-    this.distortion = new Tone.Distortion(0);
+    this.distortion = new Tone.Distortion({ wet: 0, distortion: 0 });
 
     this.state = {
       waveform: "sine",
-      osc1volume: 0,
-      osc1phase: 0,
+      osc1volume: -5,
+      osc1phase: 180,
       osc1detune: 0,
       envelope: {
         attack: 0.01, // 0 - 2
@@ -65,7 +67,7 @@ class SynthController extends React.Component<{}, SynthState> {
       filter: {
         Q: 1, // 0 - 20
         detune: 0, // -200 - 200
-        frequency: 440, // 20 - 20k
+        frequency: 350, // 20 - 20k
         gain: 0, // 0 - 5
         rolloff: -12, // -12 | -24 | -48 | -96
         type: "allpass", // lowpass | highpass | lowshelf | highshelf | notch | allpass | bandpass
@@ -112,23 +114,19 @@ class SynthController extends React.Component<{}, SynthState> {
       },
       envelope: this.state.envelope,
       detune: this.state.osc1detune,
+      volume: this.state.osc1volume,
     });
 
     //set filter options to default
     this.filter.set(this.state.filter);
 
-    //set reverb options to default
-    this.reverb.set(this.state.reverb);
+    // this.lfo.connect(this.filter.Q);
+    // this.lfo.start();
 
     //set EQ3 options to default
     this.EQ3.set(this.state.eq3);
 
-    //set distortion options to default
-    this.distortion.set(this.state.distortion);
-
-    console.log(this.synth);
-
-    //connect synth -> filter -> EQ3 -> distortion -> reverb -> master volume -> output
+    //connect synth to master output
     this.synth.chain(
       this.filter,
       this.EQ3,
@@ -195,74 +193,74 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setWaveform = (type: OscillatorType) => {
-    this.setState({
-      waveform: type,
-    });
     this.synth.set({
       oscillator: {
         type,
       },
     });
+    this.setState({
+      waveform: type,
+    });
   };
 
   setEnvelopeAttack = (value: number) => {
     value = parseFloat(value.toFixed(2));
+    this.synth.set({
+      envelope: {
+        attack: value,
+      },
+    });
     this.setState((prevState) => ({
       envelope: {
         ...prevState.envelope,
         attack: value,
       },
     }));
-    this.synth.set({
-      envelope: {
-        attack: value,
-      },
-    });
   };
 
   setEnvelopeDecay = (value: number) => {
     value = parseFloat(value.toFixed(2));
+    this.synth.set({
+      envelope: {
+        decay: value,
+      },
+    });
     this.setState((prevState) => ({
       envelope: {
         ...prevState.envelope,
         decay: value,
       },
     }));
-    this.synth.set({
-      envelope: {
-        decay: value,
-      },
-    });
   };
 
   setEnvelopeSustain = (value: number) => {
     value = parseFloat(value.toFixed(2));
+    this.synth.set({
+      envelope: {
+        sustain: value,
+      },
+    });
     this.setState((prevState) => ({
       envelope: {
         ...prevState.envelope,
         sustain: value,
       },
     }));
-    this.synth.set({
-      envelope: {
-        sustain: value,
-      },
-    });
   };
 
   setEnvelopeRelease = (value: number) => {
     value = parseFloat(value.toFixed(2));
+    this.synth.set({
+      envelope: {
+        release: value,
+      },
+    });
     this.setState((prevState) => ({
       envelope: {
         ...prevState.envelope,
         release: value,
       },
     }));
-    this.synth.set({
-      envelope: {
-        release: value,
-      },
-    });
   };
 
   setOctave = (octave: number) => {
@@ -272,190 +270,192 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setFilterType = (type: BiquadFilterType) => {
+    this.filter.set({
+      type,
+    });
     this.setState((prevState) => ({
       filter: {
         ...prevState.filter,
         type,
       },
     }));
-    this.filter.set({
-      type,
-    });
   };
 
   setFilterRolloff = (rolloff: number) => {
+    this.filter.set({
+      rolloff: rolloff as Tone.FilterRollOff,
+    });
     this.setState((prevState) => ({
       filter: {
         ...prevState.filter,
         rolloff: rolloff as Tone.FilterRollOff,
       },
     }));
-    this.filter.set({
-      rolloff: rolloff as Tone.FilterRollOff,
-    });
   };
 
   setFilterQ = (Q: number) => {
     Q = Math.round(Q);
+    this.filter.set({
+      Q,
+    });
     this.setState((prevState) => ({
       filter: {
         ...prevState.filter,
         Q,
       },
     }));
-    this.filter.set({
-      Q,
-    });
   };
 
   setFilterFrequency = (frequency: number) => {
     frequency = Math.round(frequency);
+    this.filter.set({
+      frequency,
+    });
     this.setState((prevState) => ({
       filter: {
         ...prevState.filter,
         frequency,
       },
     }));
-    this.filter.set({
-      frequency,
-    });
   };
 
   setFilterGain = (gain: number) => {
     gain = Math.round(gain);
+    this.filter.set({
+      gain,
+    });
     this.setState((prevState) => ({
       filter: {
         ...prevState.filter,
         gain,
       },
     }));
-    this.filter.set({
-      gain,
-    });
   };
 
   setOscVolume = (volume: number) => {
     volume = Math.round(volume);
+    this.synth.set({
+      volume,
+    });
     this.setState({ osc1volume: volume });
     if (volume === -60) {
       volume = Number.NEGATIVE_INFINITY;
     }
-    this.synth.set({
-      volume,
-    });
   };
 
   setOscPhase = (phase: number) => {
-    this.setState({ osc1phase: phase });
+    phase = Math.round(phase);
     this.synth.set({
       oscillator: {
         phase,
       },
     });
+    this.setState({ osc1phase: phase });
   };
 
   setOscDetune = (detune: number) => {
-    this.setState({ osc1detune: detune });
+    detune = Math.round(detune);
     this.synth.set({
       detune,
     });
+    this.setState({ osc1detune: detune });
   };
 
   setReverbDecay = (decay: number) => {
     decay = Math.round(decay);
+    this.reverb.set({ decay });
     this.setState((prevState) => ({
       reverb: {
         ...prevState.reverb,
         decay,
       },
     }));
-    this.reverb.set({ decay });
   };
 
   setReverbWet = (wet: number) => {
+    this.reverb.set({ wet });
     this.setState((prevState) => ({
       reverb: {
         ...prevState.reverb,
         wet,
       },
     }));
-    this.reverb.set({ wet });
   };
 
   setEQ3Low = (low: number) => {
     low = Math.round(low);
+    this.EQ3.set({ low });
     this.setState((prevState) => ({
       eq3: {
         ...prevState.eq3,
         low,
       },
     }));
-    this.EQ3.set({ low });
   };
 
   setEQ3Mid = (mid: number) => {
     mid = Math.round(mid);
+    this.EQ3.set({ mid });
     this.setState((prevState) => ({
       eq3: {
         ...prevState.eq3,
         mid,
       },
     }));
-    this.EQ3.set({ mid });
   };
 
   setEQ3High = (high: number) => {
     high = Math.round(high);
+    this.EQ3.set({ high });
     this.setState((prevState) => ({
       eq3: {
         ...prevState.eq3,
         high,
       },
     }));
-    this.EQ3.set({ high });
   };
 
   setEQ3LowFrequency = (lowFrequency: number) => {
     lowFrequency = Math.round(lowFrequency);
+    this.EQ3.set({ lowFrequency });
     this.setState((prevState) => ({
       eq3: {
         ...prevState.eq3,
         lowFrequency,
       },
     }));
-    this.EQ3.set({ lowFrequency });
   };
 
   setEQ3HighFrequency = (highFrequency: number) => {
     highFrequency = Math.round(highFrequency);
+    this.EQ3.set({ highFrequency });
     this.setState((prevState) => ({
       eq3: {
         ...prevState.eq3,
         highFrequency,
       },
     }));
-    this.EQ3.set({ highFrequency });
   };
 
   setDistortion = (distortion: number) => {
     distortion = parseFloat(distortion.toFixed(2));
+    this.distortion.set({ distortion });
     this.setState((prevState) => ({
       distortion: {
         ...prevState.distortion,
         distortion,
       },
     }));
-    this.distortion.set({ distortion });
   };
 
   setDistortionWet = (wet: number) => {
+    this.distortion.set({ wet });
     this.setState((prevState) => ({
       distortion: {
         ...prevState.distortion,
         wet,
       },
     }));
-    this.distortion.set({ wet });
   };
 
   render() {
