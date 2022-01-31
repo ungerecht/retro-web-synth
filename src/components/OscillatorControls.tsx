@@ -88,8 +88,8 @@ const OscillatorControls = ({
             <div className="column">
               <label className="unselectable title-small">PHASE</label>
               <Knob
-                min={-60}
-                max={0}
+                min={0}
+                max={360}
                 value={phase}
                 onValueChange={setPhase}
                 width={50}
@@ -105,8 +105,8 @@ const OscillatorControls = ({
             <div className="column">
               <label className="unselectable title-small">DETUNE</label>
               <Knob
-                min={-60}
-                max={0}
+                min={-200}
+                max={200}
                 value={detune}
                 onValueChange={setDetune}
                 width={50}
