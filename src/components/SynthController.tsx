@@ -317,6 +317,10 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setReverbOption = (value: number, target: "wet" | "decay") => {
+    if (target === "decay") {
+      value = Math.round(value as number);
+    }
+
     this.reverb.set({
       [target]: value,
     });
