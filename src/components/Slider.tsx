@@ -119,8 +119,6 @@ const Slider = ({
     //calculate mouse y relative to the parent SVG
     let relativeY = event.clientY - bounding.y;
 
-    console.log(relativeY);
-
     //convert y coordinate to value
     let percentage = valueToPercentage(
       relativeY,
@@ -197,4 +195,4 @@ const Slider = ({
   );
 };
 
-export default Slider;
+export default React.memo(Slider);
