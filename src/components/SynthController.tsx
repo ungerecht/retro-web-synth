@@ -301,6 +301,9 @@ class SynthController extends React.Component<{}, SynthState> {
     value: number | FilterRollOff | BiquadFilterType,
     target: "type" | "rolloff" | "Q" | "frequency" | "gain"
   ) => {
+    if (target === "Q" || target === "frequency" || target === "gain") {
+      value = Math.round(value as number);
+    }
     this.filter.set({
       [target]: value,
     });
@@ -343,6 +346,7 @@ class SynthController extends React.Component<{}, SynthState> {
     value: number,
     target: "low" | "mid" | "high" | "lowFrequency" | "highFrequency"
   ) => {
+    value = Math.round(value as number);
     this.EQ3.set({
       [target]: value,
     });
