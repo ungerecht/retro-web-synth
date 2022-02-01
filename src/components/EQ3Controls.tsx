@@ -17,6 +17,7 @@ interface EQ3Props {
 }
 
 const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
+  console.log("render eq");
   return (
     <div className="control-container EQ3-container">
       <label className="unselectable title-big">EQUALIZER</label>
@@ -103,4 +104,4 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
   );
 };
 
-export default EQ3Controls;
+export default React.memo(EQ3Controls);

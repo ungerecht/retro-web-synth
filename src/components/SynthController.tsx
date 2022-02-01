@@ -1,4 +1,4 @@
-import React, { createRef, Ref } from "react";
+import React from "react";
 
 import OscillatorControls from "./OscillatorControls";
 import OctaveSwitch from "./OctaveSwitch";
@@ -12,9 +12,7 @@ import "../styles/SynthController.css";
 import EQ3Controls from "./EQ3Controls";
 
 import EffectsControls from "./EffectsControls";
-import Key from "./Key";
-import { DuoSynth, FilterRollOff } from "tone";
-import { threadId } from "worker_threads";
+import { FilterRollOff } from "tone";
 
 type SynthState = {
   baseOctave: number;

@@ -30,7 +30,7 @@ const Key = ({ note, pressedKeys, playNote, stopNote }: KeyProps) => {
         setIsClicked(false);
         stopNote(note);
       }}
-      onMouseLeave={() => {
+      onMouseOut={() => {
         if (isClicked) stopNote(note);
       }}
     >
@@ -47,4 +47,4 @@ const keyIsSharp = (note: string) => {
   return note.length > 1;
 };
 
-export default Key;
+export default React.memo(Key);

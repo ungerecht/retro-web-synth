@@ -1,8 +1,8 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import FilterDisplay from "./FilterDisplay";
 import Button from "./Button";
 import { FILTER_TYPES, ROLLOFFS } from "../globals/constants";
-import { Filter, FilterRollOff } from "tone";
+import { FilterRollOff } from "tone";
 
 import "../styles/FilterControls.css";
 import Knob from "./Knob";
@@ -25,6 +25,7 @@ const FilterControls = ({
   filterOptions,
   setFilterOption,
 }: FilterControlsProps) => {
+  console.log("render controls");
   const renderFilterTypeButtons = FILTER_TYPES.map((type, i) => {
     return (
       <Button
@@ -121,4 +122,4 @@ const FilterControls = ({
   );
 };
 
-export default FilterControls;
+export default React.memo(FilterControls);

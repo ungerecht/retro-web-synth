@@ -12,6 +12,7 @@ interface KeyboardProps {
 }
 
 const Keyboard = ({ pressedKeys, playNote, stopNote }: KeyboardProps) => {
+  console.log("render board");
   const keys = _.map(NOTES, (note, index) => {
     return (
       <Key
@@ -27,4 +28,4 @@ const Keyboard = ({ pressedKeys, playNote, stopNote }: KeyboardProps) => {
   return <div className="keyboard">{keys}</div>;
 };
 
-export default Keyboard;
+export default React.memo(Keyboard);

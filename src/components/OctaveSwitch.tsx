@@ -8,6 +8,7 @@ interface OctaveProps {
 }
 
 const OctaveSwitch = ({ octave, setOctave }: OctaveProps) => {
+  console.log("render octave");
   return (
     <div className="control-container octave-container">
       <label className="unselectable title-big">OCTAVE</label>
@@ -36,4 +37,4 @@ const OctaveSwitch = ({ octave, setOctave }: OctaveProps) => {
   );
 };
 
-export default OctaveSwitch;
+export default React.memo(OctaveSwitch);

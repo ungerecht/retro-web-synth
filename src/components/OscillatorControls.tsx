@@ -36,6 +36,7 @@ const OscillatorControls = ({
   synthOptions,
   setSynthOption,
 }: OscillatorControlsProps) => {
+  console.log("render osc");
   const renderWaveformButtons = WAVEFORMS.map((wf, i) => {
     return (
       <Button
@@ -193,4 +194,4 @@ const OscillatorControls = ({
   );
 };
 
-export default OscillatorControls;
+export default React.memo(OscillatorControls);

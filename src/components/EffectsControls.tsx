@@ -14,6 +14,7 @@ const EffectsControls = ({
   setReverbOption,
   setDistortionOption,
 }: EffectsControlsProps) => {
+  console.log("render effects");
   return (
     <div className="control-container">
       <label className="unselectable title-big">EFFECTS</label>
@@ -99,4 +100,4 @@ const EffectsControls = ({
   );
 };
 
-export default EffectsControls;
+export default React.memo(EffectsControls);
