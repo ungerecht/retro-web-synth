@@ -2,21 +2,17 @@ import React from "react";
 import Knob from "./Knob";
 
 interface EffectsControlsProps {
-  reverb: { decay: number; wet: number };
-  distortion: { distortion: number; wet: number };
-  setReverbDecay: (decay: number) => void;
-  setReverbWet: (wet: number) => void;
-  setDistortion: (distortion: number) => void;
-  setDistortionWet: (wet: number) => void;
+  reverbOptions: { decay: number; wet: number };
+  distortionOptions: { distortion: number; wet: number };
+  setReverbOption: (value: number, target: "wet" | "decay") => void;
+  setDistortionOption: (value: number, target: "wet" | "distortion") => void;
 }
 
 const EffectsControls = ({
-  reverb,
-  distortion,
-  setReverbDecay,
-  setReverbWet,
-  setDistortion,
-  setDistortionWet,
+  reverbOptions,
+  distortionOptions,
+  setReverbOption,
+  setDistortionOption,
 }: EffectsControlsProps) => {
   return (
     <div className="control-container">
@@ -30,28 +26,32 @@ const EffectsControls = ({
               <Knob
                 min={0}
                 max={1}
-                value={reverb.wet}
-                onValueChange={setReverbWet}
+                value={reverbOptions.wet}
+                onValueChange={(value) => {
+                  setReverbOption(value, "wet");
+                }}
                 width={50}
                 height={50}
                 step={0.01}
               />
-              <p className="unselectable value">{`${(reverb.wet * 100).toFixed(
-                0
-              )}%`}</p>
+              <p className="unselectable value">{`${(
+                reverbOptions.wet * 100
+              ).toFixed(0)}%`}</p>
             </div>
             <div className="column">
               <label className="unselectable title-small">DECAY</label>
               <Knob
                 min={1}
                 max={30}
-                value={reverb.decay}
-                onValueChange={setReverbDecay}
+                value={reverbOptions.decay}
+                onValueChange={(value) => {
+                  setReverbOption(value, "decay");
+                }}
                 width={50}
                 height={50}
                 step={1}
               />
-              <p className="unselectable value">{`${reverb.decay}`}</p>
+              <p className="unselectable value">{`${reverbOptions.decay}`}</p>
             </div>
           </div>
         </div>
@@ -63,14 +63,16 @@ const EffectsControls = ({
               <Knob
                 min={0}
                 max={1}
-                value={distortion.wet}
-                onValueChange={setDistortionWet}
+                value={distortionOptions.wet}
+                onValueChange={(value) => {
+                  setDistortionOption(value, "wet");
+                }}
                 width={50}
                 height={50}
                 step={0.01}
               />
               <p className="unselectable value">{`${(
-                distortion.wet * 100
+                distortionOptions.wet * 100
               ).toFixed(0)}%`}</p>
             </div>
             <div className="column">
@@ -78,14 +80,16 @@ const EffectsControls = ({
               <Knob
                 min={0}
                 max={1}
-                value={distortion.distortion}
-                onValueChange={setDistortion}
+                value={distortionOptions.distortion}
+                onValueChange={(value) => {
+                  setDistortionOption(value, "distortion");
+                }}
                 width={50}
                 height={50}
                 step={0.01}
               />
               <p className="unselectable value">{`${(
-                distortion.distortion * 100
+                distortionOptions.distortion * 100
               ).toFixed(0)}%`}</p>
             </div>
           </div>

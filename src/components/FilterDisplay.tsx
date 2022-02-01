@@ -1,19 +1,27 @@
 import React, { useRef } from "react";
-import { Filter } from "tone";
+import { FilterRollOff, Filter } from "tone";
 
 import "../styles/FilterDisplay.css";
 
 interface FilterDisplayProps {
-  filter: Filter;
+  filterOptions: {
+    Q: number;
+    frequency: number;
+    gain: number;
+    rolloff: FilterRollOff;
+    type: BiquadFilterType;
+  };
 }
 
-const FilterDisplay = ({ filter }: FilterDisplayProps) => {
+const FilterDisplay = ({ filterOptions }: FilterDisplayProps) => {
   const getXofFrequency = (freq: number) => {
     return width * Math.sqrt((freq - 20) / (20000 - 20));
   };
-
   const width = 256;
   const height = 150;
+
+  //do I need to clean up after this????
+  const filter = new Filter(filterOptions);
 
   const response = filter.getFrequencyResponse(width);
   const canvas = useRef<HTMLCanvasElement>(null);

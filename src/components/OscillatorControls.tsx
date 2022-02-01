@@ -3,59 +3,57 @@ import { WAVEFORMS } from "../globals/constants";
 import Button from "./Button";
 import Knob from "./Knob";
 import Slider from "./Slider";
-import { EnvelopeOptions } from "tone";
 
 interface OscillatorControlsProps {
-  waveform: OscillatorType;
-  envelope: Partial<EnvelopeOptions>;
-  volume: number;
-  phase: number;
-  detune: number;
-  setWaveform: (type: OscillatorType) => void;
-  setAttack: (value: number) => void;
-  setDecay: (value: number) => void;
-  setSustain: (value: number) => void;
-  setRelease: (value: number) => void;
-  setVolume: (volume: number) => void;
-  setPhase: (phase: number) => void;
-  setDetune: (detune: number) => void;
+  synthNum: 1 | 2;
+  synthOptions: {
+    volume: number;
+    detune: number;
+    type: OscillatorType;
+    phase: number;
+    attack: number;
+    decay: number;
+    sustain: number;
+    release: number;
+  };
+  setSynthOption: (
+    value: OscillatorType | number,
+    target:
+      | "type"
+      | "phase"
+      | "attack"
+      | "decay"
+      | "sustain"
+      | "release"
+      | "volume"
+      | "detune",
+    synthNum: 1 | 2
+  ) => void;
 }
 
 const OscillatorControls = ({
-  waveform,
-  envelope,
-  volume,
-  phase,
-  detune,
-  setWaveform,
-  setAttack,
-  setDecay,
-  setSustain,
-  setRelease,
-  setVolume,
-  setPhase,
-  setDetune,
+  synthNum,
+  synthOptions,
+  setSynthOption,
 }: OscillatorControlsProps) => {
-  const handleWaveformChange = (event: any) => {
-    setWaveform(event.target.value);
-  };
-
   const renderWaveformButtons = WAVEFORMS.map((wf, i) => {
     return (
       <Button
-        key={i}
+        key={`waveform${i}${synthNum}`}
+        name={`${synthNum}`}
         value={wf}
-        selected={waveform}
+        selected={synthOptions.type === wf}
         width={26}
         height={26}
-        onValueChange={handleWaveformChange}
+        onValueChange={(e) => {
+          setSynthOption(e.target.value as OscillatorType, "type", synthNum);
+        }}
       />
     );
   });
-
   return (
     <div className="control-container oscillator-container">
-      <label className="unselectable title-big">OSCILLATOR</label>
+      <label className="unselectable title-big">{`OSC ${synthNum}`}</label>
       <div className="row">
         <div className="waveform-container column">
           <label className="unselectable title-small">WAVEFORM</label>
@@ -73,13 +71,15 @@ const OscillatorControls = ({
               <Knob
                 min={-60}
                 max={0}
-                value={volume}
-                onValueChange={setVolume}
+                value={synthOptions.volume}
+                onValueChange={(value) => {
+                  setSynthOption(value, "volume", synthNum);
+                }}
                 width={50}
                 height={50}
                 step={1}
               />
-              <p className="unselectable value">{`${volume}db`}</p>
+              <p className="unselectable value">{`${synthOptions.volume}db`}</p>
             </div>
           </div>
         </div>
@@ -90,13 +90,15 @@ const OscillatorControls = ({
               <Knob
                 min={0}
                 max={360}
-                value={phase}
-                onValueChange={setPhase}
+                value={synthOptions.phase}
+                onValueChange={(value) => {
+                  setSynthOption(value, "phase", synthNum);
+                }}
                 width={50}
                 height={50}
                 step={1}
               />
-              <p className="unselectable value">{`${phase}`}</p>
+              <p className="unselectable value">{`${synthOptions.phase}`}</p>
             </div>
           </div>
         </div>
@@ -107,13 +109,15 @@ const OscillatorControls = ({
               <Knob
                 min={-200}
                 max={200}
-                value={detune}
-                onValueChange={setDetune}
+                value={synthOptions.detune}
+                onValueChange={(value) => {
+                  setSynthOption(value, "detune", synthNum);
+                }}
                 width={50}
                 height={50}
                 step={1}
               />
-              <p className="unselectable value">{`${detune}`}</p>
+              <p className="unselectable value">{`${synthOptions.detune}`}</p>
             </div>
           </div>
         </div>
@@ -130,10 +134,12 @@ const OscillatorControls = ({
                 step={0.01}
                 width={50}
                 height={100}
-                value={Number(envelope.attack)}
-                onValueChange={setAttack}
+                value={Number(synthOptions.attack)}
+                onValueChange={(value) => {
+                  setSynthOption(value, "attack", synthNum);
+                }}
               />
-              <p className="unselectable value">{`${envelope.attack}`}</p>
+              <p className="unselectable value">{`${synthOptions.attack}`}</p>
             </div>
             <div className="column">
               <label className="unselectable title-small">DEC</label>
@@ -143,10 +149,12 @@ const OscillatorControls = ({
                 step={0.01}
                 width={50}
                 height={100}
-                value={Number(envelope.decay)}
-                onValueChange={setDecay}
+                value={Number(synthOptions.decay)}
+                onValueChange={(value) => {
+                  setSynthOption(value, "decay", synthNum);
+                }}
               />
-              <p className="unselectable value">{`${envelope.decay}`}</p>
+              <p className="unselectable value">{`${synthOptions.decay}`}</p>
             </div>
             <div className="column">
               <label className="unselectable title-small">SUS</label>
@@ -156,10 +164,12 @@ const OscillatorControls = ({
                 step={0.01}
                 width={50}
                 height={100}
-                value={Number(envelope.sustain)}
-                onValueChange={setSustain}
+                value={Number(synthOptions.sustain)}
+                onValueChange={(value) => {
+                  setSynthOption(value, "sustain", synthNum);
+                }}
               />
-              <p className="unselectable value">{`${envelope.sustain}`}</p>
+              <p className="unselectable value">{`${synthOptions.sustain}`}</p>
             </div>
             <div className="column">
               <label className="unselectable title-small">REL</label>
@@ -169,10 +179,12 @@ const OscillatorControls = ({
                 step={0.01}
                 width={50}
                 height={100}
-                value={Number(envelope.release)}
-                onValueChange={setRelease}
+                value={Number(synthOptions.release)}
+                onValueChange={(value) => {
+                  setSynthOption(value, "release", synthNum);
+                }}
               />
-              <p className="unselectable value">{`${envelope.release}`}</p>
+              <p className="unselectable value">{`${synthOptions.release}`}</p>
             </div>
           </div>
         </div>
