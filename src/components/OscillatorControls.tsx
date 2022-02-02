@@ -2,7 +2,6 @@ import React from "react";
 import { WAVEFORMS } from "../globals/constants";
 import Button from "./Button";
 import Knob from "./Knob";
-import Slider from "./Slider";
 
 interface OscillatorControlsProps {
   synthNum: 1 | 2;
@@ -11,22 +10,10 @@ interface OscillatorControlsProps {
     detune: number;
     type: OscillatorType;
     phase: number;
-    attack: number;
-    decay: number;
-    sustain: number;
-    release: number;
   };
   setSynthOption: (
     value: OscillatorType | number,
-    target:
-      | "type"
-      | "phase"
-      | "attack"
-      | "decay"
-      | "sustain"
-      | "release"
-      | "volume"
-      | "detune",
+    target: "type" | "phase" | "volume" | "detune",
     synthNum: 1 | 2
   ) => void;
 }
@@ -54,21 +41,21 @@ const OscillatorControls = ({
   });
   return (
     <div className="control-container oscillator-container">
-      <label className="unselectable title-big">{`OSC ${synthNum}`}</label>
-      <div className="row">
-        <div className="waveform-container column">
-          <label className="unselectable title-small">WAVEFORM</label>
-          <div
-            className="row justify-center"
-            style={{ display: "grid", gridTemplateColumns: "34px 34px" }}
-          >
-            {renderWaveformButtons}
-          </div>
+      <div className="row justify-center">
+        <div className="title-container">
+          <label className="unselectable title-big">{`OSC ${synthNum}`}</label>
         </div>
+      </div>
+
+      <div className="row justify-center">
+        <div className="waveform-container column">
+          <div className="row justify-center">{renderWaveformButtons}</div>
+        </div>
+      </div>
+      <div className="row justify-center">
         <div className="volume-container">
           <div className="row justify-center">
-            <div className="column">
-              <label className="unselectable title-small">LEVEL</label>
+            <div className="column hasTooltip">
               <Knob
                 min={-60}
                 max={0}
@@ -80,14 +67,14 @@ const OscillatorControls = ({
                 height={50}
                 step={1}
               />
-              <p className="unselectable value">{`${synthOptions.volume}db`}</p>
+              <label className="unselectable title-small">Level</label>
+              <span className="tooltip value">{`${synthOptions.volume}db`}</span>
             </div>
           </div>
         </div>
         <div className="phase-container">
           <div className="row justify-center">
-            <div className="column">
-              <label className="unselectable title-small">PHASE</label>
+            <div className="column hasTooltip">
               <Knob
                 min={0}
                 max={360}
@@ -99,14 +86,14 @@ const OscillatorControls = ({
                 height={50}
                 step={1}
               />
-              <p className="unselectable value">{`${synthOptions.phase}`}</p>
+              <label className="unselectable title-small">Phase</label>
+              <span className="tooltip value">{`${synthOptions.phase}°`}</span>
             </div>
           </div>
         </div>
         <div className="detune-container">
           <div className="row justify-center">
-            <div className="column">
-              <label className="unselectable title-small">DETUNE</label>
+            <div className="column hasTooltip">
               <Knob
                 min={-200}
                 max={200}
@@ -118,74 +105,8 @@ const OscillatorControls = ({
                 height={50}
                 step={1}
               />
-              <p className="unselectable value">{`${synthOptions.detune}`}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row justify-center">
-        <div className="envelope-container column">
-          <label className="unselectable title-medium">ENVELOPE</label>
-          <div className="row justify-center">
-            <div className="column">
-              <label className="unselectable title-small">ATK</label>
-              <Slider
-                min={0}
-                max={2}
-                step={0.01}
-                width={50}
-                height={100}
-                value={Number(synthOptions.attack)}
-                onValueChange={(value) => {
-                  setSynthOption(value, "attack", synthNum);
-                }}
-              />
-              <p className="unselectable value">{`${synthOptions.attack}`}</p>
-            </div>
-            <div className="column">
-              <label className="unselectable title-small">DEC</label>
-              <Slider
-                min={0}
-                max={2}
-                step={0.01}
-                width={50}
-                height={100}
-                value={Number(synthOptions.decay)}
-                onValueChange={(value) => {
-                  setSynthOption(value, "decay", synthNum);
-                }}
-              />
-              <p className="unselectable value">{`${synthOptions.decay}`}</p>
-            </div>
-            <div className="column">
-              <label className="unselectable title-small">SUS</label>
-              <Slider
-                min={0}
-                max={1}
-                step={0.01}
-                width={50}
-                height={100}
-                value={Number(synthOptions.sustain)}
-                onValueChange={(value) => {
-                  setSynthOption(value, "sustain", synthNum);
-                }}
-              />
-              <p className="unselectable value">{`${synthOptions.sustain}`}</p>
-            </div>
-            <div className="column">
-              <label className="unselectable title-small">REL</label>
-              <Slider
-                min={0}
-                max={5}
-                step={0.01}
-                width={50}
-                height={100}
-                value={Number(synthOptions.release)}
-                onValueChange={(value) => {
-                  setSynthOption(value, "release", synthNum);
-                }}
-              />
-              <p className="unselectable value">{`${synthOptions.release}`}</p>
+              <label className="unselectable title-small">Detune</label>
+              <span className="tooltip value">{`${synthOptions.detune}`}</span>
             </div>
           </div>
         </div>
