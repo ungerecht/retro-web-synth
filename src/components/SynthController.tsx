@@ -69,17 +69,17 @@ class SynthController extends React.Component<{}, SynthState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      baseOctave: 4,
+      baseOctave: 2,
       pressedKeys: [],
       masterVolume: -10, // -60 - 0
       synth1Options: {
-        volume: -4,
+        volume: 0,
         detune: 0,
         type: "sine",
         phase: 0,
       },
       synth2Options: {
-        volume: -6,
+        volume: -10,
         detune: 0,
         type: "square",
         phase: 0,
@@ -197,7 +197,7 @@ class SynthController extends React.Component<{}, SynthState> {
     const key = event.key.toLowerCase();
 
     if (VALID_KEYS.includes(key) && !this.state.pressedKeys.includes(key)) {
-      this.playNote(KEY_TO_NOTE[key]);
+      this.playNote(KEY_TO_NOTE[key], this.state.baseOctave);
     }
   };
 
@@ -205,32 +205,32 @@ class SynthController extends React.Component<{}, SynthState> {
     const key = event.key.toLowerCase();
 
     if (VALID_KEYS.includes(key)) {
-      this.stopNote(KEY_TO_NOTE[key]);
+      this.stopNote(KEY_TO_NOTE[key], this.state.baseOctave);
     }
   };
 
-  playNote = (note: string) => {
+  playNote = (note: string, octave: number) => {
     //add key to pressedKeys
     this.setState((prevState) => ({
-      pressedKeys: [...prevState.pressedKeys, NOTE_TO_KEY[note]],
+      pressedKeys: [...prevState.pressedKeys, `${note}${octave}`],
     }));
 
     //play atack of note
-    this.synth1.triggerAttack(note + this.state.baseOctave);
-    this.synth2.triggerAttack(note + this.state.baseOctave);
+    this.synth1.triggerAttack(note + octave);
+    this.synth2.triggerAttack(note + octave);
   };
 
-  stopNote = (note: string) => {
-    const key = NOTE_TO_KEY[note];
-
+  stopNote = (note: string, octave: number) => {
     //remove key from pressedKeys
     this.setState({
-      pressedKeys: this.state.pressedKeys.filter((k) => k !== key),
+      pressedKeys: this.state.pressedKeys.filter(
+        (k) => k !== `${note}${octave}`
+      ),
     });
 
     //trigger release of note
-    this.synth1.triggerRelease(note + this.state.baseOctave);
-    this.synth2.triggerRelease(note + this.state.baseOctave);
+    this.synth1.triggerRelease(note + octave);
+    this.synth2.triggerRelease(note + octave);
   };
 
   setSynthOption = (
@@ -405,6 +405,7 @@ class SynthController extends React.Component<{}, SynthState> {
           />
           <Keyboard
             pressedKeys={this.state.pressedKeys}
+            baseOctave={this.state.baseOctave}
             playNote={this.playNote}
             stopNote={this.stopNote}
           />
