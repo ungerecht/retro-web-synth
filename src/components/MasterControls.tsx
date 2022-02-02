@@ -51,7 +51,7 @@ const OctaveSwitch = ({
             onClick={() => {
               setOctave(octave + 1);
             }}
-            disabled={octave === 9}
+            disabled={octave === 6}
           >
             {right}
           </button>
