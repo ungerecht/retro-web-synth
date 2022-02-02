@@ -6,41 +6,42 @@ import "../styles/Key.css";
 
 interface KeyProps {
   note: string;
+  octave: number;
   pressedKeys: string[];
-  playNote: (note: string) => void;
-  stopNote: (note: string) => void;
+  playNote: (note: string, octave: number) => void;
+  stopNote: (note: string, octave: number) => void;
 }
 
-const Key = ({ note, pressedKeys, playNote, stopNote }: KeyProps) => {
+const Key = ({ note, octave, pressedKeys, playNote, stopNote }: KeyProps) => {
   const [isClicked, setIsClicked] = useState(false);
 
   //build classname for Key, adding sharp or pressed
   let keyClassName = "key";
   if (keyIsSharp(note)) keyClassName += " sharp";
-  if (keyIsPressed(note, pressedKeys)) keyClassName += " pressed";
+  if (keyIsPressed(note, octave, pressedKeys)) keyClassName += " pressed";
 
   return (
     <div
       className={keyClassName}
       onMouseDown={() => {
         setIsClicked(true);
-        playNote(note);
+        playNote(note, octave);
       }}
       onMouseUp={() => {
         setIsClicked(false);
-        stopNote(note);
+        stopNote(note, octave);
       }}
       onMouseOut={() => {
-        if (isClicked) stopNote(note);
+        if (isClicked) stopNote(note, octave);
       }}
     >
-      <span className="unselectable">{note}</span>
+      <span className="unselectable value">{}</span>
     </div>
   );
 };
 
-const keyIsPressed = (note: string, pressedKeys: string[]) => {
-  return _.includes(pressedKeys, NOTE_TO_KEY[note]);
+const keyIsPressed = (note: string, octave: number, pressedKeys: string[]) => {
+  return _.includes(pressedKeys, `${note}${octave}`);
 };
 
 const keyIsSharp = (note: string) => {
