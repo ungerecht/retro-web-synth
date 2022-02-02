@@ -1,5 +1,5 @@
 .container {
-  background-color: #7f7f7f;
+  background-color: cadetblue;
   margin: auto;
   width: 75%;
   height: fit-content;
@@ -7,17 +7,21 @@
 }
 
 .top-container {
-  display: flex;
-  gap: 5px;
-  grid-template-columns: 104px 134px min-content min-content;
-  grid-template-rows: 105px 56px 56px 134px;
+  display: grid;
+  gap: 10px 5px;
+  grid-template-columns: 200px 200px min-content min-content;
+  grid-template-rows: 158px;
   justify-content: center;
   align-items: flex-start;
   margin: 10px;
+  margin-top: 20px;
 }
 
 .bottom-container {
+  background-color: #7f7f7f;
   display: flex;
   justify-content: center;
   margin: 10px;
+  padding: 10px;
+  border: 3px solid black;
 }

@@ -15,7 +15,7 @@ interface FilterDisplayProps {
 
 const FilterDisplay = ({ filterOptions }: FilterDisplayProps) => {
   const width = 256;
-  const height = 150;
+  const height = 156;
   const filter = new Filter(filterOptions);
   const response = filter.getFrequencyResponse(width);
   const canvas = useRef<HTMLCanvasElement>(null);
