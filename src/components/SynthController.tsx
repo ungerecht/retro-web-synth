@@ -1,7 +1,8 @@
 import React from "react";
 
 import OscillatorControls from "./OscillatorControls";
-import OctaveSwitch from "./OctaveSwitch";
+import MasterControls from "./MasterControls";
+import EnvelopeControls from "./EnvelopeControls";
 import FilterControls from "./FilterControls";
 import Keyboard from "./Keyboard";
 
@@ -23,16 +24,14 @@ type SynthState = {
     detune: number;
     type: OscillatorType;
     phase: number;
-    attack: number;
-    decay: number;
-    sustain: number;
-    release: number;
   };
   synth2Options: {
     volume: number;
     detune: number;
     type: OscillatorType;
     phase: number;
+  };
+  envelopeOptions: {
     attack: number;
     decay: number;
     sustain: number;
@@ -78,16 +77,14 @@ class SynthController extends React.Component<{}, SynthState> {
         detune: 0,
         type: "sine",
         phase: 0,
-        attack: 0.01, // 0 - 2
-        decay: 1, // 0 - 2
-        sustain: 0.1, // 0 - 1
-        release: 1, // 0 - 5
       },
       synth2Options: {
         volume: -6,
         detune: 0,
         type: "square",
         phase: 0,
+      },
+      envelopeOptions: {
         attack: 0.01, // 0 - 2
         decay: 1, // 0 - 2
         sustain: 0.1, // 0 - 1
@@ -167,10 +164,10 @@ class SynthController extends React.Component<{}, SynthState> {
         phase: this.state.synth1Options.phase,
       },
       envelope: {
-        attack: this.state.synth1Options.attack,
-        decay: this.state.synth1Options.decay,
-        sustain: this.state.synth1Options.sustain,
-        release: this.state.synth1Options.release,
+        attack: this.state.envelopeOptions.attack,
+        decay: this.state.envelopeOptions.decay,
+        sustain: this.state.envelopeOptions.sustain,
+        release: this.state.envelopeOptions.release,
       },
     });
 
@@ -183,10 +180,10 @@ class SynthController extends React.Component<{}, SynthState> {
         phase: this.state.synth2Options.phase,
       },
       envelope: {
-        attack: this.state.synth2Options.attack,
-        decay: this.state.synth2Options.decay,
-        sustain: this.state.synth2Options.sustain,
-        release: this.state.synth2Options.release,
+        attack: this.state.envelopeOptions.attack,
+        decay: this.state.envelopeOptions.decay,
+        sustain: this.state.envelopeOptions.sustain,
+        release: this.state.envelopeOptions.release,
       },
     });
   };
@@ -238,39 +235,16 @@ class SynthController extends React.Component<{}, SynthState> {
 
   setSynthOption = (
     value: OscillatorType | number,
-    target:
-      | "type"
-      | "phase"
-      | "attack"
-      | "decay"
-      | "sustain"
-      | "release"
-      | "volume"
-      | "detune",
+    target: "type" | "phase" | "volume" | "detune",
     synthNum: 1 | 2
   ) => {
     if (target === "phase" || target === "volume" || target === "detune") {
       value = Math.round(value as number);
-    } else if (
-      target === "attack" ||
-      target === "decay" ||
-      target === "sustain" ||
-      target === "release"
-    ) {
-      value = Number(parseFloat(value.toString()).toFixed(2));
     }
+
     if (target === "detune" || target === "volume") {
       this[`synth${synthNum}`].set({
         [target]: value,
-      });
-    } else if (
-      target === "attack" ||
-      target === "decay" ||
-      target === "sustain" ||
-      target === "release"
-    ) {
-      this[`synth${synthNum}`].set({
-        envelope: { [target]: value },
       });
     } else {
       this[`synth${synthNum}`].set({
@@ -293,6 +267,25 @@ class SynthController extends React.Component<{}, SynthState> {
         },
       }));
     }
+  };
+
+  setEnvelopeOption = (
+    value: number,
+    target: "attack" | "decay" | "sustain" | "release"
+  ) => {
+    value = Number(parseFloat(value.toString()).toFixed(2));
+    this.synth1.set({
+      envelope: { [target]: value },
+    });
+    this.synth2.set({
+      envelope: { [target]: value },
+    });
+    this.setState((prevState) => ({
+      envelopeOptions: {
+        ...prevState.envelopeOptions,
+        [target]: value,
+      },
+    }));
   };
 
   setFilterOption = (
@@ -364,6 +357,12 @@ class SynthController extends React.Component<{}, SynthState> {
     this.setState({ baseOctave: value });
   };
 
+  setMasterVolume = (value: number) => {
+    value = Math.round(value as number);
+    this.masterVolume.set({ volume: value });
+    this.setState({ masterVolume: value });
+  };
+
   render() {
     return (
       <div className="container">
@@ -378,16 +377,18 @@ class SynthController extends React.Component<{}, SynthState> {
             synthOptions={this.state.synth2Options}
             setSynthOption={this.setSynthOption}
           />
+          <EnvelopeControls
+            envelopeOptions={this.state.envelopeOptions}
+            setEnvelopeOption={this.setEnvelopeOption}
+          />
           <FilterControls
             filterOptions={this.state.filterOptions}
             setFilterOption={this.setFilterOption}
           />
-
           <EQ3Controls
             eq3Options={this.state.eq3Options}
             setEQ3Option={this.setEQ3Option}
           />
-
           <EffectsControls
             reverbOptions={this.state.reverbOptions}
             setReverbOption={this.setReverbOption}
@@ -396,7 +397,9 @@ class SynthController extends React.Component<{}, SynthState> {
           />
         </div>
         <div className="bottom-container">
-          <OctaveSwitch
+          <MasterControls
+            volume={this.state.masterVolume}
+            setVolume={this.setMasterVolume}
             octave={this.state.baseOctave}
             setOctave={this.setBaseOctave}
           />
