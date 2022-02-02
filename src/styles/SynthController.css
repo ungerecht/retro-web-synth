@@ -1,9 +1,11 @@
 .container {
   background-color: cadetblue;
   margin: auto;
-  width: 75%;
+  width: fit-content;
   height: fit-content;
   border: 3px solid black;
+  position: relative;
+  margin-top: 10vh;
 }
 
 .top-container {
