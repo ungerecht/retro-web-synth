@@ -20,10 +20,13 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
   console.log("render eq");
   return (
     <div className="control-container EQ3-container">
-      <label className="unselectable title-big">EQUALIZER</label>
+      <div className="row justify-center">
+        <div className="title-container">
+          <label className="unselectable title-big">EQUALIZER</label>
+        </div>
+      </div>
       <div className="row justify-between">
-        <div className="column">
-          <label className="unselectable title-small">Low</label>
+        <div className="column hasTooltip">
           <Knob
             min={-60}
             max={6}
@@ -35,10 +38,10 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
             height={50}
             step={1}
           />
-          <p className="unselectable value">{`${eq3Options.low}db`}</p>
+          <label className="unselectable title-small">Low</label>
+          <span className="tooltip value">{`${eq3Options.low}db`}</span>
         </div>
-        <div className="column">
-          <label className="unselectable title-small">Mid</label>
+        <div className="column hasTooltip">
           <Knob
             min={-60}
             max={6}
@@ -50,10 +53,10 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
             height={50}
             step={1}
           />
-          <p className="unselectable value">{`${eq3Options.mid}db`}</p>
+          <label className="unselectable title-small">Mid</label>
+          <span className="tooltip value">{`${eq3Options.mid}db`}</span>
         </div>
-        <div className="column">
-          <label className="unselectable title-small">High</label>
+        <div className="column hasTooltip">
           <Knob
             min={-60}
             max={6}
@@ -65,12 +68,12 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
             height={50}
             step={1}
           />
-          <p className="unselectable value">{`${eq3Options.high}db`}</p>
+          <label className="unselectable title-small">High</label>
+          <span className="tooltip value">{`${eq3Options.high}db`}</span>
         </div>
       </div>
       <div className="row justify-between">
-        <div className="column eq-freq-knob">
-          <label className="unselectable title-small">FreqLow</label>
+        <div className="column eq-freq-knob hasTooltip">
           <Knob
             min={50}
             max={5000}
@@ -82,10 +85,10 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
             height={50}
             step={1}
           />
-          <p className="unselectable value">{`${eq3Options.lowFrequency}hz`}</p>
+          <label className="unselectable title-small">FreqLow</label>
+          <span className="tooltip value">{`${eq3Options.lowFrequency}hz`}</span>
         </div>
-        <div className="column eq-freq-knob">
-          <label className="unselectable title-small">FreqHigh</label>
+        <div className="column eq-freq-knob hasTooltip">
           <Knob
             min={200}
             max={18000}
@@ -97,7 +100,8 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
             height={50}
             step={1}
           />
-          <p className="unselectable value">{`${eq3Options.highFrequency}hz`}</p>
+          <label className="unselectable title-small">FreqHigh</label>
+          <span className="tooltip value">{`${eq3Options.highFrequency}hz`}</span>
         </div>
       </div>
     </div>

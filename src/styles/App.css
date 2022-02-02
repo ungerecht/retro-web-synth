@@ -23,9 +23,9 @@ body {
   flex-direction: column;
   justify-content: center;
   background-color: cadetblue;
-  border: 2px solid black;
+  border: 4px solid black;
   border-radius: 10px;
-  padding: 5px;
+  padding: 5px 10px 10px 10px;
 }
 
 label {
@@ -34,7 +34,15 @@ label {
 
 .title-big {
   font-size: 13px;
-  margin-bottom: 10px;
+}
+
+.title-container {
+  background-color: cadetblue;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  top: -15px;
+  z-index: 2;
 }
 
 .title-medium {
@@ -43,13 +51,14 @@ label {
 }
 
 .title-small {
+  margin-top: 5px;
   font-size: 8px;
-  margin-bottom: 3px;
 }
 
 .row {
   display: flex;
   flex-direction: row;
+  align-items: flex-end;
 }
 
 .justify-center {
@@ -64,7 +73,7 @@ label {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5px 5px 0 5px;
+  padding: 5px;
 }
 
 .value {
@@ -72,4 +81,27 @@ label {
   margin-top: 2px;
   margin-bottom: 0;
   text-align: center;
+}
+
+.hasTooltip {
+  position: relative;
+}
+
+.hasTooltip:hover .tooltip {
+  display: block;
+}
+
+.tooltip {
+  display: none;
+  border: 2px solid black;
+  border-radius: 10px;
+  background: #c8c8c8;
+  opacity: 50;
+  padding: 7px 5px 5px 5px;
+  position: absolute;
+  top: -24px;
+  z-index: 2;
+  min-width: 35px;
+  width: fit-content;
+  height: fit-content;
 }

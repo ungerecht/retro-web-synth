@@ -60,20 +60,27 @@ const FilterControls = ({
 
   return (
     <div className="control-container filter-container">
-      <label className="unselectable title-big">FILTER</label>
-      <FilterDisplay filterOptions={filterOptions} />
-      <div className="column">
-        <label className="unselectable title-medium">TYPE</label>
-        <div className="row">{renderFilterTypeButtons}</div>
+      <div className="row justify-center">
+        <div className="title-container">
+          <label className="unselectable title-big">FILTER</label>
+        </div>
       </div>
       <div className="column">
-        <label className="unselectable title-small">ROLLOFF</label>
-        <div className="row">{renderFilterRolloffButtons}</div>
+        <div className="row">
+          <FilterDisplay filterOptions={filterOptions} />
+        </div>
       </div>
-
+      <div className="column">
+        <div className="row filter-type-buttons">{renderFilterTypeButtons}</div>
+      </div>
       <div className="row justify-between">
-        <div className="column filter-knob">
-          <label className="unselectable title-small">RES</label>
+        <div className="column">
+          <div style={{ display: "grid", gridTemplateColumns: `36px 36px` }}>
+            {renderFilterRolloffButtons}
+          </div>
+          <label className="unselectable title-small">Rolloff</label>
+        </div>
+        <div className="column filter-knob hasTooltip">
           <Knob
             value={filterOptions.Q}
             width={50}
@@ -85,10 +92,10 @@ const FilterControls = ({
             max={20}
             step={1}
           />
-          <p className="unselectable value">{`${filterOptions.Q}`}</p>
+          <label className="unselectable title-small">Res</label>
+          <span className="tooltip value">{`${filterOptions.Q}`}</span>
         </div>
-        <div className="column filter-knob">
-          <label className="unselectable title-small">CUTOFF</label>
+        <div className="column filter-knob hasTooltip">
           <Knob
             value={filterOptions.frequency}
             width={50}
@@ -100,10 +107,10 @@ const FilterControls = ({
             max={20000}
             step={100}
           />
-          <p className="unselectable value">{`${filterOptions.frequency}Hz`}</p>
+          <label className="unselectable title-small">Cutoff</label>
+          <span className="tooltip value">{`${filterOptions.frequency}Hz`}</span>
         </div>
-        <div className="column filter-knob">
-          <label className="unselectable title-small">GAIN</label>
+        <div className="column filter-knob hasTooltip">
           <Knob
             value={filterOptions.gain}
             width={50}
@@ -115,7 +122,8 @@ const FilterControls = ({
             max={5}
             step={1}
           />
-          <p className="unselectable value">{`${filterOptions.gain}`}</p>
+          <label className="unselectable title-small">Gain</label>
+          <span className="tooltip value">{`${filterOptions.gain}`}</span>
         </div>
       </div>
     </div>
