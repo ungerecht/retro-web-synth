@@ -39,7 +39,7 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
             step={1}
           />
           <label className="unselectable title-small">Low</label>
-          <span className="tooltip value">{`${eq3Options.low}db`}</span>
+          <span className="tooltip unselectable value">{`${eq3Options.low}db`}</span>
         </div>
         <div className="column hasTooltip">
           <Knob
@@ -54,7 +54,7 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
             step={1}
           />
           <label className="unselectable title-small">Mid</label>
-          <span className="tooltip value">{`${eq3Options.mid}db`}</span>
+          <span className="tooltip unselectable value">{`${eq3Options.mid}db`}</span>
         </div>
         <div className="column hasTooltip">
           <Knob
@@ -69,7 +69,7 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
             step={1}
           />
           <label className="unselectable title-small">High</label>
-          <span className="tooltip value">{`${eq3Options.high}db`}</span>
+          <span className="tooltip unselectable value">{`${eq3Options.high}db`}</span>
         </div>
       </div>
       <div className="row justify-between">
@@ -86,7 +86,7 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
             step={1}
           />
           <label className="unselectable title-small">FreqLow</label>
-          <span className="tooltip value">{`${eq3Options.lowFrequency}hz`}</span>
+          <span className="tooltip unselectable value">{`${eq3Options.lowFrequency}hz`}</span>
         </div>
         <div className="column eq-freq-knob hasTooltip">
           <Knob
@@ -101,7 +101,7 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
             step={1}
           />
           <label className="unselectable title-small">FreqHigh</label>
-          <span className="tooltip value">{`${eq3Options.highFrequency}hz`}</span>
+          <span className="tooltip unselectable value">{`${eq3Options.highFrequency}hz`}</span>
         </div>
       </div>
     </div>

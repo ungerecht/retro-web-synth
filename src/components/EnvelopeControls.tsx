@@ -39,7 +39,7 @@ const EnvelopeControls = ({
             }}
           />
           <label className="unselectable title-small">ATK</label>
-          <span className="tooltip value">{`${envelopeOptions.attack}`}</span>
+          <span className="tooltip unselectable value">{`${envelopeOptions.attack}`}</span>
         </div>
         <div className="column hasTooltip">
           <Slider
@@ -54,7 +54,7 @@ const EnvelopeControls = ({
             }}
           />
           <label className="unselectable title-small">DEC</label>
-          <span className="tooltip value">{`${envelopeOptions.decay}`}</span>
+          <span className="tooltip unselectable value">{`${envelopeOptions.decay}`}</span>
         </div>
         <div className="column hasTooltip">
           <Slider
@@ -69,7 +69,7 @@ const EnvelopeControls = ({
             }}
           />
           <label className="unselectable title-small">SUS</label>
-          <span className="tooltip value">{`${envelopeOptions.sustain}`}</span>
+          <span className="tooltip unselectable value">{`${envelopeOptions.sustain}`}</span>
         </div>
         <div className="column hasTooltip">
           <Slider
@@ -84,7 +84,7 @@ const EnvelopeControls = ({
             }}
           />
           <label className="unselectable title-small">REL</label>
-          <span className="tooltip value">{`${envelopeOptions.release}`}</span>
+          <span className="tooltip unselectable value">{`${envelopeOptions.release}`}</span>
         </div>
       </div>
     </div>

@@ -32,7 +32,7 @@ const OctaveSwitch = ({
           step={1}
         />
         <label className="unselectable title-small">Volume</label>
-        <span className="tooltip value">{`${volume}db`}</span>
+        <span className="tooltip unselectable value">{`${volume}db`}</span>
       </div>
       <div className="column">
         <div className="row justify-between">

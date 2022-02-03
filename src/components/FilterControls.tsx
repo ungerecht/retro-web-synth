@@ -93,7 +93,7 @@ const FilterControls = ({
             step={1}
           />
           <label className="unselectable title-small">Res</label>
-          <span className="tooltip value">{`${filterOptions.Q}`}</span>
+          <span className="tooltip unselectable value">{`${filterOptions.Q}`}</span>
         </div>
         <div className="column filter-knob hasTooltip">
           <Knob
@@ -108,7 +108,7 @@ const FilterControls = ({
             step={100}
           />
           <label className="unselectable title-small">Cutoff</label>
-          <span className="tooltip value">{`${filterOptions.frequency}Hz`}</span>
+          <span className="tooltip unselectable value">{`${filterOptions.frequency}Hz`}</span>
         </div>
         <div className="column filter-knob hasTooltip">
           <Knob
@@ -123,7 +123,7 @@ const FilterControls = ({
             step={1}
           />
           <label className="unselectable title-small">Gain</label>
-          <span className="tooltip value">{`${filterOptions.gain}`}</span>
+          <span className="tooltip unselectable value">{`${filterOptions.gain}`}</span>
         </div>
       </div>
     </div>

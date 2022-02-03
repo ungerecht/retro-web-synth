@@ -68,7 +68,7 @@ const OscillatorControls = ({
                 step={1}
               />
               <label className="unselectable title-small">Level</label>
-              <span className="tooltip value">{`${synthOptions.volume}db`}</span>
+              <span className="tooltip unselectable value">{`${synthOptions.volume}db`}</span>
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@ const OscillatorControls = ({
                 step={1}
               />
               <label className="unselectable title-small">Phase</label>
-              <span className="tooltip value">{`${synthOptions.phase}°`}</span>
+              <span className="tooltip unselectable value">{`${synthOptions.phase}°`}</span>
             </div>
           </div>
         </div>
@@ -106,7 +106,7 @@ const OscillatorControls = ({
                 step={1}
               />
               <label className="unselectable title-small">Detune</label>
-              <span className="tooltip value">{`${synthOptions.detune}cents`}</span>
+              <span className="tooltip unselectable value">{`${synthOptions.detune}cents`}</span>
             </div>
           </div>
         </div>
