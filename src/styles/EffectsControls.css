@@ -1,3 +1,11 @@
 .effects-container {
   grid-column: 1 / span 2;
 }
+
+.delay-container,
+.reverb-container,
+.distortion-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
