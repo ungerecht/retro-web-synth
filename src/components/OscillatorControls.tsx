@@ -76,8 +76,8 @@ const OscillatorControls = ({
           <div className="row justify-center">
             <div className="column hasTooltip">
               <Knob
-                min={0}
-                max={360}
+                min={-180}
+                max={180}
                 value={synthOptions.phase}
                 onValueChange={(value) => {
                   setSynthOption(value, "phase", synthNum);
@@ -95,8 +95,8 @@ const OscillatorControls = ({
           <div className="row justify-center">
             <div className="column hasTooltip">
               <Knob
-                min={-200}
-                max={200}
+                min={-1200}
+                max={1200}
                 value={synthOptions.detune}
                 onValueChange={(value) => {
                   setSynthOption(value, "detune", synthNum);
@@ -106,7 +106,7 @@ const OscillatorControls = ({
                 step={1}
               />
               <label className="unselectable title-small">Detune</label>
-              <span className="tooltip value">{`${synthOptions.detune}`}</span>
+              <span className="tooltip value">{`${synthOptions.detune}cents`}</span>
             </div>
           </div>
         </div>
