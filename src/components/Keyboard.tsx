@@ -1,30 +1,44 @@
 import React from "react";
 import Key from "./Key";
-import _ from "lodash";
 import { NOTES } from "../globals/constants";
 
 import "../styles/Keyboard.css";
 
 interface KeyboardProps {
-  pressedKeys: string[];
-  playNote: (note: string) => void;
-  stopNote: (note: string) => void;
+  notesPlaying: string[];
+  baseOctave: number;
+  playNote: (fullNote: string) => void;
+  stopNote: (fullNote: string) => void;
 }
 
-const Keyboard = ({ pressedKeys, playNote, stopNote }: KeyboardProps) => {
-  const keys = _.map(NOTES, (note, index) => {
-    return (
-      <Key
-        key={index}
-        note={note}
-        pressedKeys={pressedKeys}
-        playNote={playNote}
-        stopNote={stopNote}
-      />
-    );
-  });
+const Keyboard = ({
+  notesPlaying,
+  baseOctave,
+  playNote,
+  stopNote,
+}: KeyboardProps) => {
+  const renderKeys = () => {
+    let keys: JSX.Element[] = [];
+    for (let octave = baseOctave; octave <= baseOctave + 2; octave += 1) {
+      NOTES.forEach((note) => {
+        keys.push(
+          <Key
+            key={`${note}${octave}`}
+            note={note}
+            octave={octave}
+            notesPlaying={notesPlaying}
+            playNote={playNote}
+            stopNote={stopNote}
+          />
+        );
+      });
+    }
+    return keys;
+  };
+
+  const keys = renderKeys();
 
   return <div className="keyboard">{keys}</div>;
 };
 
-export default Keyboard;
+export default React.memo(Keyboard);

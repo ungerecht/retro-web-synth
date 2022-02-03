@@ -3,21 +3,28 @@
 }
 
 input:checked + label {
-  background-color: #f5f5f5;
+  background-color: rgb(185, 185, 185);
+  border-right: 2px solid rgb(228, 228, 228);
+  border-bottom: 2px solid rgb(228, 228, 228);
+  border-top: 2px solid #4f4f4f;
+  border-left: 2px solid #4f4f4f;
 }
 
 .radio-icon {
   display: flex;
-  border-right: 2px solid black;
-  border-bottom: 2px solid black;
-  border-radius: 5px;
+  background-color: white;
+  border-right: 2px solid #6f6f6f;
+  border-bottom: 2px solid #6f6f6f;
+  border-top: 2px solid #aaaaaa;
+  border-left: 2px solid #aaaaaa;
+  border-radius: 2px;
   justify-content: center;
   align-items: center;
-  background-color: #e0e0e0;
+
   padding: 3px;
   font-size: 9px;
 }
 
 input:not(:checked) + .radio-icon:hover {
-  background-color: #bdbdbd;
+  background-color: white;
 }

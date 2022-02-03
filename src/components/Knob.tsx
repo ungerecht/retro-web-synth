@@ -19,6 +19,7 @@ const Knob = ({
   step,
   onValueChange,
 }: KnobProps) => {
+  console.log("render knob");
   const minAngle = 45;
   const maxAngle = 315;
   const smallestSide = Math.min(width, height);
@@ -224,4 +225,4 @@ const Knob = ({
   );
 };
 
-export default Knob;
+export default React.memo(Knob);

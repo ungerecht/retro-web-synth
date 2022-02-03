@@ -1,50 +1,49 @@
-import _ from "lodash";
 import React, { useState } from "react";
-import { NOTE_TO_KEY } from "../globals/constants";
 
 import "../styles/Key.css";
 
 interface KeyProps {
   note: string;
-  pressedKeys: string[];
-  playNote: (note: string) => void;
-  stopNote: (note: string) => void;
+  octave: number;
+  notesPlaying: string[];
+  playNote: (fullNote: string) => void;
+  stopNote: (fullNote: string) => void;
 }
 
-const Key = ({ note, pressedKeys, playNote, stopNote }: KeyProps) => {
+const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
   const [isClicked, setIsClicked] = useState(false);
 
   //build classname for Key, adding sharp or pressed
   let keyClassName = "key";
   if (keyIsSharp(note)) keyClassName += " sharp";
-  if (keyIsPressed(note, pressedKeys)) keyClassName += " pressed";
+  if (keyIsPressed(note, octave, notesPlaying)) keyClassName += " pressed";
 
   return (
     <div
       className={keyClassName}
       onMouseDown={() => {
         setIsClicked(true);
-        playNote(note);
+        playNote(note + octave);
       }}
       onMouseUp={() => {
         setIsClicked(false);
-        stopNote(note);
+        stopNote(note + octave);
       }}
-      onMouseLeave={() => {
-        if (isClicked) stopNote(note);
+      onMouseOut={() => {
+        if (isClicked) stopNote(note + octave);
       }}
     >
-      <span className="unselectable">{note}</span>
+      <span className="unselectable value">{}</span>
     </div>
   );
 };
 
-const keyIsPressed = (note: string, pressedKeys: string[]) => {
-  return _.includes(pressedKeys, NOTE_TO_KEY[note]);
+const keyIsPressed = (note: string, octave: number, notesPlaying: string[]) => {
+  return notesPlaying.includes(`${note}${octave}`);
 };
 
 const keyIsSharp = (note: string) => {
   return note.length > 1;
 };
 
-export default Key;
+export default React.memo(Key);

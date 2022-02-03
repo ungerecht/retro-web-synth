@@ -2,7 +2,7 @@
   text-align: center;
   background-color: white;
   height: 160px;
-  width: 80px;
+  width: 40px;
   border-right: 3px solid black;
   border-bottom: 3px solid black;
   border-radius: 0 0 10px 10px;
@@ -14,12 +14,12 @@
   color: white;
   text-align: center;
   position: relative;
-  margin-left: -31px;
-  margin-right: -32px;
+  margin-left: -16px;
+  margin-right: -17px;
   z-index: 2;
   background-color: black;
   height: 80px;
-  width: 60px;
+  width: 30px;
   border-radius: 0 0 8px 8px;
   display: flex;
   justify-content: center;

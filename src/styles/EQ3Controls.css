@@ -1,8 +1,4 @@
-.eq-freq-knob {
-  width: 80px;
-}
-
 .EQ3-container {
   grid-column: 3;
-  grid-row: 3;
+  grid-row: 2;
 }

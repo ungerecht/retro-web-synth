@@ -1,11 +1,15 @@
 .filter-display-container {
   height: fit-content;
   border: 3px solid black;
-  margin-top: 4px;
-  margin-bottom: 4px;
+  padding: 0px;
 }
 
 canvas {
   font-smooth: never;
   -webkit-font-smoothing: none;
+}
+
+.filter-type-buttons {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

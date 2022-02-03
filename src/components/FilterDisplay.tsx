@@ -1,26 +1,32 @@
 import React, { useRef } from "react";
-import { Filter } from "tone";
+import { FilterRollOff, Filter } from "tone";
 
 import "../styles/FilterDisplay.css";
 
 interface FilterDisplayProps {
-  filter: Filter;
+  filterOptions: {
+    Q: number;
+    frequency: number;
+    gain: number;
+    rolloff: FilterRollOff;
+    type: BiquadFilterType;
+  };
 }
 
-const FilterDisplay = ({ filter }: FilterDisplayProps) => {
-  const getXofFrequency = (freq: number) => {
-    return width * Math.sqrt((freq - 20) / (20000 - 20));
-  };
-
-  const width = 286;
-  const height = 150;
-
+const FilterDisplay = ({ filterOptions }: FilterDisplayProps) => {
+  const width = 256;
+  const height = 156;
+  const filter = new Filter(filterOptions);
   const response = filter.getFrequencyResponse(width);
   const canvas = useRef<HTMLCanvasElement>(null);
   const context = canvas.current?.getContext("2d");
   const middle = height / 2;
   const dbScale = 40;
   const pixelsPerDb = middle / dbScale;
+
+  const getXofFrequency = (freq: number) => {
+    return width * Math.sqrt((freq - 20) / (20000 - 20));
+  };
 
   const dbToY = (db: number) => {
     return middle - pixelsPerDb * db;
@@ -84,4 +90,4 @@ const FilterDisplay = ({ filter }: FilterDisplayProps) => {
   );
 };
 
-export default FilterDisplay;
+export default React.memo(FilterDisplay);

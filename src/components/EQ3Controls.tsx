@@ -3,102 +3,109 @@ import Knob from "./Knob";
 import "../styles/EQ3Controls.css";
 
 interface EQ3Props {
-  eq3: {
+  eq3Options: {
     low: number;
     mid: number;
     high: number;
     lowFrequency: number;
     highFrequency: number;
   };
-  setEQ3Low: (value: number) => void;
-  setEQ3Mid: (value: number) => void;
-  setEQ3High: (value: number) => void;
-  setEQ3LowFrequency: (value: number) => void;
-  setEQ3HighFrequency: (value: number) => void;
+  setEQ3Option: (
+    value: number,
+    target: "low" | "mid" | "high" | "lowFrequency" | "highFrequency"
+  ) => void;
 }
 
-const EQ3Controls = ({
-  eq3,
-  setEQ3Low,
-  setEQ3Mid,
-  setEQ3High,
-  setEQ3LowFrequency,
-  setEQ3HighFrequency,
-}: EQ3Props) => {
+const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
+  console.log("render eq");
   return (
     <div className="control-container EQ3-container">
-      <label className="unselectable title-big">EQUALIZER</label>
-      <div className="row justify-between">
-        <div className="column">
-          <label className="unselectable title-small">Low</label>
-          <Knob
-            min={-60}
-            max={6}
-            value={eq3.low}
-            onValueChange={setEQ3Low}
-            width={50}
-            height={50}
-            step={1}
-          />
-          <p className="unselectable value">{`${eq3.low}db`}</p>
-        </div>
-        <div className="column">
-          <label className="unselectable title-small">Mid</label>
-          <Knob
-            min={-60}
-            max={6}
-            value={eq3.mid}
-            onValueChange={setEQ3Mid}
-            width={50}
-            height={50}
-            step={1}
-          />
-          <p className="unselectable value">{`${eq3.mid}db`}</p>
-        </div>
-        <div className="column">
-          <label className="unselectable title-small">High</label>
-          <Knob
-            min={-60}
-            max={6}
-            value={eq3.high}
-            onValueChange={setEQ3High}
-            width={50}
-            height={50}
-            step={1}
-          />
-          <p className="unselectable value">{`${eq3.high}db`}</p>
+      <div className="row justify-center">
+        <div className="title-container">
+          <label className="unselectable title-big">EQUALIZER</label>
         </div>
       </div>
       <div className="row justify-between">
-        <div className="column eq-freq-knob">
-          <label className="unselectable title-small">FreqLow</label>
+        <div className="column hasTooltip">
+          <Knob
+            min={-60}
+            max={6}
+            value={eq3Options.low}
+            onValueChange={(value) => {
+              setEQ3Option(value, "low");
+            }}
+            width={50}
+            height={50}
+            step={1}
+          />
+          <label className="unselectable title-small">Low</label>
+          <span className="tooltip unselectable value">{`${eq3Options.low}db`}</span>
+        </div>
+        <div className="column hasTooltip">
+          <Knob
+            min={-60}
+            max={6}
+            value={eq3Options.mid}
+            onValueChange={(value) => {
+              setEQ3Option(value, "mid");
+            }}
+            width={50}
+            height={50}
+            step={1}
+          />
+          <label className="unselectable title-small">Mid</label>
+          <span className="tooltip unselectable value">{`${eq3Options.mid}db`}</span>
+        </div>
+        <div className="column hasTooltip">
+          <Knob
+            min={-60}
+            max={6}
+            value={eq3Options.high}
+            onValueChange={(value) => {
+              setEQ3Option(value, "high");
+            }}
+            width={50}
+            height={50}
+            step={1}
+          />
+          <label className="unselectable title-small">High</label>
+          <span className="tooltip unselectable value">{`${eq3Options.high}db`}</span>
+        </div>
+      </div>
+      <div className="row justify-between">
+        <div className="column eq-freq-knob hasTooltip">
           <Knob
             min={50}
             max={5000}
-            value={eq3.lowFrequency}
-            onValueChange={setEQ3LowFrequency}
+            value={eq3Options.lowFrequency}
+            onValueChange={(value) => {
+              setEQ3Option(value, "lowFrequency");
+            }}
             width={50}
             height={50}
             step={1}
           />
-          <p className="unselectable value">{`${eq3.lowFrequency}hz`}</p>
+          <label className="unselectable title-small">FreqLow</label>
+          <span className="tooltip unselectable value">{`${eq3Options.lowFrequency}hz`}</span>
         </div>
-        <div className="column eq-freq-knob">
-          <label className="unselectable title-small">FreqHigh</label>
+        <div className="column eq-freq-knob hasTooltip">
           <Knob
             min={200}
             max={18000}
-            value={eq3.highFrequency}
-            onValueChange={setEQ3HighFrequency}
+            value={eq3Options.highFrequency}
+            onValueChange={(value) => {
+              setEQ3Option(value, "highFrequency");
+            }}
             width={50}
             height={50}
             step={1}
           />
-          <p className="unselectable value">{`${eq3.highFrequency}hz`}</p>
+          <label className="unselectable title-small">FreqHigh</label>
+          <span className="tooltip unselectable value">{`${eq3Options.highFrequency}hz`}</span>
         </div>
       </div>
     </div>
   );
 };
 
-export default EQ3Controls;
+export default React.memo(EQ3Controls);
