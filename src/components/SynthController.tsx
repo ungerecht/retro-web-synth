@@ -53,6 +53,10 @@ type SynthState = {
     highFrequency: number;
   };
   distortionOptions: { distortion: number; wet: number };
+  delayOptions: {
+    delayTime: number;
+    feedback: number;
+  };
 };
 
 class SynthController extends React.Component<{}, SynthState> {
@@ -65,6 +69,7 @@ class SynthController extends React.Component<{}, SynthState> {
   reverb: Tone.Reverb;
   EQ3: Tone.EQ3;
   distortion: Tone.Distortion;
+  delay: Tone.FeedbackDelay;
   state: SynthState;
   constructor(props: any) {
     super(props);
@@ -112,22 +117,28 @@ class SynthController extends React.Component<{}, SynthState> {
         distortion: 0,
         wet: 0,
       },
+      delayOptions: {
+        delayTime: 0,
+        feedback: 0.2,
+      },
     };
     this.synth1 = new Tone.PolySynth();
     this.synth2 = new Tone.PolySynth();
-    this.node1 = new Tone.Gain(0.5);
-    this.node2 = new Tone.Gain(0.5);
+    this.node1 = new Tone.Gain(0.25);
+    this.node2 = new Tone.Gain(0.25);
     this.filter = new Tone.Filter(this.state.filterOptions);
     this.masterVolume = new Tone.Volume(this.state.masterVolume);
     this.reverb = new Tone.Reverb(this.state.reverbOptions);
     this.EQ3 = new Tone.EQ3(this.state.eq3Options);
     this.distortion = new Tone.Distortion(this.state.distortionOptions);
+    this.delay = new Tone.FeedbackDelay(this.state.delayOptions);
   }
 
   componentDidMount() {
     document.addEventListener("keydown", this.onKeyDown);
     document.addEventListener("keyup", this.onKeyUp);
 
+    console.log(this.delay);
     this.initSynths();
 
     //send each synth through a Gain node to prevent clipping
@@ -138,7 +149,13 @@ class SynthController extends React.Component<{}, SynthState> {
     this.node1.connect(this.filter);
     this.node2.connect(this.filter);
 
-    //connect the filter -> EQ3 -> distortion -> reverb -> masterVolume -> SPEAKERS
+    //connect both Gain nodes to delay
+    this.node1.connect(this.delay);
+    this.node2.connect(this.delay);
+
+    this.delay.connect(this.filter);
+
+    //connect the filter -> EQ3 -> distortion -> delay -> reverb -> masterVolume -> SPEAKERS
 
     this.filter.chain(
       this.EQ3,
@@ -284,7 +301,7 @@ class SynthController extends React.Component<{}, SynthState> {
     value: number,
     target: "attack" | "decay" | "sustain" | "release"
   ) => {
-    value = Number(parseFloat(value.toString()).toFixed(2));
+    value = Number(parseFloat(value.toString()).toFixed(3));
     this.synth1.set({
       envelope: { [target]: value },
     });
@@ -380,6 +397,17 @@ class SynthController extends React.Component<{}, SynthState> {
     this.setState({ masterVolume: value });
   };
 
+  setDelayOption = (value: number, target: "delayTime" | "feedback") => {
+    value = Number(parseFloat(value.toString()).toFixed(3));
+    this.delay.set({ [target]: value });
+    this.setState((prevState) => ({
+      delayOptions: {
+        ...prevState.delayOptions,
+        [target]: value,
+      },
+    }));
+  };
+
   render() {
     return (
       <div className="container">
@@ -411,6 +439,8 @@ class SynthController extends React.Component<{}, SynthState> {
             setReverbOption={this.setReverbOption}
             distortionOptions={this.state.distortionOptions}
             setDistortionOption={this.setDistortionOption}
+            delayOptions={this.state.delayOptions}
+            setDelayOption={this.setDelayOption}
           />
         </div>
         <div className="bottom-container">
