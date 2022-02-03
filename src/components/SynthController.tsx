@@ -8,7 +8,7 @@ import Keyboard from "./Keyboard";
 
 import * as Tone from "tone";
 
-import { KEY_TO_NOTE, NOTE_TO_KEY, VALID_KEYS } from "../globals/constants";
+import { KEY_TO_FULLNOTE, VALID_KEYS } from "../globals/constants";
 import "../styles/SynthController.css";
 import EQ3Controls from "./EQ3Controls";
 
@@ -17,7 +17,7 @@ import { FilterRollOff } from "tone";
 
 type SynthState = {
   baseOctave: number;
-  pressedKeys: string[];
+  notesPlaying: string[];
   masterVolume: number;
   synth1Options: {
     volume: number;
@@ -70,13 +70,13 @@ class SynthController extends React.Component<{}, SynthState> {
     super(props);
     this.state = {
       baseOctave: 2,
-      pressedKeys: [],
+      notesPlaying: [],
       masterVolume: -10, // -60 - 0
       synth1Options: {
-        volume: 0,
-        detune: 0,
-        type: "sine",
-        phase: 0,
+        volume: 0, // -60 - 0
+        detune: 0, //-1200 - 1200
+        type: "sine", //sine | square | triangle | saw
+        phase: 0, //-180 - 180
       },
       synth2Options: {
         volume: -10,
@@ -193,44 +193,55 @@ class SynthController extends React.Component<{}, SynthState> {
     if (event.repeat) {
       return;
     }
-
     const key = event.key.toLowerCase();
-
-    if (VALID_KEYS.includes(key) && !this.state.pressedKeys.includes(key)) {
-      this.playNote(KEY_TO_NOTE[key], this.state.baseOctave);
+    if (VALID_KEYS.includes(key)) {
+      console.log("yes");
+      const fullNoteObj = KEY_TO_FULLNOTE[key];
+      const fullNote = `${fullNoteObj.note}${
+        this.state.baseOctave + fullNoteObj.octaveMod
+      }`;
+      if (!this.state.notesPlaying.includes(fullNote)) {
+        //play note if key is valid key and if it's not currently playing
+        this.playNote(fullNote);
+      }
     }
   };
 
   onKeyUp = (event: KeyboardEvent) => {
-    const key = event.key.toLowerCase();
+    const key: string = event.key.toLowerCase();
 
     if (VALID_KEYS.includes(key)) {
-      this.stopNote(KEY_TO_NOTE[key], this.state.baseOctave);
+      const fullNoteObj = KEY_TO_FULLNOTE[key];
+      const fullNote = `${fullNoteObj.note}${
+        this.state.baseOctave + fullNoteObj.octaveMod
+      }`;
+      if (this.state.notesPlaying.includes(fullNote)) {
+        //stop note if key is valid and it's currently playing
+        this.stopNote(fullNote);
+      }
     }
   };
 
-  playNote = (note: string, octave: number) => {
-    //add key to pressedKeys
+  playNote = (fullNote: string) => {
+    //add note to notesPlaying
     this.setState((prevState) => ({
-      pressedKeys: [...prevState.pressedKeys, `${note}${octave}`],
+      notesPlaying: [...prevState.notesPlaying, fullNote],
     }));
 
     //play atack of note
-    this.synth1.triggerAttack(note + octave);
-    this.synth2.triggerAttack(note + octave);
+    this.synth1.triggerAttack(fullNote);
+    this.synth2.triggerAttack(fullNote);
   };
 
-  stopNote = (note: string, octave: number) => {
-    //remove key from pressedKeys
+  stopNote = (fullNote: string) => {
+    //remove note from notesPlaying
     this.setState({
-      pressedKeys: this.state.pressedKeys.filter(
-        (k) => k !== `${note}${octave}`
-      ),
+      notesPlaying: this.state.notesPlaying.filter((n) => n !== fullNote),
     });
 
     //trigger release of note
-    this.synth1.triggerRelease(note + octave);
-    this.synth2.triggerRelease(note + octave);
+    this.synth1.triggerRelease(fullNote);
+    this.synth2.triggerRelease(fullNote);
   };
 
   setSynthOption = (
@@ -355,6 +366,12 @@ class SynthController extends React.Component<{}, SynthState> {
 
   setBaseOctave = (value: number) => {
     this.setState({ baseOctave: value });
+    //stop all notes in notesPlaying
+    this.state.notesPlaying.forEach((note) => {
+      this.stopNote(note);
+    });
+    //empty notesPlaying array
+    this.setState({ notesPlaying: [] });
   };
 
   setMasterVolume = (value: number) => {
@@ -404,7 +421,7 @@ class SynthController extends React.Component<{}, SynthState> {
             setOctave={this.setBaseOctave}
           />
           <Keyboard
-            pressedKeys={this.state.pressedKeys}
+            notesPlaying={this.state.notesPlaying}
             baseOctave={this.state.baseOctave}
             playNote={this.playNote}
             stopNote={this.stopNote}
