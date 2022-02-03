@@ -92,9 +92,10 @@ const Knob = ({
   };
 
   const cartesianToPolar = (x: number, y: number) => {
+    console.log(x, y);
     return Math.round(
       Math.atan((y - circleY) / (x - circleX)) / (Math.PI / 180) +
-        (x > circleX ? 270 : 90)
+        (x >= circleX ? 270 : 90)
     );
   };
 
@@ -142,7 +143,6 @@ const Knob = ({
     //convert polar angle to value
     let percentage = valueToPercentage(polar, minAngle, maxAngle);
     let newValue = percentageToValue(percentage, min, max);
-
     return newValue;
   };
 
