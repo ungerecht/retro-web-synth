@@ -8,9 +8,13 @@ This project was created as a portfolio piece to practice and learn new front-en
 
 ## Features
 
-- Play a variety of waveforms and tweak the sound with effects.
-- ADSR Envelope sliders
+- Play a variety of waveforms and tweak the sound with effects
+- Two oscillators each with their own waveform, phase, and detune
+- Attack/Decay/Sustain/Release envelope sliders
 - Filter and frequency response graph
+- Feedback Delay
+- Reverb
+- Distortion
 
 ## Technologies Used
 
