@@ -12,6 +12,7 @@ This project was created as a portfolio piece to practice and learn new front-en
 - Two oscillators each with their own waveform, phase, and detune
 - Attack/Decay/Sustain/Release envelope sliders
 - Filter and frequency response graph
+- Equalizer with low/mid/high frequency bins
 - Feedback Delay
 - Reverb
 - Distortion
