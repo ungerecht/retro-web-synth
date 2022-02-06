@@ -1,7 +1,7 @@
 import React from "react";
 import { WAVEFORMS } from "../globals/constants";
-import Button from "./Button";
 import Knob from "./Knob";
+import RadioButtonGroup from "./RadioButtonGroup";
 
 interface OscillatorControlsProps {
   synthNum: 1 | 2;
@@ -23,22 +23,6 @@ const OscillatorControls = ({
   synthOptions,
   setSynthOption,
 }: OscillatorControlsProps) => {
-  console.log("render osc");
-  const renderWaveformButtons = WAVEFORMS.map((wf, i) => {
-    return (
-      <Button
-        key={`waveform${i}${synthNum}`}
-        name={`${synthNum}`}
-        value={wf}
-        selected={synthOptions.type === wf}
-        width={26}
-        height={26}
-        onValueChange={(e) => {
-          setSynthOption(e.target.value as OscillatorType, "type", synthNum);
-        }}
-      />
-    );
-  });
   return (
     <div className="control-container oscillator-container">
       <div className="row justify-center">
@@ -46,10 +30,24 @@ const OscillatorControls = ({
           <label className="unselectable title-big">{`OSC ${synthNum}`}</label>
         </div>
       </div>
-
       <div className="row justify-center">
         <div className="waveform-container column">
-          <div className="row justify-center">{renderWaveformButtons}</div>
+          <div className="row justify-center">
+            <RadioButtonGroup
+              items={WAVEFORMS}
+              id={`waveforms${synthNum}`}
+              comparator={synthOptions.type}
+              buttonWidth={26}
+              buttonHeight={26}
+              onValueChange={(e) => {
+                setSynthOption(
+                  e.target.value as OscillatorType,
+                  "type",
+                  synthNum
+                );
+              }}
+            />
+          </div>
         </div>
       </div>
       <div className="row justify-center">

@@ -1,11 +1,11 @@
 import React from "react";
 import FilterDisplay from "./FilterDisplay";
-import Button from "./Button";
 import { FILTER_TYPES, ROLLOFFS } from "../globals/constants";
 import { FilterRollOff } from "tone";
 
 import "../styles/FilterControls.css";
 import Knob from "./Knob";
+import RadioButtonGroup from "./RadioButtonGroup";
 
 interface FilterControlsProps {
   filterOptions: {
@@ -25,39 +25,6 @@ const FilterControls = ({
   filterOptions,
   setFilterOption,
 }: FilterControlsProps) => {
-  console.log("render controls");
-  const renderFilterTypeButtons = FILTER_TYPES.map((type, i) => {
-    return (
-      <Button
-        key={i}
-        value={type}
-        name="type"
-        selected={(filterOptions.type as string) === type}
-        width={28}
-        height={28}
-        onValueChange={(e) => {
-          setFilterOption(e.target.value as BiquadFilterType, "type");
-        }}
-      />
-    );
-  });
-
-  const renderFilterRolloffButtons = ROLLOFFS.map((rolloff, i) => {
-    return (
-      <Button
-        key={i}
-        value={rolloff}
-        name="rolloff"
-        selected={filterOptions.rolloff.toString() === rolloff}
-        width={26}
-        height={12}
-        onValueChange={(e) => {
-          setFilterOption(e.target.value as FilterRollOff, "rolloff");
-        }}
-      />
-    );
-  });
-
   return (
     <div className="control-container filter-container">
       <div className="row justify-center">
@@ -71,12 +38,32 @@ const FilterControls = ({
         </div>
       </div>
       <div className="column">
-        <div className="row filter-type-buttons">{renderFilterTypeButtons}</div>
+        <div className="row filter-type-buttons">
+          <RadioButtonGroup
+            items={FILTER_TYPES}
+            id={"filter types"}
+            comparator={filterOptions.type}
+            buttonWidth={28}
+            buttonHeight={28}
+            onValueChange={(e) => {
+              setFilterOption(e.target.value as BiquadFilterType, "type");
+            }}
+          />
+        </div>
       </div>
       <div className="row justify-between">
         <div className="column">
           <div style={{ display: "grid", gridTemplateColumns: `36px 36px` }}>
-            {renderFilterRolloffButtons}
+            <RadioButtonGroup
+              items={ROLLOFFS}
+              id={"filter rolloffs"}
+              comparator={filterOptions.rolloff.toString()}
+              buttonWidth={26}
+              buttonHeight={12}
+              onValueChange={(e) => {
+                setFilterOption(e.target.value as FilterRollOff, "rolloff");
+              }}
+            />
           </div>
           <label className="unselectable title-small">Rolloff</label>
         </div>
