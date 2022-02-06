@@ -114,25 +114,6 @@ const KEY_TO_FULLNOTE: key = {
   ".": { note: "B", octaveMod: 2 },
 };
 
-type note = {
-  [key: string]: string;
-};
-
-// const NOTE_TO_KEY: note = {
-//   C: "q",
-//   Db: "2",
-//   D: "w",
-//   Eb: "3",
-//   E: "e",
-//   F: "r",
-//   Gb: "5",
-//   G: "t",
-//   Ab: "6",
-//   A: "y",
-//   Bb: "7",
-//   B: "u",
-// };
-
 export {
   NOTES,
   KEY_TO_FULLNOTE,
