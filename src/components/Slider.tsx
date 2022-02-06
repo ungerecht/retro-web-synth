@@ -24,9 +24,40 @@ const Slider = ({
   const trackHeight = height;
   const barWidth = 40;
   const barHeight = 12;
-  const slider = useRef<SVGSVGElement>(null);
+  const barCoordinates = getBarCoordinates(
+    value,
+    middle,
+    min,
+    max,
+    barHeight,
+    height
+  );
 
+  const slider = useRef<SVGSVGElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+
+  const handleMouseDown = (event: MouseEvent) => {
+    setIsDragging(true);
+    let newValue = getValueFromMouseEvent(event, min, max, barHeight);
+    onValueChange(newValue);
+  };
+
+  const handleMouseUp = (event: MouseEvent) => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (event: MouseEvent) => {
+    if (isDragging) {
+      let newValue = getValueFromMouseEvent(event, min, max, barHeight);
+      onValueChange(newValue);
+    }
+  };
+
+  const handleMouseLeave = (event: MouseEvent) => {
+    if (isDragging) {
+      setIsDragging(false);
+    }
+  };
 
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
@@ -70,92 +101,6 @@ const Slider = ({
     }
   }, [min, max, onValueChange, step, value]);
 
-  const valueToPercentage = (v: number, min: number, max: number) => {
-    return ((v - min) * 100) / (max - min);
-  };
-
-  const percentageToValue = (percentage: number, min: number, max: number) => {
-    return (percentage * (max - min)) / 100 + min;
-  };
-
-  const getBarCoordinates = (value: number) => {
-    const percentage = valueToPercentage(value, min, max);
-    const x = middle;
-    const y = percentageToValue(percentage, height - barHeight, 0);
-    return { x, y };
-  };
-
-  const barCoordinates = getBarCoordinates(value);
-
-  const drawTickCoordinates = () => {
-    let tickY = new Array(7);
-    for (let i = 0; i < tickY.length; i += 1) {
-      tickY[i] = percentageToValue(
-        valueToPercentage(i, 0, tickY.length - 1),
-        barHeight / 2,
-        height - barHeight / 2
-      );
-    }
-
-    let s = "";
-    for (let i = 0; i < tickY.length; i += 1) {
-      s += `M${2} ${tickY[i]} L ${width - 2} ${tickY[i]} `;
-    }
-    return s;
-  };
-
-  const tickLines: string = drawTickCoordinates();
-
-  const getValueFromMouseEvent = (event: MouseEvent) => {
-    //get parent svg
-    let parentSVG = event.target as Element;
-    if (parentSVG.nodeName !== "svg") {
-      parentSVG = parentSVG.parentNode as Element;
-    }
-
-    //get parent svg's bounding client rect - we need this to get the svg's position on the page
-    let bounding = parentSVG.getBoundingClientRect();
-
-    //calculate mouse y relative to the parent SVG
-    let relativeY = event.clientY - bounding.y;
-
-    //convert y coordinate to value
-    let percentage = valueToPercentage(
-      relativeY,
-      100 - barHeight / 2,
-      0 + barHeight / 2
-    );
-    let newValue = percentageToValue(percentage, min, max);
-
-    if (newValue > max) newValue = max;
-    if (newValue < min) newValue = min;
-
-    return newValue;
-  };
-
-  const handleMouseDown = (event: MouseEvent) => {
-    setIsDragging(true);
-    let newValue = getValueFromMouseEvent(event);
-    onValueChange(newValue);
-  };
-
-  const handleMouseUp = (event: MouseEvent) => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (event: MouseEvent) => {
-    if (isDragging) {
-      let newValue = getValueFromMouseEvent(event);
-      onValueChange(newValue);
-    }
-  };
-
-  const handleMouseLeave = (event: MouseEvent) => {
-    if (isDragging) {
-      setIsDragging(false);
-    }
-  };
-
   return (
     <svg
       width={width}
@@ -166,7 +111,11 @@ const Slider = ({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <path d={tickLines} stroke="white" strokeWidth={2} />
+      <path
+        d={drawTickCoordinates(barHeight, height, width)}
+        stroke="white"
+        strokeWidth={2}
+      />
       <rect
         x={middle - trackWidth / 2}
         y={0}
@@ -193,6 +142,81 @@ const Slider = ({
       />
     </svg>
   );
+};
+
+const valueToPercentage = (v: number, min: number, max: number) => {
+  return ((v - min) * 100) / (max - min);
+};
+
+const percentageToValue = (percentage: number, min: number, max: number) => {
+  return (percentage * (max - min)) / 100 + min;
+};
+
+const drawTickCoordinates = (
+  barHeight: number,
+  height: number,
+  width: number
+) => {
+  let tickY = new Array(7);
+  for (let i = 0; i < tickY.length; i += 1) {
+    tickY[i] = percentageToValue(
+      valueToPercentage(i, 0, tickY.length - 1),
+      barHeight / 2,
+      height - barHeight / 2
+    );
+  }
+
+  let s = "";
+  for (let i = 0; i < tickY.length; i += 1) {
+    s += `M${2} ${tickY[i]} L ${width - 2} ${tickY[i]} `;
+  }
+  return s;
+};
+
+const getBarCoordinates = (
+  value: number,
+  middle: number,
+  min: number,
+  max: number,
+  barHeight: number,
+  height: number
+) => {
+  const percentage = valueToPercentage(value, min, max);
+  const x = middle;
+  const y = percentageToValue(percentage, height - barHeight, 0);
+  return { x, y };
+};
+
+const getValueFromMouseEvent = (
+  event: MouseEvent,
+  min: number,
+  max: number,
+  barHeight: number
+) => {
+  //get parent svg
+  let parentSVG = event.target as Element;
+  if (parentSVG.nodeName !== "svg") {
+    parentSVG = parentSVG.parentNode as Element;
+  }
+
+  //get parent svg's bounding client rect - we need this to get the svg's position on the page
+  let bounding = parentSVG.getBoundingClientRect();
+
+  //calculate mouse y relative to the parent SVG
+  let relativeY = event.clientY - bounding.y;
+
+  //convert y coordinate to value
+  let percentage = valueToPercentage(
+    relativeY,
+    100 - barHeight / 2,
+    0 + barHeight / 2
+  );
+  let newValue = percentageToValue(percentage, min, max);
+
+  if (newValue > max) newValue = max;
+  if (newValue < min) newValue = min;
+
+  return newValue;
 };
 
 export default React.memo(Slider);
