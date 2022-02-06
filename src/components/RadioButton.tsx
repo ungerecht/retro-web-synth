@@ -2,7 +2,7 @@ import React from "react";
 import * as Icons from "../icons";
 import "../styles/Button.css";
 
-interface ButtonProps {
+interface RadioButtonProps {
   value: string;
   name: string;
   selected: boolean;
@@ -11,14 +11,14 @@ interface ButtonProps {
   onValueChange: (event: any) => void;
 }
 
-const Button = ({
+const RadioButton = ({
   value,
   name,
   selected,
   height,
   width,
   onValueChange,
-}: ButtonProps) => {
+}: RadioButtonProps) => {
   const icon = Icons[value as keyof typeof Icons];
   return (
     <React.Fragment>
@@ -52,4 +52,4 @@ const Button = ({
   );
 };
 
-export default Button;
+export default RadioButton;
