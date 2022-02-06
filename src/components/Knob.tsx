@@ -50,7 +50,9 @@ const Knob = ({
       minAngle,
       maxAngle
     );
-    onValueChange(newValue);
+    if (newValue !== value) {
+      onValueChange(newValue);
+    }
   };
 
   const handleMouseUp = (event: MouseEvent) => {
@@ -70,7 +72,9 @@ const Knob = ({
         minAngle,
         maxAngle
       );
-      onValueChange(newValue);
+      if (newValue !== value) {
+        onValueChange(newValue);
+      }
     }
   };
 
@@ -95,8 +99,6 @@ const Knob = ({
           : (newValue = value + step);
 
         if (newValue > max) newValue = max; //set newValue to max if it went over
-
-        onValueChange(newValue);
       } else {
         //scrolling down
 
@@ -108,7 +110,8 @@ const Knob = ({
           : (newValue = value - step);
 
         if (newValue < min) newValue = min; //set newValue to min if it went over
-
+      }
+      if (newValue !== value) {
         onValueChange(newValue);
       }
     };

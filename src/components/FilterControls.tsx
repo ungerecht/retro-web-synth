@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import FilterDisplay from "./FilterDisplay";
 import { FILTER_TYPES, ROLLOFFS } from "../globals/constants";
 import { FilterRollOff } from "tone";
@@ -25,6 +25,36 @@ const FilterControls = ({
   filterOptions,
   setFilterOption,
 }: FilterControlsProps) => {
+  const handleFilterTypeChange = useCallback(
+    (e: any) => {
+      setFilterOption(e.target.value, "type");
+    },
+    [setFilterOption]
+  );
+  const handleFilterRolloffChange = useCallback(
+    (e: any) => {
+      setFilterOption(e.target.value, "rolloff");
+    },
+    [setFilterOption]
+  );
+  const handleFilterQChange = useCallback(
+    (value: number) => {
+      setFilterOption(value, "Q");
+    },
+    [setFilterOption]
+  );
+  const handleFilterFrequencyChange = useCallback(
+    (value: number) => {
+      setFilterOption(value, "frequency");
+    },
+    [setFilterOption]
+  );
+  const handleFilterGainChange = useCallback(
+    (value: number) => {
+      setFilterOption(value, "gain");
+    },
+    [setFilterOption]
+  );
   return (
     <div className="control-container filter-container">
       <div className="row justify-center">
@@ -45,9 +75,7 @@ const FilterControls = ({
             comparator={filterOptions.type}
             buttonWidth={28}
             buttonHeight={28}
-            onValueChange={(e) => {
-              setFilterOption(e.target.value as BiquadFilterType, "type");
-            }}
+            onValueChange={handleFilterTypeChange}
           />
         </div>
       </div>
@@ -60,9 +88,7 @@ const FilterControls = ({
               comparator={filterOptions.rolloff.toString()}
               buttonWidth={26}
               buttonHeight={12}
-              onValueChange={(e) => {
-                setFilterOption(e.target.value as FilterRollOff, "rolloff");
-              }}
+              onValueChange={handleFilterRolloffChange}
             />
           </div>
           <label className="unselectable title-small">Rolloff</label>
@@ -72,45 +98,45 @@ const FilterControls = ({
             value={filterOptions.Q}
             width={50}
             height={50}
-            onValueChange={(value) => {
-              setFilterOption(value, "Q");
-            }}
+            onValueChange={handleFilterQChange}
             min={0}
             max={20}
             step={1}
           />
           <label className="unselectable title-small">Res</label>
-          <span className="tooltip unselectable value">{`${filterOptions.Q}`}</span>
+          <span className="tooltip unselectable value">{`${Math.round(
+            filterOptions.Q as number
+          )}`}</span>
         </div>
         <div className="column filter-knob hasTooltip">
           <Knob
             value={filterOptions.frequency}
             width={50}
             height={50}
-            onValueChange={(value) => {
-              setFilterOption(value, "frequency");
-            }}
+            onValueChange={handleFilterFrequencyChange}
             min={20}
             max={20000}
             step={100}
           />
           <label className="unselectable title-small">Cutoff</label>
-          <span className="tooltip unselectable value">{`${filterOptions.frequency}Hz`}</span>
+          <span className="tooltip unselectable value">{`${Math.round(
+            filterOptions.frequency
+          )}Hz`}</span>
         </div>
         <div className="column filter-knob hasTooltip">
           <Knob
             value={filterOptions.gain}
             width={50}
             height={50}
-            onValueChange={(value) => {
-              setFilterOption(value, "gain");
-            }}
+            onValueChange={handleFilterGainChange}
             min={0}
             max={5}
             step={1}
           />
           <label className="unselectable title-small">Gain</label>
-          <span className="tooltip unselectable value">{`${filterOptions.gain}`}</span>
+          <span className="tooltip unselectable value">{`${Math.round(
+            filterOptions.gain
+          )}`}</span>
         </div>
       </div>
     </div>

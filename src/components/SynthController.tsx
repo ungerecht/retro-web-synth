@@ -265,10 +265,6 @@ class SynthController extends React.Component<{}, SynthState> {
     target: "type" | "phase" | "volume" | "detune",
     synthNum: 1 | 2
   ) => {
-    if (target === "phase" || target === "volume" || target === "detune") {
-      value = Math.round(value as number);
-    }
-
     if (target === "detune" || target === "volume") {
       this[`synth${synthNum}`].set({
         [target]: value,
@@ -300,7 +296,6 @@ class SynthController extends React.Component<{}, SynthState> {
     value: number,
     target: "attack" | "decay" | "sustain" | "release"
   ) => {
-    value = Number(parseFloat(value.toString()).toFixed(3));
     this.synth1.set({
       envelope: { [target]: value },
     });
@@ -319,9 +314,6 @@ class SynthController extends React.Component<{}, SynthState> {
     value: number | FilterRollOff | BiquadFilterType,
     target: "type" | "rolloff" | "Q" | "frequency" | "gain"
   ) => {
-    if (target === "Q" || target === "frequency" || target === "gain") {
-      value = Math.round(value as number);
-    }
     this.filter.set({
       [target]: value,
     });
@@ -335,10 +327,6 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setReverbOption = (value: number, target: "wet" | "decay") => {
-    if (target === "decay") {
-      value = Math.round(value as number);
-    }
-
     this.reverb.set({
       [target]: value,
     });
@@ -368,7 +356,6 @@ class SynthController extends React.Component<{}, SynthState> {
     value: number,
     target: "low" | "mid" | "high" | "lowFrequency" | "highFrequency"
   ) => {
-    value = Math.round(value as number);
     this.EQ3.set({
       [target]: value,
     });
@@ -391,13 +378,11 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   setMasterVolume = (value: number) => {
-    value = Math.round(value as number);
     this.masterVolume.set({ volume: value });
     this.setState({ masterVolume: value });
   };
 
   setDelayOption = (value: number, target: "delayTime" | "feedback") => {
-    value = Number(parseFloat(value.toString()).toFixed(3));
     this.delay.set({ [target]: value });
     this.setState((prevState) => ({
       delayOptions: {

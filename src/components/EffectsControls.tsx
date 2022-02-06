@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Knob from "./Knob";
 import "../styles/EffectsControls.css";
 
@@ -19,6 +19,42 @@ const EffectsControls = ({
   setDistortionOption,
   setDelayOption,
 }: EffectsControlsProps) => {
+  const handleDelayTimeChange = useCallback(
+    (value: number) => {
+      setDelayOption(value, "delayTime");
+    },
+    [setDelayOption]
+  );
+  const handleDelayFeedbackChange = useCallback(
+    (value: number) => {
+      setDelayOption(value, "feedback");
+    },
+    [setDelayOption]
+  );
+  const handleReverbWetChange = useCallback(
+    (value: number) => {
+      setReverbOption(value, "wet");
+    },
+    [setReverbOption]
+  );
+  const handleReverbDecayChange = useCallback(
+    (value: number) => {
+      setReverbOption(value, "decay");
+    },
+    [setReverbOption]
+  );
+  const handleDistortionWetChange = useCallback(
+    (value: number) => {
+      setDistortionOption(value, "wet");
+    },
+    [setDistortionOption]
+  );
+  const handleDistortionChange = useCallback(
+    (value: number) => {
+      setDistortionOption(value, "distortion");
+    },
+    [setDistortionOption]
+  );
   return (
     <div className="control-container effects-container">
       <div className="row justify-center">
@@ -35,26 +71,22 @@ const EffectsControls = ({
                 min={0}
                 max={1}
                 value={delayOptions.delayTime}
-                onValueChange={(value) => {
-                  setDelayOption(value, "delayTime");
-                }}
+                onValueChange={handleDelayTimeChange}
                 width={50}
                 height={50}
                 step={0.001}
               />
               <label className="unselectable title-small">Time</label>
-              <span className="tooltip unselectable value">{`${
+              <span className="tooltip unselectable value">{`${Math.round(
                 delayOptions.delayTime * 1000
-              }ms`}</span>
+              )}ms`}</span>
             </div>
             <div className="column hasTooltip">
               <Knob
                 min={0}
                 max={1}
                 value={delayOptions.feedback}
-                onValueChange={(value) => {
-                  setDelayOption(value, "feedback");
-                }}
+                onValueChange={handleDelayFeedbackChange}
                 width={50}
                 height={50}
                 step={0.01}
@@ -74,9 +106,7 @@ const EffectsControls = ({
                 min={0}
                 max={1}
                 value={reverbOptions.wet}
-                onValueChange={(value) => {
-                  setReverbOption(value, "wet");
-                }}
+                onValueChange={handleReverbWetChange}
                 width={50}
                 height={50}
                 step={0.01}
@@ -91,15 +121,15 @@ const EffectsControls = ({
                 min={1}
                 max={30}
                 value={reverbOptions.decay}
-                onValueChange={(value) => {
-                  setReverbOption(value, "decay");
-                }}
+                onValueChange={handleReverbDecayChange}
                 width={50}
                 height={50}
                 step={1}
               />
               <label className="unselectable title-small">Decay</label>
-              <span className="tooltip unselectable value">{`${reverbOptions.decay}`}</span>
+              <span className="tooltip unselectable value">{`${Math.round(
+                reverbOptions.decay
+              )}`}</span>
             </div>
           </div>
         </div>
@@ -111,9 +141,7 @@ const EffectsControls = ({
                 min={0}
                 max={1}
                 value={distortionOptions.wet}
-                onValueChange={(value) => {
-                  setDistortionOption(value, "wet");
-                }}
+                onValueChange={handleDistortionWetChange}
                 width={50}
                 height={50}
                 step={0.01}
@@ -128,9 +156,7 @@ const EffectsControls = ({
                 min={0}
                 max={1}
                 value={distortionOptions.distortion}
-                onValueChange={(value) => {
-                  setDistortionOption(value, "distortion");
-                }}
+                onValueChange={handleDistortionChange}
                 width={50}
                 height={50}
                 step={0.01}

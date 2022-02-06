@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { WAVEFORMS } from "../globals/constants";
+
 import Knob from "./Knob";
 import RadioButtonGroup from "./RadioButtonGroup";
 
@@ -23,6 +24,34 @@ const OscillatorControls = ({
   synthOptions,
   setSynthOption,
 }: OscillatorControlsProps) => {
+  const handleTypeChange = useCallback(
+    (e: any) => {
+      setSynthOption(e.target.value as OscillatorType, "type", synthNum);
+    },
+    [setSynthOption, synthNum]
+  );
+
+  const handleVolumechange = useCallback(
+    (value: number) => {
+      setSynthOption(value, "volume", synthNum);
+    },
+    [setSynthOption, synthNum]
+  );
+
+  const handlePhaseChange = useCallback(
+    (value: number) => {
+      setSynthOption(value, "phase", synthNum);
+    },
+    [setSynthOption, synthNum]
+  );
+
+  const handleDetuneChange = useCallback(
+    (value: number) => {
+      setSynthOption(value, "detune", synthNum);
+    },
+    [setSynthOption, synthNum]
+  );
+
   return (
     <div className="control-container oscillator-container">
       <div className="row justify-center">
@@ -39,13 +68,7 @@ const OscillatorControls = ({
               comparator={synthOptions.type}
               buttonWidth={26}
               buttonHeight={26}
-              onValueChange={(e) => {
-                setSynthOption(
-                  e.target.value as OscillatorType,
-                  "type",
-                  synthNum
-                );
-              }}
+              onValueChange={handleTypeChange}
             />
           </div>
         </div>
@@ -58,15 +81,15 @@ const OscillatorControls = ({
                 min={-60}
                 max={0}
                 value={synthOptions.volume}
-                onValueChange={(value) => {
-                  setSynthOption(value, "volume", synthNum);
-                }}
+                onValueChange={handleVolumechange}
                 width={50}
                 height={50}
                 step={1}
               />
               <label className="unselectable title-small">Level</label>
-              <span className="tooltip unselectable value">{`${synthOptions.volume}db`}</span>
+              <span className="tooltip unselectable value">{`${Math.round(
+                synthOptions.volume
+              )}db`}</span>
             </div>
           </div>
         </div>
@@ -77,15 +100,15 @@ const OscillatorControls = ({
                 min={-180}
                 max={180}
                 value={synthOptions.phase}
-                onValueChange={(value) => {
-                  setSynthOption(value, "phase", synthNum);
-                }}
+                onValueChange={handlePhaseChange}
                 width={50}
                 height={50}
                 step={1}
               />
               <label className="unselectable title-small">Phase</label>
-              <span className="tooltip unselectable value">{`${synthOptions.phase}°`}</span>
+              <span className="tooltip unselectable value">{`${Math.round(
+                synthOptions.phase
+              )}°`}</span>
             </div>
           </div>
         </div>
@@ -96,15 +119,15 @@ const OscillatorControls = ({
                 min={-1200}
                 max={1200}
                 value={synthOptions.detune}
-                onValueChange={(value) => {
-                  setSynthOption(value, "detune", synthNum);
-                }}
+                onValueChange={handleDetuneChange}
                 width={50}
                 height={50}
                 step={1}
               />
               <label className="unselectable title-small">Detune</label>
-              <span className="tooltip unselectable value">{`${synthOptions.detune}cents`}</span>
+              <span className="tooltip unselectable value">{`${Math.round(
+                synthOptions.detune
+              )}cents`}</span>
             </div>
           </div>
         </div>

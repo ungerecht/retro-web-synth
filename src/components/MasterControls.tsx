@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Knob from "./Knob";
 import "../styles/MasterControls.css";
 import { left, right } from "../icons";
@@ -16,6 +16,12 @@ const OctaveSwitch = ({
   setOctave,
   setVolume,
 }: MasterControlsProps) => {
+  const handleVolumeChange = useCallback(
+    (value) => {
+      setVolume(value);
+    },
+    [setVolume]
+  );
   return (
     <div className="master-controls-container">
       <div className="column hasTooltip">
@@ -23,15 +29,15 @@ const OctaveSwitch = ({
           min={-60}
           max={0}
           value={volume}
-          onValueChange={(value) => {
-            setVolume(value);
-          }}
+          onValueChange={handleVolumeChange}
           width={50}
           height={50}
           step={1}
         />
         <label className="unselectable title-small">Volume</label>
-        <span className="tooltip unselectable value">{`${volume}db`}</span>
+        <span className="tooltip unselectable value">{`${Math.round(
+          volume
+        )}db`}</span>
       </div>
       <div className="column">
         <div className="row justify-between">

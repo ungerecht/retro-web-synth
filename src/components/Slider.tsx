@@ -39,7 +39,9 @@ const Slider = ({
   const handleMouseDown = (event: MouseEvent) => {
     setIsDragging(true);
     let newValue = getValueFromMouseEvent(event, min, max, barHeight);
-    onValueChange(newValue);
+    if (newValue !== value) {
+      onValueChange(newValue);
+    }
   };
 
   const handleMouseUp = (event: MouseEvent) => {
@@ -49,7 +51,9 @@ const Slider = ({
   const handleMouseMove = (event: MouseEvent) => {
     if (isDragging) {
       let newValue = getValueFromMouseEvent(event, min, max, barHeight);
-      onValueChange(newValue);
+      if (newValue !== value) {
+        onValueChange(newValue);
+      }
     }
   };
 
@@ -86,7 +90,9 @@ const Slider = ({
 
         if (newValue < min) newValue = min; //set newValue to min if it went over
       }
-      onValueChange(newValue);
+      if (newValue !== value) {
+        onValueChange(newValue);
+      }
     };
 
     if (slider) {

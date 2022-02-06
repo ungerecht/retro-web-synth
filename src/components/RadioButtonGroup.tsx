@@ -7,7 +7,7 @@ interface RadioButtonGroupProps {
   comparator: string;
   buttonWidth: number;
   buttonHeight: number;
-  onValueChange: (e: any) => void;
+  onValueChange: (e: string | BiquadFilterType) => void;
 }
 
 const RadioButtonGroup = ({
