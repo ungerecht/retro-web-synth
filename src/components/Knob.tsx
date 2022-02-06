@@ -54,7 +54,9 @@ const Knob = ({
   };
 
   const handleMouseUp = (event: MouseEvent) => {
-    setIsDragging(false);
+    if (isDragging) {
+      setIsDragging(false);
+    }
   };
 
   const handleMouseMove = (event: MouseEvent) => {
