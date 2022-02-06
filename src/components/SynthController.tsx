@@ -138,7 +138,6 @@ class SynthController extends React.Component<{}, SynthState> {
     document.addEventListener("keydown", this.onKeyDown);
     document.addEventListener("keyup", this.onKeyUp);
 
-    console.log(this.delay);
     this.initSynths();
 
     //send each synth through a Gain node to prevent clipping
@@ -212,7 +211,6 @@ class SynthController extends React.Component<{}, SynthState> {
     }
     const key = event.key.toLowerCase();
     if (VALID_KEYS.includes(key)) {
-      console.log("yes");
       const fullNoteObj = KEY_TO_FULLNOTE[key];
       const fullNote = `${fullNoteObj.note}${
         this.state.baseOctave + fullNoteObj.octaveMod
@@ -240,25 +238,26 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   playNote = (fullNote: string) => {
+    //play atack of note
+    this.synth1.triggerAttack(fullNote);
+    this.synth2.triggerAttack(fullNote);
+
     //add note to notesPlaying
     this.setState((prevState) => ({
       notesPlaying: [...prevState.notesPlaying, fullNote],
     }));
-
-    //play atack of note
-    this.synth1.triggerAttack(fullNote);
-    this.synth2.triggerAttack(fullNote);
   };
 
   stopNote = (fullNote: string) => {
+    console.log("stopping note");
+    //trigger release of note
+    this.synth1.triggerRelease(fullNote);
+    this.synth2.triggerRelease(fullNote);
+
     //remove note from notesPlaying
     this.setState({
       notesPlaying: this.state.notesPlaying.filter((n) => n !== fullNote),
     });
-
-    //trigger release of note
-    this.synth1.triggerRelease(fullNote);
-    this.synth2.triggerRelease(fullNote);
   };
 
   setSynthOption = (
