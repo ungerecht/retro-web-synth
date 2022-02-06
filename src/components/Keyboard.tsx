@@ -1,8 +1,6 @@
 import React from "react";
-import Key from "./Key";
-import { NOTES } from "../globals/constants";
-
 import "../styles/Keyboard.css";
+import KeyboardOctave from "./KeyboardOctave";
 
 interface KeyboardProps {
   notesPlaying: string[];
@@ -17,28 +15,28 @@ const Keyboard = ({
   playNote,
   stopNote,
 }: KeyboardProps) => {
-  const renderKeys = () => {
-    let keys: JSX.Element[] = [];
-    for (let octave = baseOctave; octave <= baseOctave + 2; octave += 1) {
-      NOTES.forEach((note) => {
-        keys.push(
-          <Key
-            key={`${note}${octave}`}
-            note={note}
-            octave={octave}
-            notesPlaying={notesPlaying}
-            playNote={playNote}
-            stopNote={stopNote}
-          />
-        );
-      });
-    }
-    return keys;
-  };
-
-  const keys = renderKeys();
-
-  return <div className="keyboard">{keys}</div>;
+  return (
+    <div className="keyboard">
+      <KeyboardOctave
+        octave={baseOctave}
+        notesPlaying={notesPlaying}
+        playNote={playNote}
+        stopNote={stopNote}
+      />
+      <KeyboardOctave
+        octave={baseOctave + 1}
+        notesPlaying={notesPlaying}
+        playNote={playNote}
+        stopNote={stopNote}
+      />
+      <KeyboardOctave
+        octave={baseOctave + 2}
+        notesPlaying={notesPlaying}
+        playNote={playNote}
+        stopNote={stopNote}
+      />
+    </div>
+  );
 };
 
 export default React.memo(Keyboard);
