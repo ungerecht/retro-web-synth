@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "../styles/Key.css";
 
@@ -11,30 +11,39 @@ interface KeyProps {
 }
 
 const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
-  const [isClicked, setIsClicked] = useState(false);
-
   //build classname for Key, adding sharp or pressed
   let keyClassName = "key";
-  if (keyIsSharp(note)) keyClassName += " sharp";
-  if (keyIsPressed(note, octave, notesPlaying)) keyClassName += " pressed";
+  const isSharp = keyIsSharp(note);
+  const isPressed = keyIsPressed(note, octave, notesPlaying);
+  if (isSharp) keyClassName += " sharp";
+  if (isPressed) keyClassName += " pressed";
+
+  const handleMouseDown = () => {
+    const fullNote = note + octave;
+    playNote(fullNote);
+  };
+
+  const handleMouseUp = () => {
+    if (isPressed) {
+      const fullNote = note + octave;
+      stopNote(fullNote);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (isPressed) {
+      const fullNote = note + octave;
+      stopNote(fullNote);
+    }
+  };
 
   return (
     <div
       className={keyClassName}
-      onMouseDown={() => {
-        setIsClicked(true);
-        playNote(note + octave);
-      }}
-      onMouseUp={() => {
-        setIsClicked(false);
-        stopNote(note + octave);
-      }}
-      onMouseOut={() => {
-        if (isClicked) stopNote(note + octave);
-      }}
-    >
-      <span className="unselectable value">{}</span>
-    </div>
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
+    />
   );
 };
 
