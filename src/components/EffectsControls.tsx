@@ -19,7 +19,6 @@ const EffectsControls = ({
   setDistortionOption,
   setDelayOption,
 }: EffectsControlsProps) => {
-  console.log("render effects");
   return (
     <div className="control-container effects-container">
       <div className="row justify-center">

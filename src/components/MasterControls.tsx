@@ -16,7 +16,6 @@ const OctaveSwitch = ({
   setOctave,
   setVolume,
 }: MasterControlsProps) => {
-  console.log("render octave");
   return (
     <div className="master-controls-container">
       <div className="column hasTooltip">

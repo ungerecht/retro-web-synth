@@ -17,7 +17,6 @@ interface EQ3Props {
 }
 
 const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
-  console.log("render eq");
   return (
     <div className="control-container EQ3-container">
       <div className="row justify-center">
