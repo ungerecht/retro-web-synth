@@ -58,6 +58,10 @@ type SynthState = {
     delayTime: number;
     feedback: number;
   };
+  bitCrusherOptions: {
+    wet: number;
+    bits: number;
+  };
 };
 
 class SynthController extends React.Component<{}, SynthState> {
@@ -71,13 +75,14 @@ class SynthController extends React.Component<{}, SynthState> {
   EQ3: Tone.EQ3;
   distortion: Tone.Distortion;
   delay: Tone.FeedbackDelay;
+  bitCrusher: Tone.BitCrusher;
   state: SynthState;
   constructor(props: any) {
     super(props);
     this.state = {
       baseOctave: 2,
       notesPlaying: [],
-      masterVolume: -10, // -60 - 0
+      masterVolume: -4, // -60 - 0
       synth1Options: {
         volume: 0, // -60 - 0
         detune: 0, //-1200 - 1200
@@ -123,6 +128,10 @@ class SynthController extends React.Component<{}, SynthState> {
         delayTime: 0,
         feedback: 0.2,
       },
+      bitCrusherOptions: {
+        wet: 0,
+        bits: 1,
+      },
     };
     this.synth1 = new Tone.PolySynth();
     this.synth2 = new Tone.PolySynth();
@@ -134,6 +143,7 @@ class SynthController extends React.Component<{}, SynthState> {
     this.EQ3 = new Tone.EQ3(this.state.eq3Options);
     this.distortion = new Tone.Distortion(this.state.distortionOptions);
     this.delay = new Tone.FeedbackDelay(this.state.delayOptions);
+    this.bitCrusher = new Tone.BitCrusher(this.state.bitCrusherOptions);
   }
 
   componentDidMount() {
@@ -154,6 +164,7 @@ class SynthController extends React.Component<{}, SynthState> {
 
     this.filter.chain(
       this.EQ3,
+      this.bitCrusher,
       this.distortion,
       this.delay,
       this.reverb,
@@ -212,10 +223,8 @@ class SynthController extends React.Component<{}, SynthState> {
       const fullNote = `${fullNoteObj.note}${
         this.state.baseOctave + fullNoteObj.octaveMod
       }`;
-      if (!this.state.notesPlaying.includes(fullNote)) {
-        //play note if key is valid key and if it's not currently playing
-        this.playNote(fullNote);
-      }
+
+      this.playNote(fullNote);
     }
   };
 
@@ -227,33 +236,35 @@ class SynthController extends React.Component<{}, SynthState> {
       const fullNote = `${fullNoteObj.note}${
         this.state.baseOctave + fullNoteObj.octaveMod
       }`;
-      if (this.state.notesPlaying.includes(fullNote)) {
-        //stop note if key is valid and it's currently playing
-        this.stopNote(fullNote);
-      }
+
+      this.stopNote(fullNote);
     }
   };
 
   playNote = (fullNote: string) => {
-    //play atack of note
-    this.synth1.triggerAttack(fullNote);
-    this.synth2.triggerAttack(fullNote);
+    if (!this.state.notesPlaying.includes(fullNote)) {
+      //play atack of note
+      this.synth1.triggerAttack(fullNote);
+      this.synth2.triggerAttack(fullNote);
 
-    //add note to notesPlaying
-    this.setState((prevState) => ({
-      notesPlaying: [...prevState.notesPlaying, fullNote],
-    }));
+      //add note to notesPlaying
+      this.setState((prevState) => ({
+        notesPlaying: [...prevState.notesPlaying, fullNote],
+      }));
+    }
   };
 
   stopNote = (fullNote: string) => {
-    //trigger release of note
-    this.synth1.triggerRelease(fullNote);
-    this.synth2.triggerRelease(fullNote);
+    if (this.state.notesPlaying.includes(fullNote)) {
+      //trigger release of note
+      this.synth1.triggerRelease(fullNote);
+      this.synth2.triggerRelease(fullNote);
 
-    //remove note from notesPlaying
-    this.setState({
-      notesPlaying: this.state.notesPlaying.filter((n) => n !== fullNote),
-    });
+      //remove note from notesPlaying
+      this.setState({
+        notesPlaying: this.state.notesPlaying.filter((n) => n !== fullNote),
+      });
+    }
   };
 
   setSynthOption = (
@@ -391,6 +402,16 @@ class SynthController extends React.Component<{}, SynthState> {
     }));
   };
 
+  setBitCrusherOption = (value: number, target: "wet" | "bits") => {
+    this.bitCrusher.set({ [target]: value });
+    this.setState((prevState) => ({
+      bitCrusherOptions: {
+        ...prevState.bitCrusherOptions,
+        [target]: value,
+      },
+    }));
+  };
+
   render() {
     return (
       <div className="container">
@@ -424,6 +445,8 @@ class SynthController extends React.Component<{}, SynthState> {
             setDistortionOption={this.setDistortionOption}
             delayOptions={this.state.delayOptions}
             setDelayOption={this.setDelayOption}
+            bitCrusherOptions={this.state.bitCrusherOptions}
+            setBitCrusherOption={this.setBitCrusherOption}
           />
         </div>
         <div className="bottom-container">
