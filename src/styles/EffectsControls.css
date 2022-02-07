@@ -3,10 +3,15 @@
 }
 
 .delay-container,
+.bitcrusher-container,
 .reverb-container,
 .distortion-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   align-self: flex-start;
+}
+
+.reverb-container {
+  margin-right: 5px;
 }
