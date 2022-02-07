@@ -1,4 +1,4 @@
-# React Synth
+# Retro Web Synthesizer
 
 Web based sound synthesizer created with React, TypeScript, and Tone.js
 
