@@ -5,10 +5,13 @@ import "../styles/EffectsControls.css";
 interface EffectsControlsProps {
   reverbOptions: { decay: number; wet: number };
   distortionOptions: { distortion: number; wet: number };
-  delayOptions: { delayTime: number; feedback: number };
+  delayOptions: { wet: number; delayTime: number; feedback: number };
   setReverbOption: (value: number, target: "wet" | "decay") => void;
   setDistortionOption: (value: number, target: "wet" | "distortion") => void;
-  setDelayOption: (value: number, target: "delayTime" | "feedback") => void;
+  setDelayOption: (
+    value: number,
+    target: "wet" | "delayTime" | "feedback"
+  ) => void;
 }
 
 const EffectsControls = ({
@@ -19,6 +22,12 @@ const EffectsControls = ({
   setDistortionOption,
   setDelayOption,
 }: EffectsControlsProps) => {
+  const handleDelayWetChange = useCallback(
+    (value: number) => {
+      setDelayOption(value, "wet");
+    },
+    [setDelayOption]
+  );
   const handleDelayTimeChange = useCallback(
     (value: number) => {
       setDelayOption(value, "delayTime");
@@ -70,10 +79,25 @@ const EffectsControls = ({
               <Knob
                 min={0}
                 max={1}
+                value={delayOptions.wet}
+                onValueChange={handleDelayWetChange}
+                width={45}
+                height={45}
+                step={0.01}
+              />
+              <label className="unselectable title-small">Wet</label>
+              <span className="tooltip unselectable value">{`${(
+                delayOptions.wet * 100
+              ).toFixed(0)}%`}</span>
+            </div>
+            <div className="column hasTooltip">
+              <Knob
+                min={0}
+                max={1}
                 value={delayOptions.delayTime}
                 onValueChange={handleDelayTimeChange}
-                width={50}
-                height={50}
+                width={45}
+                height={45}
                 step={0.001}
               />
               <label className="unselectable title-small">Time</label>
@@ -81,14 +105,16 @@ const EffectsControls = ({
                 delayOptions.delayTime * 1000
               )}ms`}</span>
             </div>
+          </div>
+          <div className="row">
             <div className="column hasTooltip">
               <Knob
                 min={0}
                 max={1}
                 value={delayOptions.feedback}
                 onValueChange={handleDelayFeedbackChange}
-                width={50}
-                height={50}
+                width={45}
+                height={45}
                 step={0.01}
               />
               <label className="unselectable title-small">Feedbk</label>
@@ -107,8 +133,8 @@ const EffectsControls = ({
                 max={1}
                 value={reverbOptions.wet}
                 onValueChange={handleReverbWetChange}
-                width={50}
-                height={50}
+                width={45}
+                height={45}
                 step={0.01}
               />
               <label className="unselectable title-small">Wet</label>
@@ -122,8 +148,8 @@ const EffectsControls = ({
                 max={30}
                 value={reverbOptions.decay}
                 onValueChange={handleReverbDecayChange}
-                width={50}
-                height={50}
+                width={45}
+                height={45}
                 step={1}
               />
               <label className="unselectable title-small">Decay</label>
@@ -142,8 +168,8 @@ const EffectsControls = ({
                 max={1}
                 value={distortionOptions.wet}
                 onValueChange={handleDistortionWetChange}
-                width={50}
-                height={50}
+                width={45}
+                height={45}
                 step={0.01}
               />
               <label className="unselectable title-small">Wet</label>
@@ -157,8 +183,8 @@ const EffectsControls = ({
                 max={1}
                 value={distortionOptions.distortion}
                 onValueChange={handleDistortionChange}
-                width={50}
-                height={50}
+                width={45}
+                height={45}
                 step={0.01}
               />
               <label className="unselectable title-small">Amount</label>

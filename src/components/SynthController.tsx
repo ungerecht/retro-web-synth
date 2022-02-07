@@ -54,6 +54,7 @@ type SynthState = {
   };
   distortionOptions: { distortion: number; wet: number };
   delayOptions: {
+    wet: number;
     delayTime: number;
     feedback: number;
   };
@@ -118,6 +119,7 @@ class SynthController extends React.Component<{}, SynthState> {
         wet: 0,
       },
       delayOptions: {
+        wet: 0,
         delayTime: 0,
         feedback: 0.2,
       },
@@ -148,17 +150,12 @@ class SynthController extends React.Component<{}, SynthState> {
     this.node1.connect(this.filter);
     this.node2.connect(this.filter);
 
-    //connect both Gain nodes to delay
-    this.node1.connect(this.delay);
-    this.node2.connect(this.delay);
-
-    this.delay.connect(this.filter);
-
     //connect the filter -> EQ3 -> distortion -> delay -> reverb -> masterVolume -> SPEAKERS
 
     this.filter.chain(
       this.EQ3,
       this.distortion,
+      this.delay,
       this.reverb,
       this.masterVolume,
       Tone.Destination
@@ -249,7 +246,6 @@ class SynthController extends React.Component<{}, SynthState> {
   };
 
   stopNote = (fullNote: string) => {
-    console.log("stopping note");
     //trigger release of note
     this.synth1.triggerRelease(fullNote);
     this.synth2.triggerRelease(fullNote);
@@ -382,7 +378,10 @@ class SynthController extends React.Component<{}, SynthState> {
     this.setState({ masterVolume: value });
   };
 
-  setDelayOption = (value: number, target: "delayTime" | "feedback") => {
+  setDelayOption = (
+    value: number,
+    target: "wet" | "delayTime" | "feedback"
+  ) => {
     this.delay.set({ [target]: value });
     this.setState((prevState) => ({
       delayOptions: {
