@@ -42,8 +42,8 @@ body {
 }
 
 .title-medium {
-  font-size: 10px;
-  margin-bottom: 5px;
+  font-size: 9px;
+  margin-bottom: 0px;
 }
 
 .title-small {
@@ -70,6 +70,7 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 5px;
+  align-self: flex-start;
 }
 
 .value {
