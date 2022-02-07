@@ -116,7 +116,7 @@ class SynthController extends React.Component<{}, SynthState> {
         low: 0,
         mid: 0,
         high: 0,
-        lowFrequency: 400,
+        lowFrequency: 250,
         highFrequency: 2500,
       },
       distortionOptions: {
@@ -130,13 +130,13 @@ class SynthController extends React.Component<{}, SynthState> {
       },
       bitCrusherOptions: {
         wet: 0,
-        bits: 1,
+        bits: 16,
       },
     };
     this.synth1 = new Tone.PolySynth();
     this.synth2 = new Tone.PolySynth();
-    this.node1 = new Tone.Gain(0.25);
-    this.node2 = new Tone.Gain(0.25);
+    this.node1 = new Tone.Gain(0.5);
+    this.node2 = new Tone.Gain(0.5);
     this.filter = new Tone.Filter(this.state.filterOptions);
     this.masterVolume = new Tone.Volume(this.state.masterVolume);
     this.reverb = new Tone.Reverb(this.state.reverbOptions);
@@ -160,12 +160,11 @@ class SynthController extends React.Component<{}, SynthState> {
     this.node1.connect(this.filter);
     this.node2.connect(this.filter);
 
-    //connect the filter -> EQ3 -> distortion -> delay -> reverb -> masterVolume -> SPEAKERS
-
+    //connect the filter -> distortion -> EQ3 -> bitCrusher -> delay -> reverb -> masterVolume
     this.filter.chain(
       this.EQ3,
-      this.bitCrusher,
       this.distortion,
+      this.bitCrusher,
       this.delay,
       this.reverb,
       this.masterVolume,
