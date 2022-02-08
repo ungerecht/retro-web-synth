@@ -16,6 +16,7 @@ This project was created as a portfolio piece to practice and learn new front-en
 - Feedback Delay
 - Reverb
 - Distortion
+- Bitcrusher
 
 ## Technologies Used
 
