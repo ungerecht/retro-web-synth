@@ -1,82 +1,46 @@
-import React from "react";
+import { Component } from "react";
+
+import {
+  PolySynth,
+  Gain,
+  Filter,
+  Volume,
+  Reverb,
+  Distortion,
+  EQ3,
+  FeedbackDelay,
+  BitCrusher,
+  Destination,
+  FilterRollOff,
+} from "tone";
 
 import OscillatorControls from "./OscillatorControls";
 import MasterControls from "./MasterControls";
 import EnvelopeControls from "./EnvelopeControls";
 import FilterControls from "./FilterControls";
 import Keyboard from "./Keyboard";
-
-import * as Tone from "tone";
-
-import { KEY_TO_FULLNOTE, VALID_KEYS } from "../globals/constants";
-import "../styles/SynthController.css";
+import EffectsControls from "./EffectsControls";
 import EQ3Controls from "./EQ3Controls";
 
-import EffectsControls from "./EffectsControls";
-import { FilterRollOff } from "tone";
+import { KEY_TO_FULLNOTE, VALID_KEYS } from "../globals/constants";
 
-type SynthState = {
-  baseOctave: number;
-  notesPlaying: string[];
-  masterVolume: number;
-  synth1Options: {
-    volume: number;
-    detune: number;
-    type: OscillatorType;
-    phase: number;
-  };
-  synth2Options: {
-    volume: number;
-    detune: number;
-    type: OscillatorType;
-    phase: number;
-  };
-  envelopeOptions: {
-    attack: number;
-    decay: number;
-    sustain: number;
-    release: number;
-  };
-  filterOptions: {
-    Q: number;
-    frequency: number;
-    gain: number;
-    rolloff: Tone.FilterRollOff;
-    type: BiquadFilterType;
-  };
-  reverbOptions: { wet: number; decay: number };
-  eq3Options: {
-    low: number;
-    mid: number;
-    high: number;
-    lowFrequency: number;
-    highFrequency: number;
-  };
-  distortionOptions: { distortion: number; wet: number };
-  delayOptions: {
-    wet: number;
-    delayTime: number;
-    feedback: number;
-  };
-  bitCrusherOptions: {
-    wet: number;
-    bits: number;
-  };
-};
+import { SynthControllerState } from "../types";
 
-class SynthController extends React.Component<{}, SynthState> {
-  synth1: Tone.PolySynth;
-  synth2: Tone.PolySynth;
-  node1: Tone.Gain;
-  node2: Tone.Gain;
-  filter: Tone.Filter;
-  masterVolume: Tone.Volume;
-  reverb: Tone.Reverb;
-  EQ3: Tone.EQ3;
-  distortion: Tone.Distortion;
-  delay: Tone.FeedbackDelay;
-  bitCrusher: Tone.BitCrusher;
-  state: SynthState;
+import "../styles/SynthController.css";
+
+class SynthController extends Component<{}, SynthControllerState> {
+  synth1: PolySynth;
+  synth2: PolySynth;
+  node1: Gain;
+  node2: Gain;
+  filter: Filter;
+  masterVolume: Volume;
+  reverb: Reverb;
+  EQ3: EQ3;
+  distortion: Distortion;
+  delay: FeedbackDelay;
+  bitCrusher: BitCrusher;
+  state: SynthControllerState;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -133,17 +97,17 @@ class SynthController extends React.Component<{}, SynthState> {
         bits: 16,
       },
     };
-    this.synth1 = new Tone.PolySynth();
-    this.synth2 = new Tone.PolySynth();
-    this.node1 = new Tone.Gain(0.5);
-    this.node2 = new Tone.Gain(0.5);
-    this.filter = new Tone.Filter(this.state.filterOptions);
-    this.masterVolume = new Tone.Volume(this.state.masterVolume);
-    this.reverb = new Tone.Reverb(this.state.reverbOptions);
-    this.EQ3 = new Tone.EQ3(this.state.eq3Options);
-    this.distortion = new Tone.Distortion(this.state.distortionOptions);
-    this.delay = new Tone.FeedbackDelay(this.state.delayOptions);
-    this.bitCrusher = new Tone.BitCrusher(this.state.bitCrusherOptions);
+    this.synth1 = new PolySynth();
+    this.synth2 = new PolySynth();
+    this.node1 = new Gain(0.5);
+    this.node2 = new Gain(0.5);
+    this.filter = new Filter(this.state.filterOptions);
+    this.masterVolume = new Volume(this.state.masterVolume);
+    this.reverb = new Reverb(this.state.reverbOptions);
+    this.EQ3 = new EQ3(this.state.eq3Options);
+    this.distortion = new Distortion(this.state.distortionOptions);
+    this.delay = new FeedbackDelay(this.state.delayOptions);
+    this.bitCrusher = new BitCrusher(this.state.bitCrusherOptions);
   }
 
   componentDidMount() {
@@ -168,7 +132,7 @@ class SynthController extends React.Component<{}, SynthState> {
       this.delay,
       this.reverb,
       this.masterVolume,
-      Tone.Destination
+      Destination
     );
   }
 
@@ -332,14 +296,24 @@ class SynthController extends React.Component<{}, SynthState> {
     }));
   };
 
-  setReverbOption = (value: number, target: "wet" | "decay") => {
-    this.reverb.set({
-      [target]: value,
-    });
-
+  setDelayOption = (
+    value: number,
+    target: "wet" | "delayTime" | "feedback"
+  ) => {
+    this.delay.set({ [target]: value });
     this.setState((prevState) => ({
-      reverbOptions: {
-        ...prevState.reverbOptions,
+      delayOptions: {
+        ...prevState.delayOptions,
+        [target]: value,
+      },
+    }));
+  };
+
+  setBitCrusherOption = (value: number, target: "wet" | "bits") => {
+    this.bitCrusher.set({ [target]: value });
+    this.setState((prevState) => ({
+      bitCrusherOptions: {
+        ...prevState.bitCrusherOptions,
         [target]: value,
       },
     }));
@@ -353,6 +327,19 @@ class SynthController extends React.Component<{}, SynthState> {
     this.setState((prevState) => ({
       distortionOptions: {
         ...prevState.distortionOptions,
+        [target]: value,
+      },
+    }));
+  };
+
+  setReverbOption = (value: number, target: "wet" | "decay") => {
+    this.reverb.set({
+      [target]: value,
+    });
+
+    this.setState((prevState) => ({
+      reverbOptions: {
+        ...prevState.reverbOptions,
         [target]: value,
       },
     }));
@@ -386,29 +373,6 @@ class SynthController extends React.Component<{}, SynthState> {
   setMasterVolume = (value: number) => {
     this.masterVolume.set({ volume: value });
     this.setState({ masterVolume: value });
-  };
-
-  setDelayOption = (
-    value: number,
-    target: "wet" | "delayTime" | "feedback"
-  ) => {
-    this.delay.set({ [target]: value });
-    this.setState((prevState) => ({
-      delayOptions: {
-        ...prevState.delayOptions,
-        [target]: value,
-      },
-    }));
-  };
-
-  setBitCrusherOption = (value: number, target: "wet" | "bits") => {
-    this.bitCrusher.set({ [target]: value });
-    this.setState((prevState) => ({
-      bitCrusherOptions: {
-        ...prevState.bitCrusherOptions,
-        [target]: value,
-      },
-    }));
   };
 
   render() {
@@ -457,7 +421,7 @@ class SynthController extends React.Component<{}, SynthState> {
           />
           <Keyboard
             notesPlaying={this.state.notesPlaying}
-            baseOctave={this.state.baseOctave}
+            octave={this.state.baseOctave}
             playNote={this.playNote}
             stopNote={this.stopNote}
           />

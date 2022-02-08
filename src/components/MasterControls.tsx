@@ -1,16 +1,10 @@
-import React, { useCallback } from "react";
+import { useCallback, memo } from "react";
 import Knob from "./Knob";
-import "../styles/MasterControls.css";
+import { MasterControlsProps } from "../types";
 import { left, right } from "../icons";
+import "../styles/MasterControls.css";
 
-interface MasterControlsProps {
-  volume: number;
-  octave: number;
-  setOctave: (octave: number) => void;
-  setVolume: (value: number) => void;
-}
-
-const OctaveSwitch = ({
+const MasterControls = ({
   octave,
   volume,
   setOctave,
@@ -67,4 +61,4 @@ const OctaveSwitch = ({
   );
 };
 
-export default React.memo(OctaveSwitch);
+export default memo(MasterControls);

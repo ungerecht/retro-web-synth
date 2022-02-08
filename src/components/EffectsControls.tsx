@@ -1,20 +1,7 @@
-import React, { useCallback } from "react";
+import { useCallback, memo } from "react";
 import Knob from "./Knob";
+import { EffectsControlsProps } from "../types";
 import "../styles/EffectsControls.css";
-
-interface EffectsControlsProps {
-  reverbOptions: { decay: number; wet: number };
-  distortionOptions: { distortion: number; wet: number };
-  delayOptions: { wet: number; delayTime: number; feedback: number };
-  bitCrusherOptions: { wet: number; bits: number };
-  setReverbOption: (value: number, target: "wet" | "decay") => void;
-  setDistortionOption: (value: number, target: "wet" | "distortion") => void;
-  setDelayOption: (
-    value: number,
-    target: "wet" | "delayTime" | "feedback"
-  ) => void;
-  setBitCrusherOption: (value: number, target: "wet" | "bits") => void;
-}
 
 const EffectsControls = ({
   reverbOptions,
@@ -252,4 +239,4 @@ const EffectsControls = ({
   );
 };
 
-export default React.memo(EffectsControls);
+export default memo(EffectsControls);

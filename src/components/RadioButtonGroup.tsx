@@ -1,14 +1,7 @@
-import React from "react";
+import { memo } from "react";
 import RadioButton from "./RadioButton";
 
-interface RadioButtonGroupProps {
-  items: string[];
-  id: string;
-  comparator: string;
-  buttonWidth: number;
-  buttonHeight: number;
-  onValueChange: (e: string | BiquadFilterType) => void;
-}
+import { RadioButtonGroupProps } from "../types";
 
 const RadioButtonGroup = ({
   items,
@@ -37,4 +30,4 @@ const RadioButtonGroup = ({
   );
 };
 
-export default React.memo(RadioButtonGroup);
+export default memo(RadioButtonGroup);

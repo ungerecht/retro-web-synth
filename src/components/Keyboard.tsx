@@ -1,36 +1,30 @@
-import React from "react";
-import "../styles/Keyboard.css";
+import { memo } from "react";
 import KeyboardOctave from "./KeyboardOctave";
-
-interface KeyboardProps {
-  notesPlaying: string[];
-  baseOctave: number;
-  playNote: (fullNote: string) => void;
-  stopNote: (fullNote: string) => void;
-}
+import { KeyboardProps } from "../types";
+import "../styles/Keyboard.css";
 
 const Keyboard = ({
   notesPlaying,
-  baseOctave,
+  octave,
   playNote,
   stopNote,
 }: KeyboardProps) => {
   return (
     <div className="keyboard">
       <KeyboardOctave
-        octave={baseOctave}
+        octave={octave}
         notesPlaying={notesPlaying}
         playNote={playNote}
         stopNote={stopNote}
       />
       <KeyboardOctave
-        octave={baseOctave + 1}
+        octave={octave + 1}
         notesPlaying={notesPlaying}
         playNote={playNote}
         stopNote={stopNote}
       />
       <KeyboardOctave
-        octave={baseOctave + 2}
+        octave={octave + 2}
         notesPlaying={notesPlaying}
         playNote={playNote}
         stopNote={stopNote}
@@ -39,4 +33,4 @@ const Keyboard = ({
   );
 };
 
-export default React.memo(Keyboard);
+export default memo(Keyboard);

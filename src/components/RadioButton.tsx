@@ -1,15 +1,7 @@
-import React from "react";
+import { Fragment, memo } from "react";
+import { RadioButtonProps } from "../types";
 import * as Icons from "../icons";
 import "../styles/Button.css";
-
-interface RadioButtonProps {
-  value: string;
-  name: string;
-  selected: boolean;
-  height: number;
-  width: number;
-  onValueChange: (event: any) => void;
-}
 
 const RadioButton = ({
   value,
@@ -21,7 +13,7 @@ const RadioButton = ({
 }: RadioButtonProps) => {
   const icon = Icons[value as keyof typeof Icons];
   return (
-    <React.Fragment>
+    <Fragment>
       <input
         type="radio"
         name={name}
@@ -48,8 +40,8 @@ const RadioButton = ({
           {value}
         </label>
       )}
-    </React.Fragment>
+    </Fragment>
   );
 };
 
-export default RadioButton;
+export default memo(RadioButton);

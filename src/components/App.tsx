@@ -1,4 +1,3 @@
-import React from "react";
 import SynthController from "./SynthController";
 
 import "../fonts/PressStart2P.ttf";

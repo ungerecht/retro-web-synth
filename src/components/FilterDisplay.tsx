@@ -1,17 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import { FilterRollOff, Filter } from "tone";
-
+import { useEffect, useRef, memo } from "react";
+import { Filter } from "tone";
+import { FilterDisplayProps } from "../types";
+import { getXofFrequency, dbToY } from "../utils";
 import "../styles/FilterDisplay.css";
-
-interface FilterDisplayProps {
-  filterOptions: {
-    Q: number;
-    frequency: number;
-    gain: number;
-    rolloff: FilterRollOff;
-    type: BiquadFilterType;
-  };
-}
 
 const FilterDisplay = ({ filterOptions }: FilterDisplayProps) => {
   const width = 256;
@@ -88,12 +79,4 @@ const FilterDisplay = ({ filterOptions }: FilterDisplayProps) => {
   );
 };
 
-const getXofFrequency = (freq: number, width: number) => {
-  return width * Math.sqrt((freq - 20) / (20000 - 20));
-};
-
-const dbToY = (db: number, middle: number, pixelsPerDb: number) => {
-  return middle - pixelsPerDb * db;
-};
-
-export default React.memo(FilterDisplay);
+export default memo(FilterDisplay);

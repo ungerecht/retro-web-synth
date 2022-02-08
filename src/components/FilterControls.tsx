@@ -1,25 +1,10 @@
-import React, { useCallback } from "react";
+import { useCallback, memo } from "react";
 import FilterDisplay from "./FilterDisplay";
-import { FILTER_TYPES, ROLLOFFS } from "../globals/constants";
-import { FilterRollOff } from "tone";
-
-import "../styles/FilterControls.css";
 import Knob from "./Knob";
 import RadioButtonGroup from "./RadioButtonGroup";
-
-interface FilterControlsProps {
-  filterOptions: {
-    Q: number;
-    frequency: number;
-    gain: number;
-    rolloff: FilterRollOff;
-    type: BiquadFilterType;
-  };
-  setFilterOption: (
-    value: number | FilterRollOff | BiquadFilterType,
-    target: "type" | "rolloff" | "Q" | "frequency" | "gain"
-  ) => void;
-}
+import { FILTER_TYPES, ROLLOFFS } from "../globals/constants";
+import { FilterControlsProps } from "../types";
+import "../styles/FilterControls.css";
 
 const FilterControls = ({
   filterOptions,
@@ -143,4 +128,4 @@ const FilterControls = ({
   );
 };
 
-export default React.memo(FilterControls);
+export default memo(FilterControls);

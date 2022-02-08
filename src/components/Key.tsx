@@ -1,14 +1,7 @@
-import React from "react";
-
+import { memo } from "react";
+import { KeyProps } from "../types";
+import { keyIsPressed, keyIsSharp } from "../utils";
 import "../styles/Key.css";
-
-interface KeyProps {
-  note: string;
-  octave: number;
-  notesPlaying: string[];
-  playNote: (fullNote: string) => void;
-  stopNote: (fullNote: string) => void;
-}
 
 const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
   //build classname for Key, adding sharp or pressed
@@ -47,12 +40,4 @@ const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
   );
 };
 
-const keyIsPressed = (note: string, octave: number, notesPlaying: string[]) => {
-  return notesPlaying.includes(`${note}${octave}`);
-};
-
-const keyIsSharp = (note: string) => {
-  return note.length > 1;
-};
-
-export default React.memo(Key);
+export default memo(Key);

@@ -1,18 +1,6 @@
-import React, { useCallback } from "react";
+import { useCallback, memo } from "react";
 import Slider from "./Slider";
-
-interface EnvelopeControlsProps {
-  envelopeOptions: {
-    attack: number;
-    decay: number;
-    sustain: number;
-    release: number;
-  };
-  setEnvelopeOption: (
-    value: number,
-    target: "attack" | "decay" | "sustain" | "release"
-  ) => void;
-}
+import { EnvelopeControlsProps } from "../types";
 
 const EnvelopeControls = ({
   envelopeOptions,
@@ -115,4 +103,4 @@ const EnvelopeControls = ({
   );
 };
 
-export default React.memo(EnvelopeControls);
+export default memo(EnvelopeControls);

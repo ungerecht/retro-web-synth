@@ -1,23 +1,8 @@
-import React, { useCallback } from "react";
-import { WAVEFORMS } from "../globals/constants";
-
+import { useCallback, memo } from "react";
 import Knob from "./Knob";
 import RadioButtonGroup from "./RadioButtonGroup";
-
-interface OscillatorControlsProps {
-  synthNum: 1 | 2;
-  synthOptions: {
-    volume: number;
-    detune: number;
-    type: OscillatorType;
-    phase: number;
-  };
-  setSynthOption: (
-    value: OscillatorType | number,
-    target: "type" | "phase" | "volume" | "detune",
-    synthNum: 1 | 2
-  ) => void;
-}
+import { WAVEFORMS } from "../globals/constants";
+import { OscillatorControlsProps } from "../types";
 
 const OscillatorControls = ({
   synthNum,
@@ -136,4 +121,4 @@ const OscillatorControls = ({
   );
 };
 
-export default React.memo(OscillatorControls);
+export default memo(OscillatorControls);

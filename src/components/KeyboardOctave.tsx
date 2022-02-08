@@ -1,20 +1,14 @@
 import { memo } from "react";
 import Key from "./Key";
 import { NOTES } from "../globals/constants";
-
-interface KeyboardOctaveProps {
-  octave: number;
-  notesPlaying: string[];
-  playNote: (fullNote: string) => void;
-  stopNote: (fullNote: string) => void;
-}
+import { KeyboardProps } from "../types";
 
 const KeyboardOctave = ({
   octave,
   notesPlaying,
   playNote,
   stopNote,
-}: KeyboardOctaveProps) => {
+}: KeyboardProps) => {
   const createKeys = () => {
     return NOTES.map((note, i) => {
       return (

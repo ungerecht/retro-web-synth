@@ -1,22 +1,9 @@
-import React, { useCallback } from "react";
+import { useCallback, memo } from "react";
 import Knob from "./Knob";
+import { EQ3ControlsProps } from "../types";
 import "../styles/EQ3Controls.css";
 
-interface EQ3Props {
-  eq3Options: {
-    low: number;
-    mid: number;
-    high: number;
-    lowFrequency: number;
-    highFrequency: number;
-  };
-  setEQ3Option: (
-    value: number,
-    target: "low" | "mid" | "high" | "lowFrequency" | "highFrequency"
-  ) => void;
-}
-
-const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
+const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3ControlsProps) => {
   const handleLowChange = useCallback(
     (value: number) => {
       setEQ3Option(value, "low");
@@ -137,4 +124,4 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3Props) => {
   );
 };
 
-export default React.memo(EQ3Controls);
+export default memo(EQ3Controls);
