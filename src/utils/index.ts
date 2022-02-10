@@ -2,6 +2,9 @@ import { MouseEvent } from "react";
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~FilterDisplay functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 export const getXofFrequency = (freq: number, width: number) => {
+  if (width <= 0) {
+    throw new RangeError("width must be greater than 0");
+  }
   return width * Math.sqrt((freq - 20) / (20000 - 20));
 };
 
@@ -18,31 +21,36 @@ export const keyIsPressed = (
   return notesPlaying.includes(`${note}${octave}`);
 };
 
-export const keyIsSharp = (note: string) => {
+export const keyIsFlat = (note: string) => {
   return note.length > 1;
 };
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Knob and Slider functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const valueToPercentage = (v: number, min: number, max: number) => {
-  return ((v - min) * 100) / (max - min);
+export const valueToPercentage = (value: number, min: number, max: number) => {
+  return ((value - min) * 100) / (max - min);
 };
-const percentageToValue = (percentage: number, min: number, max: number) => {
+
+export const percentageToValue = (
+  percentage: number,
+  min: number,
+  max: number
+) => {
   return (percentage * (max - min)) / 100 + min;
 };
 
-const polarToCartesian = (
+export const polarToCartesian = (
   angle: number,
   radius: number,
   circleX: number,
   circleY: number
 ) => {
   const a = ((angle - 270) * Math.PI) / 180.0;
-  const x = circleX + radius * Math.cos(a);
-  const y = circleY + radius * Math.sin(a);
+  const x = circleX + radius * parseFloat(Math.cos(a).toFixed(3));
+  const y = circleY + radius * parseFloat(Math.sin(a).toFixed(3));
   return { x, y };
 };
 
-const cartesianToPolar = (
+export const cartesianToPolar = (
   x: number,
   y: number,
   circleX: number,
@@ -121,7 +129,7 @@ export const getBarCoordinates = (
   return { x, y };
 };
 
-const getParentSVG = (event: MouseEvent) => {
+export const getParentSVG = (event: MouseEvent) => {
   let parentSVG = event.target as Element;
   if (parentSVG.nodeName !== "svg") {
     parentSVG = parentSVG.parentNode as Element;
