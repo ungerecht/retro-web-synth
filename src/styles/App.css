@@ -101,3 +101,23 @@ body {
   width: fit-content;
   height: fit-content;
 }
+
+.warning {
+  margin: 10vw;
+  padding: 10px;
+  text-align: center;
+  background-color: cadetblue;
+  border: 3px solid black;
+}
+
+@media only screen and (orientation: portrait) {
+  .container {
+    display: none;
+  }
+}
+
+@media only screen and (orientation: landscape) {
+  .warning {
+    display: none;
+  }
+}

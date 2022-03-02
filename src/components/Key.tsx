@@ -1,14 +1,14 @@
 import { memo } from "react";
 import { KeyProps } from "../types";
-import { keyIsPressed, keyIsSharp } from "../utils";
+import { keyIsPressed, keyIsFlat } from "../utils";
 import "../styles/Key.css";
 
 const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
   //build classname for Key, adding sharp or pressed
   let keyClassName = "key";
-  const isSharp = keyIsSharp(note);
+  const isFlat = keyIsFlat(note);
   const isPressed = keyIsPressed(note, octave, notesPlaying);
-  if (isSharp) keyClassName += " sharp";
+  if (isFlat) keyClassName += " flat";
   if (isPressed) keyClassName += " pressed";
 
   const handleMouseDown = () => {
