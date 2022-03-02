@@ -5,6 +5,9 @@ import "../styles/App.css";
 const App = () => {
   return (
     <div className="App">
+      <div className="warning">
+        <h3>Please switch to landscape mode</h3>
+      </div>
       <SynthController />
     </div>
   );
