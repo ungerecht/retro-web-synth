@@ -2,6 +2,8 @@
 
 Web based sound synthesizer created with React, TypeScript, and Tone.js
 
+[Live Demo](https://retro-synth.herokuapp.com/)
+
 ## Motivation
 
 This project was created as a portfolio piece to practice and learn new front-end development skills, specifically using React.js and TypeScript. I also wanted to use all custom CSS for styling.
@@ -31,13 +33,16 @@ This project was created as a portfolio piece to practice and learn new front-en
 - Language
   - [TypeScript](https://www.typescriptlang.org/)
 
+- Testing
+  - [Jest](https://jestjs.io/)
+
 ## TODO
 
 - [x] Implement click and drag on Knob and Slider components
 - [x] Finalize layout
 - [ ] Saveable settings
 - [ ] Implement Midi control of piano keys
-- [ ] Make interface mobile friendly
+- [x] Make interface mobile friendly
 
 
 ## Contributing
