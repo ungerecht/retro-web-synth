@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 import { KeyProps } from "../types";
 import { keyIsPressed, keyIsFlat } from "../utils";
 import "../styles/Key.css";
@@ -11,9 +11,13 @@ const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
   if (isFlat) keyClassName += " flat";
   if (isPressed) keyClassName += " pressed";
 
+  const key = useRef<HTMLDivElement>(null);
+
   const handleMouseDown = () => {
-    const fullNote = note + octave;
-    playNote(fullNote);
+    if (!isPressed) {
+      const fullNote = note + octave;
+      playNote(fullNote);
+    }
   };
 
   const handleMouseUp = () => {
@@ -30,8 +34,37 @@ const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
     }
   };
 
+  useEffect(() => {
+    const handleTouchStart = (event: TouchEvent) => {
+      event.preventDefault();
+      const fullNote = note + octave;
+      playNote(fullNote);
+    };
+
+    const handleTouchEnd = (event: TouchEvent) => {
+      event.preventDefault();
+      if (isPressed) {
+        const fullNote = note + octave;
+        stopNote(fullNote);
+      }
+    };
+    if (key) {
+      const current = key.current;
+      if (current) {
+        current.addEventListener("touchstart", handleTouchStart);
+        current.addEventListener("touchend", handleTouchEnd);
+
+        return () => {
+          current.removeEventListener("touchstart", handleTouchStart);
+          current.removeEventListener("touchend", handleTouchEnd);
+        };
+      }
+    }
+  }, [isPressed, note, octave, playNote, stopNote]);
+
   return (
     <div
+      ref={key}
       className={keyClassName}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}

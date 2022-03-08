@@ -1,5 +1,3 @@
-import { MouseEvent } from "react";
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~FilterDisplay functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 export const getXofFrequency = (freq: number, width: number) => {
   if (width <= 0) {
@@ -138,25 +136,34 @@ export const getParentSVG = (event: MouseEvent) => {
 };
 
 export const calculateKnobNewValue = (
-  event: MouseEvent,
+  event: MouseEvent | TouchEvent,
   min: number,
   max: number,
   circleX: number,
   circleY: number,
   minAngle: number,
-  maxAngle: number
+  maxAngle: number,
+  bounding: DOMRect | undefined
 ) => {
-  //get parent svg
-  const parentSVG = getParentSVG(event);
+  //initialize empty relative coords
+  let relativeCoords = { x: 0, y: 0 };
 
-  //get parent svg's bounding client rect - we only need this to get the svg's position on the page
-  let bounding = parentSVG.getBoundingClientRect();
-
-  //calculate mouse coordinates relative to the parent SVG
-  let relativeCoords = {
-    x: event.clientX - bounding.x,
-    y: event.clientY - bounding.y,
-  };
+  //if event is a MouseEvent
+  if ("clientX" in event) {
+    if (bounding)
+      //calculate mouse coordinates relative to the parent SVG
+      relativeCoords = {
+        x: event.clientX - bounding.x,
+        y: event.clientY - bounding.y,
+      };
+  } /*if event is a TouchEvent*/ else {
+    if (bounding)
+      //calculate mouse coordinates relative to the parent SVG
+      relativeCoords = {
+        x: event.touches[0].clientX - bounding.x,
+        y: event.touches[0].clientY - bounding.y,
+      };
+  }
   //convert relative mouse coordinates to polar angle
   let polar = cartesianToPolar(
     relativeCoords.x,
@@ -175,19 +182,21 @@ export const calculateKnobNewValue = (
 };
 
 export const calculateSliderNewValue = (
-  event: MouseEvent,
+  event: MouseEvent | TouchEvent,
   min: number,
   max: number,
-  barHeight: number
+  barHeight: number,
+  bounding: DOMRect | undefined
 ) => {
-  //get parent svg
-  const parentSVG = getParentSVG(event);
+  let relativeY = 0;
 
-  //get parent svg's bounding client rect - we only need this to get the svg's position on the page
-  let bounding = parentSVG.getBoundingClientRect();
-
-  //calculate mouse y relative to the parent SVG
-  let relativeY = event.clientY - bounding.y;
+  if ("clientY" in event) {
+    if (bounding)
+      //calculate mouse y relative to the parent SVG
+      relativeY = event.clientY - bounding.y;
+  } else {
+    if (bounding) relativeY = event.touches[0].clientY - bounding.y;
+  }
 
   //convert y coordinate to value
   let percentage = valueToPercentage(
