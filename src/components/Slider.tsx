@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useRef, useState, memo } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import { ControlProps } from "../types";
 import {
   getBarCoordinates,
@@ -32,33 +32,6 @@ const Slider = ({
   const slider = useRef<SVGSVGElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  const handleMouseDown = (event: MouseEvent) => {
-    setIsDragging(true);
-    let newValue = calculateSliderNewValue(event, min, max, barHeight);
-    if (newValue !== value) {
-      onValueChange(newValue);
-    }
-  };
-
-  const handleMouseUp = (event: MouseEvent) => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (event: MouseEvent) => {
-    if (isDragging) {
-      let newValue = calculateSliderNewValue(event, min, max, barHeight);
-      if (newValue !== value) {
-        onValueChange(newValue);
-      }
-    }
-  };
-
-  const handleMouseLeave = (event: MouseEvent) => {
-    if (isDragging) {
-      setIsDragging(false);
-    }
-  };
-
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault();
@@ -91,28 +64,108 @@ const Slider = ({
       }
     };
 
+    const handleTouchStart = (event: TouchEvent) => {
+      if (event.cancelable) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      const bounding = slider.current?.getBoundingClientRect();
+      let newValue = calculateSliderNewValue(
+        event,
+        min,
+        max,
+        barHeight,
+        bounding
+      );
+      if (newValue !== value) {
+        onValueChange(newValue);
+      }
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      if (event.cancelable) {
+        event.preventDefault();
+      }
+      const bounding = slider.current?.getBoundingClientRect();
+      let newValue = calculateSliderNewValue(
+        event,
+        min,
+        max,
+        barHeight,
+        bounding
+      );
+      if (newValue !== value) {
+        onValueChange(newValue);
+      }
+    };
+
+    const handleMouseDown = (event: MouseEvent) => {
+      event.preventDefault();
+      const bounding = slider.current?.getBoundingClientRect();
+      setIsDragging(true);
+      let newValue = calculateSliderNewValue(
+        event,
+        min,
+        max,
+        barHeight,
+        bounding
+      );
+      if (newValue !== value) {
+        onValueChange(newValue);
+      }
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      event.preventDefault();
+      const bounding = slider.current?.getBoundingClientRect();
+      if (isDragging) {
+        let newValue = calculateSliderNewValue(
+          event,
+          min,
+          max,
+          barHeight,
+          bounding
+        );
+        if (newValue !== value) {
+          onValueChange(newValue);
+        }
+      }
+    };
+
+    const handleMouseUp = (event: MouseEvent) => {
+      event.preventDefault();
+      if (isDragging) {
+        setIsDragging(false);
+      }
+    };
+
+    if (isDragging) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+
     if (slider) {
       const current = slider.current;
       if (current) {
         current.addEventListener("wheel", handleWheel);
+        current.addEventListener("touchstart", handleTouchStart);
+        current.addEventListener("touchmove", handleTouchMove);
+        current.addEventListener("mousedown", handleMouseDown);
 
         return () => {
           current.removeEventListener("wheel", handleWheel);
+          current.removeEventListener("touchstart", handleTouchStart);
+          current.removeEventListener("touchmove", handleTouchMove);
+          current.removeEventListener("mousedown", handleMouseDown);
+          window.removeEventListener("mousemove", handleMouseMove);
+          window.removeEventListener("mouseup", handleMouseUp);
         };
       }
     }
-  }, [min, max, onValueChange, step, value]);
+  }, [min, max, onValueChange, step, value, isDragging]);
 
   return (
-    <svg
-      width={width}
-      height={height}
-      ref={slider}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
+    <svg width={width} height={height} ref={slider}>
       <path
         d={drawSliderTickCoordinates(barHeight, height, width)}
         stroke="white"

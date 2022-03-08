@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useRef, useState, memo } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import { ControlProps } from "../types";
 import {
   getEndCoordinates,
@@ -35,51 +35,6 @@ const Knob = ({
   const knob = useRef<SVGSVGElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  const handleMouseDown = (event: MouseEvent) => {
-    setIsDragging(true);
-    let newValue = calculateKnobNewValue(
-      event,
-      min,
-      max,
-      circleX,
-      circleY,
-      minAngle,
-      maxAngle
-    );
-    if (newValue !== value) {
-      onValueChange(newValue);
-    }
-  };
-
-  const handleMouseUp = (event: MouseEvent) => {
-    if (isDragging) {
-      setIsDragging(false);
-    }
-  };
-
-  const handleMouseMove = (event: MouseEvent) => {
-    if (isDragging) {
-      let newValue = calculateKnobNewValue(
-        event,
-        min,
-        max,
-        circleX,
-        circleY,
-        minAngle,
-        maxAngle
-      );
-      if (newValue !== value) {
-        onValueChange(newValue);
-      }
-    }
-  };
-
-  const handleMouseLeave = (event: MouseEvent) => {
-    if (isDragging) {
-      setIsDragging(false);
-    }
-  };
-
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault();
@@ -112,29 +67,120 @@ const Knob = ({
       }
     };
 
+    const handleTouchStart = (event: TouchEvent) => {
+      if (event.cancelable) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      const bounding = knob.current?.getBoundingClientRect();
+      let newValue = calculateKnobNewValue(
+        event,
+        min,
+        max,
+        circleX,
+        circleY,
+        minAngle,
+        maxAngle,
+        bounding
+      );
+      if (newValue !== value) {
+        onValueChange(newValue);
+      }
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      if (event.cancelable) {
+        event.preventDefault();
+      }
+      const bounding = knob.current?.getBoundingClientRect();
+      let newValue = calculateKnobNewValue(
+        event,
+        min,
+        max,
+        circleX,
+        circleY,
+        minAngle,
+        maxAngle,
+        bounding
+      );
+      if (newValue !== value) {
+        onValueChange(newValue);
+      }
+    };
+
+    const handleMouseDown = (event: MouseEvent) => {
+      event.preventDefault();
+      const bounding = knob.current?.getBoundingClientRect();
+      setIsDragging(true);
+      let newValue = calculateKnobNewValue(
+        event,
+        min,
+        max,
+        circleX,
+        circleY,
+        minAngle,
+        maxAngle,
+        bounding
+      );
+      if (newValue !== value) {
+        onValueChange(newValue);
+      }
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      event.preventDefault();
+      if (isDragging) {
+        const bounding = knob.current?.getBoundingClientRect();
+        let newValue = calculateKnobNewValue(
+          event,
+          min,
+          max,
+          circleX,
+          circleY,
+          minAngle,
+          maxAngle,
+          bounding
+        );
+        if (newValue !== value) {
+          onValueChange(newValue);
+        }
+      }
+    };
+
+    const handleMouseUp = (event: MouseEvent) => {
+      event.preventDefault();
+      if (isDragging) {
+        setIsDragging(false);
+      }
+    };
+
+    if (isDragging) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+
     if (knob) {
       const current = knob.current;
       if (current) {
         current.addEventListener("wheel", handleWheel);
+        current.addEventListener("touchstart", handleTouchStart);
+        current.addEventListener("touchmove", handleTouchMove);
+        current.addEventListener("mousedown", handleMouseDown);
 
         return () => {
           current.removeEventListener("wheel", handleWheel);
+          current.removeEventListener("touchstart", handleTouchStart);
+          current.removeEventListener("touchmove", handleTouchMove);
+          current.removeEventListener("mousedown", handleMouseDown);
+          window.removeEventListener("mousemove", handleMouseMove);
+          window.removeEventListener("mouseup", handleMouseUp);
         };
       }
     }
-  }, [min, max, onValueChange, step, value]);
+  }, [min, max, onValueChange, step, value, circleX, circleY, isDragging]);
 
   return (
-    <svg
-      width={width}
-      height={height}
-      ref={knob}
-      className="knob-wheel"
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
+    <svg width={width} height={height} ref={knob} className="knob-wheel">
       <circle
         cx={circleX}
         cy={circleY}
