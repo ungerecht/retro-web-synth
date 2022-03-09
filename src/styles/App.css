@@ -3,10 +3,21 @@
   src: url("../fonts/PressStart2P.ttf") format("truetype");
 }
 
+html {
+  min-width: fit-content;
+}
+
 body {
   margin: 0;
   font-family: PressStart2P;
   background-color: rgb(122, 122, 122);
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
 }
 
 .unselectable {
