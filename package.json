@@ -45,6 +45,7 @@
     ]
   },
   "devDependencies": {
-    "@welldone-software/why-did-you-render": "^6.2.3"
+    "@welldone-software/why-did-you-render": "^6.2.3",
+    "react-error-overlay": "^6.0.9"
   }
 }
