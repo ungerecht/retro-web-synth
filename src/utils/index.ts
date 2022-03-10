@@ -127,14 +127,6 @@ export const getBarCoordinates = (
   return { x, y };
 };
 
-export const getParentSVG = (event: MouseEvent) => {
-  let parentSVG = event.target as Element;
-  if (parentSVG.nodeName !== "svg") {
-    parentSVG = parentSVG.parentNode as Element;
-  }
-  return parentSVG;
-};
-
 export const calculateKnobNewValue = (
   event: MouseEvent | TouchEvent,
   min: number,
