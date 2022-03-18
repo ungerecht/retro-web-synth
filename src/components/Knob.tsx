@@ -180,7 +180,13 @@ const Knob = ({
   }, [min, max, onValueChange, step, value, circleX, circleY, isDragging]);
 
   return (
-    <svg width={width} height={height} ref={knob} className="knob-wheel">
+    <svg
+      width={width}
+      height={height}
+      ref={knob}
+      className="knob-wheel"
+      data-testid="knob"
+    >
       <circle
         cx={circleX}
         cy={circleY}
