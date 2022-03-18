@@ -34,7 +34,7 @@ const RadioButton = ({
         </label>
       ) : (
         <label
-          className="radio-icon"
+          className="radio-icon unselectable"
           htmlFor={`${name}${value}`}
           style={{ width: width, height: height }}
           data-testid={value + "label"}
