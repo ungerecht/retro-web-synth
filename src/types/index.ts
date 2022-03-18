@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import { FilterRollOff } from "tone";
 
 export type synthOptions = {
@@ -153,7 +154,7 @@ export type RadioButtonProps = {
   selected: boolean;
   height: number;
   width: number;
-  onValueChange: (event: any) => void;
+  onValueChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export type RadioButtonGroupProps = {
@@ -162,5 +163,5 @@ export type RadioButtonGroupProps = {
   comparator: string;
   buttonWidth: number;
   buttonHeight: number;
-  onValueChange: (e: string | BiquadFilterType) => void;
+  onValueChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
