@@ -146,6 +146,7 @@ This project was created as a portfolio piece to practice and learn new front-en
 
 - Testing
   - [Jest](https://jestjs.io/)
+  - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 
 ## TODO
 
