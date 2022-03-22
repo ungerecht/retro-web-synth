@@ -1,4 +1,4 @@
-import { useCallback, memo } from "react";
+import { useCallback, memo, ChangeEvent } from "react";
 import FilterDisplay from "./FilterDisplay";
 import Knob from "./Knob";
 import RadioButtonGroup from "./RadioButtonGroup";
@@ -11,8 +11,8 @@ const FilterControls = ({
   setFilterOption,
 }: FilterControlsProps) => {
   const handleFilterTypeChange = useCallback(
-    (e: any) => {
-      setFilterOption(e.target.value, "type");
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setFilterOption(e.target.value as BiquadFilterType, "type");
     },
     [setFilterOption]
   );

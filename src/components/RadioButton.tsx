@@ -28,6 +28,7 @@ const RadioButton = ({
           className="radio-icon"
           htmlFor={`${name}${value}`}
           style={{ width: width, height: height }}
+          data-testid={value + "label"}
         >
           {icon}
         </label>
@@ -36,6 +37,7 @@ const RadioButton = ({
           className="radio-icon unselectable"
           htmlFor={`${name}${value}`}
           style={{ width: width, height: height }}
+          data-testid={value + "label"}
         >
           {value}
         </label>

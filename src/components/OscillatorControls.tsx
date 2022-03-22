@@ -1,4 +1,4 @@
-import { useCallback, memo } from "react";
+import { useCallback, memo, ChangeEvent } from "react";
 import Knob from "./Knob";
 import RadioButtonGroup from "./RadioButtonGroup";
 import { WAVEFORMS } from "../globals/constants";
@@ -10,7 +10,8 @@ const OscillatorControls = ({
   setSynthOption,
 }: OscillatorControlsProps) => {
   const handleTypeChange = useCallback(
-    (e: any) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
+      console.log(e);
       setSynthOption(e.target.value as OscillatorType, "type", synthNum);
     },
     [setSynthOption, synthNum]

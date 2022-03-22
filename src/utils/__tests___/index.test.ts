@@ -11,7 +11,6 @@ import {
   drawSliderTickCoordinates,
   getEndCoordinates,
   getBarCoordinates,
-  getParentSVG,
   calculateKnobNewValue,
   calculateSliderNewValue,
 } from "..";
@@ -155,7 +154,6 @@ describe("Control utils", () => {
     });
   });
 
-  //TODO: test getParentSVG()
   //TODO: test calculateKnobNewValue()
   //TODO: test calculateSliderNewValue()
 });

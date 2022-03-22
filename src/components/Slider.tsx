@@ -165,7 +165,7 @@ const Slider = ({
   }, [min, max, onValueChange, step, value, isDragging]);
 
   return (
-    <svg width={width} height={height} ref={slider}>
+    <svg width={width} height={height} ref={slider} data-testid="slider">
       <path
         d={drawSliderTickCoordinates(barHeight, height, width)}
         stroke="white"
