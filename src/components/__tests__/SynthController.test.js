@@ -3,6 +3,7 @@ import "@testing-library/jest-dom";
 
 import SynthController from "../SynthController";
 
+//TODO: write tests for SynthController
 describe("SynthController component", () => {
   test("", () => {});
 });
