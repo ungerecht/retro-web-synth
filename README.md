@@ -22,6 +22,7 @@ Web based sound synthesizer created with React, TypeScript, and Tone.js
 	- [Keys](#keys)
   - [Knobs](#knobs)
   - [Sliders](#sliders)
+- [Motivation](#motivation)
 - [Technologies Used](#technologies-used)
 - [TODO](#todo)
 - [Contributing](#contributing)
