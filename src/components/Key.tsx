@@ -16,14 +16,14 @@ const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
   const handleMouseDown = () => {
     if (!isPressed) {
       const fullNote = note + octave;
-      playNote(fullNote);
+      playNote(fullNote, true);
     }
   };
 
   const handleMouseUp = () => {
     if (isPressed) {
       const fullNote = note + octave;
-      stopNote(fullNote);
+      stopNote(fullNote, true);
     }
   };
 
@@ -33,6 +33,13 @@ const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
       stopNote(fullNote);
     }
   };
+
+  const handleMouseEnter = () => {
+    if (!isPressed) {
+      const fullNote = note + octave;
+      playNote(fullNote);
+    }
+  }
 
   useEffect(() => {
     const handleTouchStart = (event: TouchEvent) => {
@@ -69,6 +76,7 @@ const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
     />
   );
 };

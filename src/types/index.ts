@@ -53,6 +53,7 @@ export type SynthControllerState = {
   baseOctave: number;
   notesPlaying: string[];
   masterVolume: number;
+  dragging: boolean
   synth1Options: synthOptions;
   synth2Options: synthOptions;
   envelopeOptions: envelopeOptions;
@@ -137,15 +138,15 @@ export type KeyProps = {
   note: string;
   octave: number;
   notesPlaying: string[];
-  playNote: (fullNote: string) => void;
-  stopNote: (fullNote: string) => void;
+  playNote: (fullNote: string, startDrag?: boolean) => void;
+  stopNote: (fullNote: string, stopDrag?: boolean) => void;
 };
 
 export type KeyboardProps = {
   notesPlaying: string[];
   octave: number;
-  playNote: (fullNote: string) => void;
-  stopNote: (fullNote: string) => void;
+  playNote: (fullNote: string, startDrag?: boolean) => void;
+  stopNote: (fullNote: string, stopDrag?: boolean) => void;
 };
 
 export type RadioButtonProps = {

@@ -9,8 +9,13 @@ const Keyboard = ({
   playNote,
   stopNote,
 }: KeyboardProps) => {
+  const handleMouseLeave = () => { stopNote('', true) }
+
   return (
-    <div className="keyboard">
+    <div
+      className="keyboard"
+      onMouseLeave={handleMouseLeave}
+    >
       <KeyboardOctave
         octave={octave}
         notesPlaying={notesPlaying}
