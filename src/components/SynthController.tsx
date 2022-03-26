@@ -47,6 +47,7 @@ class SynthController extends Component<{}, SynthControllerState> {
       baseOctave: 2,
       notesPlaying: [],
       masterVolume: -4, // -60 - 0
+      dragging: false,
       synth1Options: {
         volume: 0, // -60 - 0
         detune: 0, //-1200 - 1200
@@ -204,28 +205,37 @@ class SynthController extends Component<{}, SynthControllerState> {
     }
   };
 
-  playNote = (fullNote: string) => {
+  playNote = (fullNote: string, startDrag: boolean = false) => {
     if (!this.state.notesPlaying.includes(fullNote)) {
-      //play atack of note
-      this.synth1.triggerAttack(fullNote);
-      this.synth2.triggerAttack(fullNote);
+      //play attack of note
+      if (startDrag || this.state.dragging) {
+        this.synth1.triggerAttack(fullNote);
+        this.synth2.triggerAttack(fullNote);
 
-      //add note to notesPlaying
-      this.setState((prevState) => ({
-        notesPlaying: [...prevState.notesPlaying, fullNote],
-      }));
+        //add note to notesPlaying
+        this.setState((prevState) => ({
+          notesPlaying: [...prevState.notesPlaying, fullNote],
+          dragging: startDrag ? true : prevState.dragging
+        }));
+      }
     }
   };
 
-  stopNote = (fullNote: string) => {
+  stopNote = (fullNote: string, stopDrag: boolean = false) => {
     if (this.state.notesPlaying.includes(fullNote)) {
       //trigger release of note
       this.synth1.triggerRelease(fullNote);
       this.synth2.triggerRelease(fullNote);
 
       //remove note from notesPlaying
-      this.setState({
+      this.setState((prevState) => ({
         notesPlaying: this.state.notesPlaying.filter((n) => n !== fullNote),
+        dragging: stopDrag ? false : prevState.dragging
+      }));
+    } else if (!fullNote) {
+      // stop drag on empty note
+      this.setState({
+        dragging: false
       });
     }
   };
