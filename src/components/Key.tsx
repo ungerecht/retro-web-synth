@@ -45,14 +45,14 @@ const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
     const handleTouchStart = (event: TouchEvent) => {
       event.preventDefault();
       const fullNote = note + octave;
-      playNote(fullNote);
+      playNote(fullNote, true);
     };
 
     const handleTouchEnd = (event: TouchEvent) => {
       event.preventDefault();
       if (isPressed) {
         const fullNote = note + octave;
-        stopNote(fullNote);
+        stopNote(fullNote, true);
       }
     };
     if (key) {
