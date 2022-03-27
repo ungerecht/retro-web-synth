@@ -188,7 +188,7 @@ class SynthController extends Component<{}, SynthControllerState> {
         this.state.baseOctave + fullNoteObj.octaveMod
       }`;
 
-      this.playNote(fullNote);
+      this.playNote(fullNote, false, true);
     }
   };
 
@@ -205,17 +205,21 @@ class SynthController extends Component<{}, SynthControllerState> {
     }
   };
 
-  playNote = (fullNote: string, startDrag: boolean = false) => {
+  playNote = (
+    fullNote: string,
+    startDrag: boolean = false,
+    isKeyPress: boolean = false
+  ) => {
     if (!this.state.notesPlaying.includes(fullNote)) {
       //play attack of note
-      if (startDrag || this.state.dragging) {
+      if (startDrag || this.state.dragging || isKeyPress) {
         this.synth1.triggerAttack(fullNote);
         this.synth2.triggerAttack(fullNote);
 
         //add note to notesPlaying
         this.setState((prevState) => ({
           notesPlaying: [...prevState.notesPlaying, fullNote],
-          dragging: startDrag ? true : prevState.dragging
+          dragging: startDrag ? true : prevState.dragging,
         }));
       }
     }
@@ -230,12 +234,12 @@ class SynthController extends Component<{}, SynthControllerState> {
       //remove note from notesPlaying
       this.setState((prevState) => ({
         notesPlaying: this.state.notesPlaying.filter((n) => n !== fullNote),
-        dragging: stopDrag ? false : prevState.dragging
+        dragging: stopDrag ? false : prevState.dragging,
       }));
     } else if (!fullNote) {
       // stop drag on empty note
       this.setState({
-        dragging: false
+        dragging: false,
       });
     }
   };
