@@ -13,13 +13,6 @@ const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
 
   const key = useRef<HTMLDivElement>(null);
 
-  const handleMouseDown = () => {
-    if (!isPressed) {
-      const fullNote = note + octave;
-      playNote(fullNote, true);
-    }
-  };
-
   const handleMouseUp = () => {
     if (isPressed) {
       const fullNote = note + octave;
@@ -39,9 +32,17 @@ const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
       const fullNote = note + octave;
       playNote(fullNote);
     }
-  }
+  };
 
   useEffect(() => {
+    const handleMouseDown = (event: MouseEvent) => {
+      event.preventDefault();
+      if (!isPressed) {
+        const fullNote = note + octave;
+        playNote(fullNote, true);
+      }
+    };
+
     const handleTouchStart = (event: TouchEvent) => {
       event.preventDefault();
       const fullNote = note + octave;
@@ -58,10 +59,12 @@ const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
     if (key) {
       const current = key.current;
       if (current) {
+        current.addEventListener("mousedown", handleMouseDown);
         current.addEventListener("touchstart", handleTouchStart);
         current.addEventListener("touchend", handleTouchEnd);
 
         return () => {
+          current.removeEventListener("mousedown", handleMouseDown);
           current.removeEventListener("touchstart", handleTouchStart);
           current.removeEventListener("touchend", handleTouchEnd);
         };
@@ -73,7 +76,6 @@ const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
     <div
       ref={key}
       className={keyClassName}
-      onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
