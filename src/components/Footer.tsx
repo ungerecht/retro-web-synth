@@ -12,7 +12,11 @@ const Footer = () => {
           <br />
           <span>
             Developed by{" "}
-            <a href="https://github.com/ungerecht" target="_blank">
+            <a
+              href="https://github.com/ungerecht"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Kevin Ungerecht
             </a>
           </span>
@@ -21,6 +25,7 @@ const Footer = () => {
           <a
             href="https://github.com/ungerecht/retro-web-synth"
             target="_blank"
+            rel="noopener noreferrer"
           >
             {github}
           </a>
