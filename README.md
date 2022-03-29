@@ -160,7 +160,7 @@ This project was created as a portfolio piece to practice and learn new front-en
 
 ## Contributing
 
-Feel free to contribute by submitting issues on Github. Suggestions for improvements are welcome!
+Feel free to contribute by submitting issues or pull requests on Github. Suggestions for improvements and constructive criticism are welcome!
 
 ## Contact
 
