@@ -1,6 +1,6 @@
 # Retro Web Synthesizer
 
-Web based sound synthesizer created with React, TypeScript, and Tone.js
+An open-source web-based sound synthesizer built with React, TypeScript, and Tone.js. This polysynth features two oscillators that can be played in tandem by pressing the piano keys. Each oscillator has four waveforms to choose from and is routed through an amplitude envelope, biquadratic filter, and a three bin equalizer allowing full control over the shape and frequencies of the sound. The sound can be altered further with effects including feedback delay, bit-crusher, distortion, and reverb. 
 
 [Live Demo](https://retro-synth.herokuapp.com/)
 
