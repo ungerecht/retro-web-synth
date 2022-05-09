@@ -24,7 +24,6 @@ An open-source web-based sound synthesizer built with React, TypeScript, and Ton
   - [Sliders](#sliders)
 - [Motivation](#motivation)
 - [Technologies Used](#technologies-used)
-- [TODO](#todo)
 - [Contributing](#contributing)
 - [Contact](#contact)
 
@@ -148,14 +147,6 @@ This project was created as a portfolio piece to practice and learn new front-en
 - Testing
   - [Jest](https://jestjs.io/)
   - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
-
-## TODO
-
-- [x] Implement click and drag on Knob and Slider components
-- [x] Finalize layout
-- [ ] Saveable settings
-- [ ] Implement Midi control of piano keys
-- [x] Make interface mobile friendly
 
 
 ## Contributing
