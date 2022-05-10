@@ -1,0 +1,36 @@
+.midi-container {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.midi-container > label {
+  margin: 0px 5px;
+}
+
+.midi-select {
+  width: 160px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(147, 192, 192);
+  font-family: PressStart2P;
+  font-size: 8px;
+  padding: 3px;
+}
+
+.lightbulb {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-size: 100%;
+}
+
+.green {
+  border: 1px solid limegreen;
+  background: linear-gradient(340deg, limegreen, limegreen, white);
+}
+
+.red {
+  border: 1px solid red;
+  background: linear-gradient(340deg, red, red, white);
+}
