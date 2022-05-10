@@ -1,31 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { Input, WebMidi } from "webmidi";
 import { MidiProps } from "../types";
+import "../styles/Midi.css";
 
 const Midi = ({ playNote, stopNote }: MidiProps) => {
   const [inputs, setInputs] = useState<string[]>([]);
   const [selectedMidi, setSelectedMidi] = useState<Input>();
 
-  useEffect(() => {
-    const onEnabled = () => {
-      setInputs((prev) => {
-        return [
-          ...prev,
-          ...WebMidi.inputs.map((input) => {
-            return input.name;
-          }),
-        ];
-      });
-    };
+  const onEnabled = () => {
+    const newInputs = WebMidi.inputs.map((input) => {
+      return input.name;
+    });
 
-    if (!WebMidi.enabled) {
-      WebMidi.enable()
-        .then(onEnabled)
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, []);
+    setInputs((prev) => {
+      return [...new Set([...prev, ...newInputs])];
+    });
+  };
+
+  const findMidi = () => {
+    WebMidi.enable()
+      .then(onEnabled)
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     if (selectedMidi) {
@@ -38,16 +36,23 @@ const Midi = ({ playNote, stopNote }: MidiProps) => {
     }
   }, [selectedMidi, playNote, stopNote]);
 
-  const handleSelect = async (name: string) => {
-    if (selectedMidi) await selectedMidi.removeListener();
+  const handleSelect = (name: string) => {
+    if (selectedMidi) selectedMidi.removeListener();
     setSelectedMidi(WebMidi.getInputByName(name));
   };
 
   return (
-    <div>
+    <div className="midi-container">
+      <div
+        className={`${"lightbulb"} ${
+          selectedMidi?.connection ? "green" : "red"
+        }`}
+      />
       <label htmlFor="midiSelect">MIDI</label>
       <select
+        className="midi-select"
         name="midiSelect"
+        onClick={findMidi}
         onChange={(event) => handleSelect(event.target.value)}
       >
         <option value="">None</option>
