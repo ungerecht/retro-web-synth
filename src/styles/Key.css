@@ -10,7 +10,7 @@
   justify-content: center;
 }
 
-.key.flat {
+.key.sharp {
   color: white;
   text-align: center;
   position: relative;
@@ -26,6 +26,6 @@
 }
 
 .key.pressed,
-.key.flat.pressed {
+.key.sharp.pressed {
   background-color: cornflowerblue;
 }

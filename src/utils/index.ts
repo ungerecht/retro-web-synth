@@ -19,7 +19,7 @@ export const keyIsPressed = (
   return notesPlaying.includes(`${note}${octave}`);
 };
 
-export const keyIsFlat = (note: string) => {
+export const keyIsSharp = (note: string) => {
   return note.length > 1;
 };
 
