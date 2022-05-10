@@ -53,7 +53,7 @@ export type SynthControllerState = {
   baseOctave: number;
   notesPlaying: string[];
   masterVolume: number;
-  dragging: boolean
+  dragging: boolean;
   synth1Options: synthOptions;
   synth2Options: synthOptions;
   envelopeOptions: envelopeOptions;
@@ -165,4 +165,9 @@ export type RadioButtonGroupProps = {
   buttonWidth: number;
   buttonHeight: number;
   onValueChange: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+
+export type MidiProps = {
+  playNote: (fullNote: string, startDrag?: boolean) => void;
+  stopNote: (fullNote: string, stopDrag?: boolean) => void;
 };
