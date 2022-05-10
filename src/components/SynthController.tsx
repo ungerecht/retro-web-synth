@@ -21,6 +21,7 @@ import FilterControls from "./FilterControls";
 import Keyboard from "./Keyboard";
 import EffectsControls from "./EffectsControls";
 import EQ3Controls from "./EQ3Controls";
+import Midi from "./Midi";
 
 import { KEY_TO_FULLNOTE, VALID_KEYS } from "../globals/constants";
 
@@ -392,6 +393,9 @@ class SynthController extends Component<{}, SynthControllerState> {
   render() {
     return (
       <div className="container">
+        <div className="top-bar">
+          <Midi playNote={this.playNote} stopNote={this.stopNote} />
+        </div>
         <div className="top-container">
           <OscillatorControls
             synthNum={1}
