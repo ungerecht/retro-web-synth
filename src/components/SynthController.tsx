@@ -12,6 +12,7 @@ import {
   BitCrusher,
   Destination,
   FilterRollOff,
+  FFT,
 } from "tone";
 
 import OscillatorControls from "./OscillatorControls";
@@ -22,6 +23,7 @@ import Keyboard from "./Keyboard";
 import EffectsControls from "./EffectsControls";
 import EQ3Controls from "./EQ3Controls";
 import Midi from "./Midi";
+import Visualizer from "./Visualizer";
 
 import { KEY_TO_FULLNOTE, VALID_KEYS } from "../globals/constants";
 
@@ -41,6 +43,7 @@ class SynthController extends Component<{}, SynthControllerState> {
   distortion: Distortion;
   delay: FeedbackDelay;
   bitCrusher: BitCrusher;
+  fft: FFT;
   state: SynthControllerState;
   constructor(props: any) {
     super(props);
@@ -110,6 +113,7 @@ class SynthController extends Component<{}, SynthControllerState> {
     this.distortion = new Distortion(this.state.distortionOptions);
     this.delay = new FeedbackDelay(this.state.delayOptions);
     this.bitCrusher = new BitCrusher(this.state.bitCrusherOptions);
+    this.fft = new FFT({ size: 512 });
   }
 
   componentDidMount() {
@@ -117,7 +121,6 @@ class SynthController extends Component<{}, SynthControllerState> {
     document.addEventListener("keyup", this.onKeyUp);
 
     this.initSynths();
-
     //send each synth through a Gain node to prevent clipping
     this.synth1.connect(this.node1);
     this.synth2.connect(this.node2);
@@ -129,6 +132,7 @@ class SynthController extends Component<{}, SynthControllerState> {
     //connect the filter -> distortion -> EQ3 -> bitCrusher -> delay -> reverb -> masterVolume
     this.filter.chain(
       this.EQ3,
+      this.fft,
       this.distortion,
       this.bitCrusher,
       this.delay,
@@ -393,6 +397,10 @@ class SynthController extends Component<{}, SynthControllerState> {
   render() {
     return (
       <div className="container">
+        <Visualizer
+          isPlaying={this.state.notesPlaying.length > 0}
+          fft={this.fft}
+        />
         <div className="top-bar">
           <Midi playNote={this.playNote} stopNote={this.stopNote} />
         </div>
