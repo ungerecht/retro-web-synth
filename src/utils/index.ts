@@ -3,7 +3,16 @@ export const getXofFrequency = (freq: number, width: number) => {
   if (width <= 0) {
     throw new RangeError("width must be greater than 0");
   }
-  return width * Math.sqrt((freq - 20) / (20000 - 20));
+  let min_f = Math.log10(20);
+  let max_f = Math.log10(20000);
+  let range = max_f - min_f;
+  return ((Math.log10(freq) - min_f) / range) * width;
+};
+
+export const getFrequencyOfX = (x: number, width: number) => {
+  const min = 20;
+  const max = 20000;
+  return min * Math.pow(10, (x * Math.log10(max / min)) / width);
 };
 
 export const dbToY = (db: number, middle: number, pixelsPerDb: number) => {
