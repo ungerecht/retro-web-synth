@@ -13,7 +13,6 @@ const Visualizer = ({ isPlaying, fft }: props) => {
   const rafId = useRef<number>(0);
   const width = 256;
   const height = 200;
-  const middle = height / 2;
 
   useEffect(() => {
     const tick = () => {
@@ -37,34 +36,33 @@ const Visualizer = ({ isPlaying, fft }: props) => {
     const draw = () => {
       const context = canvas.current?.getContext("2d");
       if (context && audioData) {
-        context.lineWidth = 2;
-        context.strokeStyle = "white";
+        context.lineWidth = 1;
         context.clearRect(0, 0, width, height);
-        context.beginPath();
-        // const barWidth = (width / audioData.length) * 2;
-        // const barWidth = 1;
-        // let posX = 0;
+        let path = new Path2D();
+        path.moveTo(0, height);
         for (let i = 0; i < audioData.length; i++) {
-          // const barHeight = audioData[x] + 140;
-          // context.fillStyle = "rgb(" + Math.floor(barHeight + 100) + ",10,50)";
-          // context.fillRect(posX, height - barHeight, barWidth, barHeight / 2);
-          // posX += barWidth;
-          // const y = Math.abs(audioData[x]);
-          const freq = Math.abs(audioData[i]);
-          const x = getXofFrequency(fft.getFrequencyOfIndex(i), width);
-          context.lineTo(!x ? 0 : x, freq);
+          const freq = height - (audioData[i] + 140);
+          let x = getXofFrequency(fft.getFrequencyOfIndex(i), width);
+          if (x < 0) {
+            x = 0;
+          }
+          path.lineTo(x, freq);
         }
-        context.stroke();
+        path.lineTo(width, height);
+        path.lineTo(0, height);
+        path.closePath();
+        const gradient = context.createLinearGradient(0, 0, width, 0);
+        gradient.addColorStop(0, "darkblue");
+        gradient.addColorStop(0.5, "blue");
+        gradient.addColorStop(0.95, "deepskyblue");
+        context.fillStyle = gradient;
+        context.fill(path);
       }
     };
     draw();
-  }, [audioData]);
+  }, [audioData, fft]);
 
   return <canvas ref={canvas} width={width} height={height} />;
-};
-
-const getIndexOfFrequency = (freq: number) => {
-  return freq / 93.75;
 };
 
 export default Visualizer;
