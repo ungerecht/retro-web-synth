@@ -132,12 +132,12 @@ class SynthController extends Component<{}, SynthControllerState> {
     //connect the filter -> distortion -> EQ3 -> bitCrusher -> delay -> reverb -> masterVolume
     this.filter.chain(
       this.EQ3,
-      this.fft,
       this.distortion,
       this.bitCrusher,
       this.delay,
       this.reverb,
       this.masterVolume,
+      this.fft,
       Destination
     );
   }
