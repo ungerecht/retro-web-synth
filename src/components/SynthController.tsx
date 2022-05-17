@@ -12,6 +12,7 @@ import {
   BitCrusher,
   Destination,
   FilterRollOff,
+  FFT,
 } from "tone";
 
 import OscillatorControls from "./OscillatorControls";
@@ -41,6 +42,7 @@ class SynthController extends Component<{}, SynthControllerState> {
   distortion: Distortion;
   delay: FeedbackDelay;
   bitCrusher: BitCrusher;
+  fft: FFT;
   state: SynthControllerState;
   constructor(props: any) {
     super(props);
@@ -110,6 +112,7 @@ class SynthController extends Component<{}, SynthControllerState> {
     this.distortion = new Distortion(this.state.distortionOptions);
     this.delay = new FeedbackDelay(this.state.delayOptions);
     this.bitCrusher = new BitCrusher(this.state.bitCrusherOptions);
+    this.fft = new FFT({ size: 512 });
   }
 
   componentDidMount() {
@@ -117,7 +120,6 @@ class SynthController extends Component<{}, SynthControllerState> {
     document.addEventListener("keyup", this.onKeyUp);
 
     this.initSynths();
-
     //send each synth through a Gain node to prevent clipping
     this.synth1.connect(this.node1);
     this.synth2.connect(this.node2);
@@ -134,6 +136,7 @@ class SynthController extends Component<{}, SynthControllerState> {
       this.delay,
       this.reverb,
       this.masterVolume,
+      this.fft,
       Destination
     );
   }
@@ -414,6 +417,8 @@ class SynthController extends Component<{}, SynthControllerState> {
           <FilterControls
             filterOptions={this.state.filterOptions}
             setFilterOption={this.setFilterOption}
+            isPlaying={this.state.notesPlaying.length > 0}
+            fft={this.fft}
           />
           <EQ3Controls
             eq3Options={this.state.eq3Options}
