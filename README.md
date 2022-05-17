@@ -116,7 +116,7 @@ Note: Some types are unaffected by certain settings, for example allpass lets al
 
 ## Controls
 ### Keys
-> Keys can be played by clicking/touching them or with your computer keyboard with the hotkeys shown below.
+> Keys can be played by clicking/touching them, with MIDI keyboard, or with your computer keyboard with the hotkeys shown below.
 ![screenshot](/screenshots/keys.png)
 
 ### Knobs
@@ -129,7 +129,7 @@ Note: Some types are unaffected by certain settings, for example allpass lets al
 
 ## Motivation
 
-This project was created as a portfolio piece to practice and learn new front-end development skills, specifically using React.js and TypeScript. I also wanted to use all custom CSS for styling.
+This project was created as a portfolio piece to practice and learn new front-end development skills, specifically using React.js and TypeScript. I also wanted to limit use of external libraries, and use all custom CSS for styling.
 
 ## Technologies Used
 
@@ -140,6 +140,7 @@ This project was created as a portfolio piece to practice and learn new front-en
 - Web Audio Framework
 
   - [Tone.js](https://tonejs.github.io/)
+  - [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 
 - Language
   - [TypeScript](https://www.typescriptlang.org/)
