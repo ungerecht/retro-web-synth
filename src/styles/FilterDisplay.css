@@ -2,6 +2,7 @@
   height: fit-content;
   border: 3px solid black;
   padding: 0px;
+  position: relative;
 }
 
 canvas {
@@ -12,4 +13,22 @@ canvas {
 .filter-type-buttons {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.holder {
+  width: 256px;
+  height: 156px;
+  background-color: black;
+}
+
+.filter-display {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+}
+
+.visualiser {
+  position: absolute;
+  top: 0;
+  z-index: 1;
 }
