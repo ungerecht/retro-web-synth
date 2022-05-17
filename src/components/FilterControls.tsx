@@ -9,6 +9,8 @@ import "../styles/FilterControls.css";
 const FilterControls = ({
   filterOptions,
   setFilterOption,
+  isPlaying,
+  fft,
 }: FilterControlsProps) => {
   const handleFilterTypeChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +51,11 @@ const FilterControls = ({
       </div>
       <div className="column">
         <div className="row">
-          <FilterDisplay filterOptions={filterOptions} />
+          <FilterDisplay
+            filterOptions={filterOptions}
+            isPlaying={isPlaying}
+            fft={fft}
+          />
         </div>
       </div>
       <div className="column">

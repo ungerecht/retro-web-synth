@@ -23,7 +23,6 @@ import Keyboard from "./Keyboard";
 import EffectsControls from "./EffectsControls";
 import EQ3Controls from "./EQ3Controls";
 import Midi from "./Midi";
-import Visualizer from "./Visualizer";
 
 import { KEY_TO_FULLNOTE, VALID_KEYS } from "../globals/constants";
 
@@ -397,10 +396,6 @@ class SynthController extends Component<{}, SynthControllerState> {
   render() {
     return (
       <div className="container">
-        <Visualizer
-          isPlaying={this.state.notesPlaying.length > 0}
-          fft={this.fft}
-        />
         <div className="top-bar">
           <Midi playNote={this.playNote} stopNote={this.stopNote} />
         </div>
@@ -422,6 +417,8 @@ class SynthController extends Component<{}, SynthControllerState> {
           <FilterControls
             filterOptions={this.state.filterOptions}
             setFilterOption={this.setFilterOption}
+            isPlaying={this.state.notesPlaying.length > 0}
+            fft={this.fft}
           />
           <EQ3Controls
             eq3Options={this.state.eq3Options}
