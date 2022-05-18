@@ -7,8 +7,7 @@ const RadioButtonGroup = ({
   items,
   id,
   comparator,
-  buttonWidth,
-  buttonHeight,
+  buttonSize,
   onValueChange,
 }: RadioButtonGroupProps) => {
   return (
@@ -20,8 +19,7 @@ const RadioButtonGroup = ({
             name={id}
             value={item}
             selected={comparator === item}
-            width={buttonWidth}
-            height={buttonHeight}
+            size={buttonSize}
             onValueChange={onValueChange}
           />
         );

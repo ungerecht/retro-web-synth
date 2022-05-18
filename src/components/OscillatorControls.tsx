@@ -52,8 +52,7 @@ const OscillatorControls = ({
               items={WAVEFORMS}
               id={`waveforms${synthNum}`}
               comparator={synthOptions.type}
-              buttonWidth={26}
-              buttonHeight={26}
+              buttonSize="med"
               onValueChange={handleTypeChange}
             />
           </div>
