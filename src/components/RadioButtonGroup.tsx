@@ -12,10 +12,10 @@ const RadioButtonGroup = ({
 }: RadioButtonGroupProps) => {
   return (
     <>
-      {items.map((item, i) => {
+      {items.map((item) => {
         return (
           <RadioButton
-            key={`${id}${i}`}
+            key={`${id}${item}`}
             name={id}
             value={item}
             selected={comparator === item}
