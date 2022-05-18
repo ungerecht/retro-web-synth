@@ -1,0 +1,9 @@
+.type-buttons {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.rolloff-buttons {
+  display: grid;
+  grid-template-columns: 36px 36px;
+}
