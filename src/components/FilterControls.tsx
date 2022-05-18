@@ -59,26 +59,24 @@ const FilterControls = ({
         </div>
       </div>
       <div className="column">
-        <div className="row filter-type-buttons">
+        <div className="row type-buttons">
           <RadioButtonGroup
             items={FILTER_TYPES}
             id={"filter types"}
             comparator={filterOptions.type}
-            buttonWidth={28}
-            buttonHeight={28}
+            buttonSize="large"
             onValueChange={handleFilterTypeChange}
           />
         </div>
       </div>
       <div className="row justify-between">
         <div className="column">
-          <div style={{ display: "grid", gridTemplateColumns: `36px 36px` }}>
+          <div className="rolloff-buttons">
             <RadioButtonGroup
               items={ROLLOFFS}
               id={"filter rolloffs"}
               comparator={filterOptions.rolloff.toString()}
-              buttonWidth={26}
-              buttonHeight={12}
+              buttonSize="small"
               onValueChange={handleFilterRolloffChange}
             />
           </div>
