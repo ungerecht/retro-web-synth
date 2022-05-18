@@ -157,8 +157,7 @@ export type RadioButtonProps = {
   value: string;
   name: string;
   selected: boolean;
-  height: number;
-  width: number;
+  size: string;
   onValueChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -166,8 +165,7 @@ export type RadioButtonGroupProps = {
   items: string[];
   id: string;
   comparator: string;
-  buttonWidth: number;
-  buttonHeight: number;
+  buttonSize: string;
   onValueChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
