@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { Input, WebMidi } from "webmidi";
 import { MidiProps } from "../types";
 import "../styles/Midi.css";
@@ -36,9 +36,9 @@ const Midi = ({ playNote, stopNote }: MidiProps) => {
     }
   }, [selectedMidi, playNote, stopNote]);
 
-  const handleSelect = (name: string) => {
+  const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     if (selectedMidi) selectedMidi.removeListener();
-    setSelectedMidi(WebMidi.getInputByName(name));
+    setSelectedMidi(WebMidi.getInputByName(event.target.value));
   };
 
   return (
@@ -48,12 +48,14 @@ const Midi = ({ playNote, stopNote }: MidiProps) => {
           selectedMidi?.connection ? "green" : "red"
         }`}
       />
-      <label htmlFor="midiSelect">MIDI</label>
+      <label className="unselectable" htmlFor="midiSelect">
+        MIDI
+      </label>
       <select
-        className="midi-select"
+        className="midi-select unselectable"
         name="midiSelect"
         onClick={findMidi}
-        onChange={(event) => handleSelect(event.target.value)}
+        onChange={handleSelect}
       >
         <option value="">None</option>
         {inputs.map((input) => {
