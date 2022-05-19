@@ -55,7 +55,6 @@ const Key = ({ note, octave, notesPlaying, playNote, stopNote }: KeyProps) => {
 
   return (
     <div
-      // ref={key}
       className={keyClassName}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
