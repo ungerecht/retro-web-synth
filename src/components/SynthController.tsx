@@ -38,7 +38,7 @@ class SynthController extends Component<{}, SynthControllerState> {
   filter: Filter;
   masterVolume: Volume;
   reverb: Reverb;
-  EQ3: EQ3;
+  eq3: EQ3;
   distortion: Distortion;
   delay: FeedbackDelay;
   bitCrusher: BitCrusher;
@@ -106,9 +106,9 @@ class SynthController extends Component<{}, SynthControllerState> {
     this.node1 = new Gain(0.5);
     this.node2 = new Gain(0.5);
     this.filter = new Filter(this.state.filterOptions);
-    this.masterVolume = new Volume(this.state.masterVolume);
+    this.masterVolume = new Volume();
     this.reverb = new Reverb(this.state.reverbOptions);
-    this.EQ3 = new EQ3(this.state.eq3Options);
+    this.eq3 = new EQ3(this.state.eq3Options);
     this.distortion = new Distortion(this.state.distortionOptions);
     this.delay = new FeedbackDelay(this.state.delayOptions);
     this.bitCrusher = new BitCrusher(this.state.bitCrusherOptions);
@@ -128,9 +128,9 @@ class SynthController extends Component<{}, SynthControllerState> {
     this.node1.connect(this.filter);
     this.node2.connect(this.filter);
 
-    //connect the filter -> distortion -> EQ3 -> bitCrusher -> delay -> reverb -> masterVolume
+    //connect the filter -> distortion -> EQ3 -> bitCrusher -> delay -> reverb -> masterVolume -> fft
     this.filter.chain(
-      this.EQ3,
+      this.eq3,
       this.distortion,
       this.bitCrusher,
       this.delay,
@@ -248,38 +248,6 @@ class SynthController extends Component<{}, SynthControllerState> {
     }
   };
 
-  setSynthOption = (
-    value: OscillatorType | number,
-    target: "type" | "phase" | "volume" | "detune",
-    synthNum: 1 | 2
-  ) => {
-    if (target === "detune" || target === "volume") {
-      this[`synth${synthNum}`].set({
-        [target]: value,
-      });
-    } else {
-      this[`synth${synthNum}`].set({
-        oscillator: { [target]: value },
-      });
-    }
-
-    if (synthNum === 1) {
-      this.setState((prevState) => ({
-        synth1Options: {
-          ...prevState.synth1Options,
-          [target]: value,
-        },
-      }));
-    } else {
-      this.setState((prevState) => ({
-        synth2Options: {
-          ...prevState.synth2Options,
-          [target]: value,
-        },
-      }));
-    }
-  };
-
   setEnvelopeOption = (
     value: number,
     target: "attack" | "decay" | "sustain" | "release"
@@ -363,34 +331,12 @@ class SynthController extends Component<{}, SynthControllerState> {
     }));
   };
 
-  setEQ3Option = (
-    value: number,
-    target: "low" | "mid" | "high" | "lowFrequency" | "highFrequency"
-  ) => {
-    this.EQ3.set({
-      [target]: value,
-    });
-    this.setState((prevState) => ({
-      eq3Options: {
-        ...prevState.eq3Options,
-        [target]: value,
-      },
-    }));
-  };
-
   setBaseOctave = (value: number) => {
     this.setState({ baseOctave: value });
     //stop all notes in notesPlaying
     this.state.notesPlaying.forEach((note) => {
       this.stopNote(note);
     });
-    //empty notesPlaying array
-    this.setState({ notesPlaying: [] });
-  };
-
-  setMasterVolume = (value: number) => {
-    this.masterVolume.set({ volume: value });
-    this.setState({ masterVolume: value });
   };
 
   render() {
@@ -400,16 +346,8 @@ class SynthController extends Component<{}, SynthControllerState> {
           <Midi playNote={this.playNote} stopNote={this.stopNote} />
         </div>
         <div className="top-container">
-          <OscillatorControls
-            synthNum={1}
-            synthOptions={this.state.synth1Options}
-            setSynthOption={this.setSynthOption}
-          />
-          <OscillatorControls
-            synthNum={2}
-            synthOptions={this.state.synth2Options}
-            setSynthOption={this.setSynthOption}
-          />
+          <OscillatorControls synthNum={1} synth={this.synth1} />
+          <OscillatorControls synthNum={2} synth={this.synth2} />
           <EnvelopeControls
             envelopeOptions={this.state.envelopeOptions}
             setEnvelopeOption={this.setEnvelopeOption}
@@ -420,10 +358,7 @@ class SynthController extends Component<{}, SynthControllerState> {
             isPlaying={this.state.notesPlaying.length > 0}
             fft={this.fft}
           />
-          <EQ3Controls
-            eq3Options={this.state.eq3Options}
-            setEQ3Option={this.setEQ3Option}
-          />
+          <EQ3Controls eq3={this.eq3} />
           <EffectsControls
             reverbOptions={this.state.reverbOptions}
             setReverbOption={this.setReverbOption}
@@ -437,8 +372,7 @@ class SynthController extends Component<{}, SynthControllerState> {
         </div>
         <div className="bottom-container">
           <MasterControls
-            volume={this.state.masterVolume}
-            setVolume={this.setMasterVolume}
+            masterVolume={this.masterVolume}
             octave={this.state.baseOctave}
             setOctave={this.setBaseOctave}
           />
