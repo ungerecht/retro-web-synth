@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { FFT, FilterRollOff } from "tone";
+import { FFT, FilterRollOff, Volume, EQ3, PolySynth } from "tone";
 
 export type synthOptions = {
   volume: number;
@@ -77,12 +77,7 @@ export type ControlProps = {
 
 export type OscillatorControlsProps = {
   synthNum: 1 | 2;
-  synthOptions: synthOptions;
-  setSynthOption: (
-    value: OscillatorType | number,
-    target: "type" | "phase" | "volume" | "detune",
-    synthNum: 1 | 2
-  ) => void;
+  synth: PolySynth;
 };
 
 export type EnvelopeControlsProps = {
@@ -124,18 +119,13 @@ export type EffectsControlsProps = {
 };
 
 export type EQ3ControlsProps = {
-  eq3Options: eq3Options;
-  setEQ3Option: (
-    value: number,
-    target: "low" | "mid" | "high" | "lowFrequency" | "highFrequency"
-  ) => void;
+  eq3: EQ3;
 };
 
 export type MasterControlsProps = {
-  volume: number;
+  masterVolume: Volume;
   octave: number;
   setOctave: (octave: number) => void;
-  setVolume: (value: number) => void;
 };
 
 export type KeyProps = {
