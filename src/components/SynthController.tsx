@@ -27,6 +27,8 @@ import { KEY_TO_FULLNOTE, VALID_KEYS } from "../globals/constants";
 
 import { SynthControllerState } from "../types";
 
+import { defaults } from "../presets";
+
 import "../styles/SynthController.css";
 
 class SynthController extends Component<{}, SynthControllerState> {
@@ -48,77 +50,71 @@ class SynthController extends Component<{}, SynthControllerState> {
     this.state = {
       baseOctave: 2,
       notesPlaying: [],
-      masterVolume: -4, // -60 - 0
       dragging: false,
-      synth1Options: {
-        volume: 0, // -60 - 0
-        detune: 0, //-1200 - 1200
-        type: "sine", //sine | square | triangle | saw
-        phase: 0, //-180 - 180
-      },
-      synth2Options: {
-        volume: -10,
-        detune: 0,
-        type: "square",
-        phase: 0,
-      },
-      envelopeOptions: {
-        attack: 0.01, // 0 - 2
-        decay: 1, // 0 - 2
-        sustain: 0.1, // 0 - 1
-        release: 1, // 0 - 5
-      },
-      filterOptions: {
-        Q: 2, // 0 - 20
-        frequency: 400, // 20 - 20k
-        gain: 0, // 0 - 5
-        rolloff: -12, // -12 | -24 | -48 | -96
-        type: "allpass", // lowpass | highpass | lowshelf | highshelf | notch | allpass | bandpass
-      },
-      reverbOptions: {
-        decay: 1, // 1 - 30
-        wet: 0, // 0 - 1
-      },
-      eq3Options: {
-        low: 0,
-        mid: 0,
-        high: 0,
-        lowFrequency: 250,
-        highFrequency: 2500,
-      },
-      distortionOptions: {
-        distortion: 0,
-        wet: 0,
-      },
-      delayOptions: {
-        wet: 0,
-        delayTime: 0,
-        feedback: 0.2,
-      },
-      bitCrusherOptions: {
-        wet: 0,
-        bits: 16,
-      },
     };
     this.synth1 = new PolySynth();
     this.synth2 = new PolySynth();
     this.node1 = new Gain(0.5);
     this.node2 = new Gain(0.5);
-    this.filter = new Filter(this.state.filterOptions);
-    this.masterVolume = new Volume();
-    this.reverb = new Reverb(this.state.reverbOptions);
-    this.eq3 = new EQ3(this.state.eq3Options);
-    this.distortion = new Distortion(this.state.distortionOptions);
-    this.delay = new FeedbackDelay(this.state.delayOptions);
-    this.bitCrusher = new BitCrusher(this.state.bitCrusherOptions);
-    this.fft = new FFT({ size: 512 });
+    this.filter = new Filter(defaults.filter);
+    this.masterVolume = new Volume(defaults.masterVolume);
+    this.reverb = new Reverb(defaults.reverb);
+    this.eq3 = new EQ3(defaults.eq3);
+    this.distortion = new Distortion(defaults.distortion);
+    this.delay = new FeedbackDelay(defaults.delay);
+    this.bitCrusher = new BitCrusher(defaults.bitCrusher);
+    this.fft = new FFT(512);
+
+    this.init();
   }
 
   componentDidMount() {
     document.addEventListener("keydown", this.onKeyDown);
     document.addEventListener("keyup", this.onKeyUp);
+  }
 
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.onKeyDown);
+    document.removeEventListener("keyup", this.onKeyUp);
+  }
+
+  initSynths = () => {
+    //set default values for synth1
+    this.synth1.set({
+      volume: defaults.synth1.volume,
+      detune: defaults.synth1.detune,
+      oscillator: {
+        type: defaults.synth1.type,
+        phase: defaults.synth1.phase,
+      },
+      envelope: {
+        attack: defaults.envelope.attack,
+        decay: defaults.envelope.decay,
+        sustain: defaults.envelope.sustain,
+        release: defaults.envelope.release,
+      },
+    });
+
+    // set default values for synth2
+    this.synth2.set({
+      volume: defaults.synth2.volume,
+      detune: defaults.synth2.detune,
+      oscillator: {
+        type: defaults.synth2.type,
+        phase: defaults.synth2.phase,
+      },
+      envelope: {
+        attack: defaults.envelope.attack,
+        decay: defaults.envelope.decay,
+        sustain: defaults.envelope.sustain,
+        release: defaults.envelope.release,
+      },
+    });
+  };
+
+  init = () => {
     this.initSynths();
+
     //send each synth through a Gain node to prevent clipping
     this.synth1.connect(this.node1);
     this.synth2.connect(this.node2);
@@ -138,45 +134,6 @@ class SynthController extends Component<{}, SynthControllerState> {
       this.fft,
       Destination
     );
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.onKeyDown);
-    document.removeEventListener("keyup", this.onKeyUp);
-  }
-
-  initSynths = () => {
-    //set default values for synth1
-    this.synth1.set({
-      volume: this.state.synth1Options.volume,
-      detune: this.state.synth1Options.detune,
-      oscillator: {
-        type: this.state.synth1Options.type,
-        phase: this.state.synth1Options.phase,
-      },
-      envelope: {
-        attack: this.state.envelopeOptions.attack,
-        decay: this.state.envelopeOptions.decay,
-        sustain: this.state.envelopeOptions.sustain,
-        release: this.state.envelopeOptions.release,
-      },
-    });
-
-    // set default values for synth2
-    this.synth2.set({
-      volume: this.state.synth2Options.volume,
-      detune: this.state.synth2Options.detune,
-      oscillator: {
-        type: this.state.synth2Options.type,
-        phase: this.state.synth2Options.phase,
-      },
-      envelope: {
-        attack: this.state.envelopeOptions.attack,
-        decay: this.state.envelopeOptions.decay,
-        sustain: this.state.envelopeOptions.sustain,
-        release: this.state.envelopeOptions.release,
-      },
-    });
   };
 
   onKeyDown = (event: KeyboardEvent) => {
