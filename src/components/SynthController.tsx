@@ -11,7 +11,6 @@ import {
   FeedbackDelay,
   BitCrusher,
   Destination,
-  FilterRollOff,
   FFT,
 } from "tone";
 
@@ -266,22 +265,6 @@ class SynthController extends Component<{}, SynthControllerState> {
     }));
   };
 
-  setFilterOption = (
-    value: number | FilterRollOff | BiquadFilterType,
-    target: "type" | "rolloff" | "Q" | "frequency" | "gain"
-  ) => {
-    this.filter.set({
-      [target]: value,
-    });
-
-    this.setState((prevState) => ({
-      filterOptions: {
-        ...prevState.filterOptions,
-        [target]: value,
-      },
-    }));
-  };
-
   setDelayOption = (
     value: number,
     target: "wet" | "delayTime" | "feedback"
@@ -353,8 +336,7 @@ class SynthController extends Component<{}, SynthControllerState> {
             setEnvelopeOption={this.setEnvelopeOption}
           />
           <FilterControls
-            filterOptions={this.state.filterOptions}
-            setFilterOption={this.setFilterOption}
+            filter={this.filter}
             isPlaying={this.state.notesPlaying.length > 0}
             fft={this.fft}
           />

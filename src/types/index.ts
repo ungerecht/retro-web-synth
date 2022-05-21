@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { FFT, FilterRollOff, Volume, EQ3, PolySynth } from "tone";
+import { FFT, FilterRollOff, Volume, EQ3, PolySynth, Filter } from "tone";
 
 export type synthOptions = {
   volume: number;
@@ -89,17 +89,17 @@ export type EnvelopeControlsProps = {
 };
 
 export type FilterControlsProps = {
-  filterOptions: filterOptions;
-  setFilterOption: (
-    value: number | FilterRollOff | BiquadFilterType,
-    target: "type" | "rolloff" | "Q" | "frequency" | "gain"
-  ) => void;
+  filter: Filter;
   isPlaying: boolean;
   fft: FFT;
 };
 
 export type FilterDisplayProps = {
-  filterOptions: filterOptions;
+  type: string;
+  rolloff: number;
+  q: number;
+  freq: number;
+  gain: number;
   isPlaying: boolean;
   fft: FFT;
 };

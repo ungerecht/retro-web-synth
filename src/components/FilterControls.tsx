@@ -1,47 +1,63 @@
-import { useCallback, memo, ChangeEvent } from "react";
+import { useCallback, useState, memo, ChangeEvent } from "react";
 import FilterDisplay from "./FilterDisplay";
 import Knob from "./Knob";
 import RadioButtonGroup from "./RadioButtonGroup";
 import { FILTER_TYPES, ROLLOFFS } from "../globals/constants";
 import { FilterControlsProps } from "../types";
 import "../styles/FilterControls.css";
+import { FilterRollOff } from "tone";
 
-const FilterControls = ({
-  filterOptions,
-  setFilterOption,
-  isPlaying,
-  fft,
-}: FilterControlsProps) => {
+const FilterControls = ({ filter, isPlaying, fft }: FilterControlsProps) => {
+  const [type, setType] = useState(filter.type);
+  const [rolloff, setRolloff] = useState(filter.rolloff);
+  const [q, setQ] = useState(filter.get().Q);
+  const [freq, setFreq] = useState(
+    filter.frequency.toFrequency(filter.frequency.value)
+  );
+  const [gain, setGain] = useState(filter.get().gain);
+
   const handleFilterTypeChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      setFilterOption(e.target.value as BiquadFilterType, "type");
+      const value = e.target.value as BiquadFilterType;
+      filter.set({ type: value });
+      setType(value);
     },
-    [setFilterOption]
+    [filter]
   );
+
   const handleFilterRolloffChange = useCallback(
-    (e: any) => {
-      setFilterOption(e.target.value, "rolloff");
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = Number(e.target.value) as FilterRollOff;
+      filter.set({ rolloff: value });
+      setRolloff(value);
     },
-    [setFilterOption]
+    [filter]
   );
+
   const handleFilterQChange = useCallback(
     (value: number) => {
-      setFilterOption(value, "Q");
+      filter.set({ Q: value });
+      setQ(value);
     },
-    [setFilterOption]
+    [filter]
   );
+
   const handleFilterFrequencyChange = useCallback(
     (value: number) => {
-      setFilterOption(value, "frequency");
+      filter.set({ frequency: value });
+      setFreq(value);
     },
-    [setFilterOption]
+    [filter]
   );
+
   const handleFilterGainChange = useCallback(
     (value: number) => {
-      setFilterOption(value, "gain");
+      filter.set({ gain: value });
+      setGain(value);
     },
-    [setFilterOption]
+    [filter]
   );
+
   return (
     <div className="control-container filter-container">
       <div className="row justify-center">
@@ -52,7 +68,11 @@ const FilterControls = ({
       <div className="column">
         <div className="row">
           <FilterDisplay
-            filterOptions={filterOptions}
+            type={type}
+            rolloff={rolloff}
+            q={q}
+            freq={freq}
+            gain={gain}
             isPlaying={isPlaying}
             fft={fft}
           />
@@ -63,7 +83,7 @@ const FilterControls = ({
           <RadioButtonGroup
             items={FILTER_TYPES}
             id={"filter types"}
-            comparator={filterOptions.type}
+            comparator={type}
             buttonSize="large"
             onValueChange={handleFilterTypeChange}
           />
@@ -75,7 +95,7 @@ const FilterControls = ({
             <RadioButtonGroup
               items={ROLLOFFS}
               id={"filter rolloffs"}
-              comparator={filterOptions.rolloff.toString()}
+              comparator={rolloff.toString()}
               buttonSize="small"
               onValueChange={handleFilterRolloffChange}
             />
@@ -84,7 +104,7 @@ const FilterControls = ({
         </div>
         <div className="column filter-knob hasTooltip">
           <Knob
-            value={filterOptions.Q}
+            value={q}
             width={50}
             height={50}
             onValueChange={handleFilterQChange}
@@ -94,12 +114,12 @@ const FilterControls = ({
           />
           <label className="unselectable title-small">Res</label>
           <span className="tooltip unselectable value">{`${Math.round(
-            filterOptions.Q as number
+            q
           )}`}</span>
         </div>
         <div className="column filter-knob hasTooltip">
           <Knob
-            value={filterOptions.frequency}
+            value={freq}
             width={50}
             height={50}
             onValueChange={handleFilterFrequencyChange}
@@ -109,12 +129,12 @@ const FilterControls = ({
           />
           <label className="unselectable title-small">Cutoff</label>
           <span className="tooltip unselectable value">{`${Math.round(
-            filterOptions.frequency
+            freq
           )}Hz`}</span>
         </div>
         <div className="column filter-knob hasTooltip">
           <Knob
-            value={filterOptions.gain}
+            value={gain}
             width={50}
             height={50}
             onValueChange={handleFilterGainChange}
@@ -124,7 +144,7 @@ const FilterControls = ({
           />
           <label className="unselectable title-small">Gain</label>
           <span className="tooltip unselectable value">{`${Math.round(
-            filterOptions.gain
+            gain
           )}`}</span>
         </div>
       </div>
