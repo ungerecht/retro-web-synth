@@ -81,11 +81,8 @@ export type OscillatorControlsProps = {
 };
 
 export type EnvelopeControlsProps = {
-  envelopeOptions: envelopeOptions;
-  setEnvelopeOption: (
-    value: number,
-    target: "attack" | "decay" | "sustain" | "release"
-  ) => void;
+  synth1: PolySynth;
+  synth2: PolySynth;
 };
 
 export type FilterControlsProps = {

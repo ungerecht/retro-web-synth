@@ -247,24 +247,6 @@ class SynthController extends Component<{}, SynthControllerState> {
     }
   };
 
-  setEnvelopeOption = (
-    value: number,
-    target: "attack" | "decay" | "sustain" | "release"
-  ) => {
-    this.synth1.set({
-      envelope: { [target]: value },
-    });
-    this.synth2.set({
-      envelope: { [target]: value },
-    });
-    this.setState((prevState) => ({
-      envelopeOptions: {
-        ...prevState.envelopeOptions,
-        [target]: value,
-      },
-    }));
-  };
-
   setDelayOption = (
     value: number,
     target: "wet" | "delayTime" | "feedback"
@@ -331,10 +313,7 @@ class SynthController extends Component<{}, SynthControllerState> {
         <div className="top-container">
           <OscillatorControls synthNum={1} synth={this.synth1} />
           <OscillatorControls synthNum={2} synth={this.synth2} />
-          <EnvelopeControls
-            envelopeOptions={this.state.envelopeOptions}
-            setEnvelopeOption={this.setEnvelopeOption}
-          />
+          <EnvelopeControls synth1={this.synth1} synth2={this.synth2} />
           <FilterControls
             filter={this.filter}
             isPlaying={this.state.notesPlaying.length > 0}
