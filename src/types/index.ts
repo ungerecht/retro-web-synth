@@ -1,7 +1,6 @@
 import { ChangeEvent } from "react";
 import {
   FFT,
-  FilterRollOff,
   Volume,
   EQ3,
   PolySynth,
@@ -10,36 +9,23 @@ import {
   Reverb,
   Distortion,
   BitCrusher,
+  EnvelopeOptions,
+  FilterOptions,
 } from "tone";
 
-export type synthOptions = {
+type synthOptions = {
   volume: number;
   detune: number;
   type: OscillatorType;
   phase: number;
 };
 
-export type envelopeOptions = {
-  attack: number;
-  decay: number;
-  sustain: number;
-  release: number;
-};
-
-export type filterOptions = {
-  Q: number;
-  frequency: number;
-  gain: number;
-  rolloff: FilterRollOff;
-  type: BiquadFilterType;
-};
-
-export type reverbOptions = {
+type reverbOptions = {
   wet: number;
   decay: number;
 };
 
-export type eq3Options = {
+type eq3Options = {
   low: number;
   mid: number;
   high: number;
@@ -47,33 +33,36 @@ export type eq3Options = {
   highFrequency: number;
 };
 
-export type distortionOptions = { distortion: number; wet: number };
+type distortionOptions = { distortion: number; wet: number };
 
-export type delayOptions = {
+type delayOptions = {
   wet: number;
   delayTime: number;
   feedback: number;
 };
 
-export type bitCrusherOptions = {
+type bitCrusherOptions = {
   wet: number;
   bits: number;
+};
+
+export type preset = {
+  synth1: synthOptions;
+  synth2: synthOptions;
+  envelope: Partial<EnvelopeOptions>;
+  filter: Partial<FilterOptions>;
+  reverb: reverbOptions;
+  eq3: eq3Options;
+  distortion: distortionOptions;
+  delay: delayOptions;
+  bitCrusher: bitCrusherOptions;
+  masterVolume: number;
 };
 
 export type SynthControllerState = {
   baseOctave: number;
   notesPlaying: string[];
-  masterVolume: number;
   dragging: boolean;
-  synth1Options: synthOptions;
-  synth2Options: synthOptions;
-  envelopeOptions: envelopeOptions;
-  filterOptions: filterOptions;
-  reverbOptions: reverbOptions;
-  eq3Options: eq3Options;
-  distortionOptions: distortionOptions;
-  delayOptions: delayOptions;
-  bitCrusherOptions: bitCrusherOptions;
 };
 
 export type ControlProps = {
