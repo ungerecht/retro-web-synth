@@ -247,55 +247,6 @@ class SynthController extends Component<{}, SynthControllerState> {
     }
   };
 
-  setDelayOption = (
-    value: number,
-    target: "wet" | "delayTime" | "feedback"
-  ) => {
-    this.delay.set({ [target]: value });
-    this.setState((prevState) => ({
-      delayOptions: {
-        ...prevState.delayOptions,
-        [target]: value,
-      },
-    }));
-  };
-
-  setBitCrusherOption = (value: number, target: "wet" | "bits") => {
-    this.bitCrusher.set({ [target]: value });
-    this.setState((prevState) => ({
-      bitCrusherOptions: {
-        ...prevState.bitCrusherOptions,
-        [target]: value,
-      },
-    }));
-  };
-
-  setDistortionOption = (value: number, target: "wet" | "distortion") => {
-    this.distortion.set({
-      [target]: value,
-    });
-
-    this.setState((prevState) => ({
-      distortionOptions: {
-        ...prevState.distortionOptions,
-        [target]: value,
-      },
-    }));
-  };
-
-  setReverbOption = (value: number, target: "wet" | "decay") => {
-    this.reverb.set({
-      [target]: value,
-    });
-
-    this.setState((prevState) => ({
-      reverbOptions: {
-        ...prevState.reverbOptions,
-        [target]: value,
-      },
-    }));
-  };
-
   setBaseOctave = (value: number) => {
     this.setState({ baseOctave: value });
     //stop all notes in notesPlaying
@@ -321,14 +272,10 @@ class SynthController extends Component<{}, SynthControllerState> {
           />
           <EQ3Controls eq3={this.eq3} />
           <EffectsControls
-            reverbOptions={this.state.reverbOptions}
-            setReverbOption={this.setReverbOption}
-            distortionOptions={this.state.distortionOptions}
-            setDistortionOption={this.setDistortionOption}
-            delayOptions={this.state.delayOptions}
-            setDelayOption={this.setDelayOption}
-            bitCrusherOptions={this.state.bitCrusherOptions}
-            setBitCrusherOption={this.setBitCrusherOption}
+            reverb={this.reverb}
+            distortion={this.distortion}
+            delay={this.delay}
+            bitCrusher={this.bitCrusher}
           />
         </div>
         <div className="bottom-container">

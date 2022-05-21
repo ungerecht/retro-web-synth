@@ -1,5 +1,16 @@
 import { ChangeEvent } from "react";
-import { FFT, FilterRollOff, Volume, EQ3, PolySynth, Filter } from "tone";
+import {
+  FFT,
+  FilterRollOff,
+  Volume,
+  EQ3,
+  PolySynth,
+  Filter,
+  FeedbackDelay,
+  Reverb,
+  Distortion,
+  BitCrusher,
+} from "tone";
 
 export type synthOptions = {
   volume: number;
@@ -102,17 +113,10 @@ export type FilterDisplayProps = {
 };
 
 export type EffectsControlsProps = {
-  reverbOptions: reverbOptions;
-  distortionOptions: distortionOptions;
-  delayOptions: delayOptions;
-  bitCrusherOptions: bitCrusherOptions;
-  setReverbOption: (value: number, target: "wet" | "decay") => void;
-  setDistortionOption: (value: number, target: "wet" | "distortion") => void;
-  setDelayOption: (
-    value: number,
-    target: "wet" | "delayTime" | "feedback"
-  ) => void;
-  setBitCrusherOption: (value: number, target: "wet" | "bits") => void;
+  reverb: Reverb;
+  distortion: Distortion;
+  delay: FeedbackDelay;
+  bitCrusher: BitCrusher;
 };
 
 export type EQ3ControlsProps = {
