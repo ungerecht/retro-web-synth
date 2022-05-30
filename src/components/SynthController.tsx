@@ -12,6 +12,7 @@ import {
   BitCrusher,
   Destination,
   FFT,
+  Synth,
 } from "tone";
 
 import OscillatorControls from "./OscillatorControls";
@@ -48,12 +49,12 @@ class SynthController extends Component<{}, SynthControllerState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      baseOctave: 2,
+      baseOctave: 3,
       notesPlaying: [],
       dragging: false,
     };
-    this.synth1 = new PolySynth();
-    this.synth2 = new PolySynth();
+    this.synth1 = new PolySynth(Synth, defaults.synth1);
+    this.synth2 = new PolySynth(Synth, defaults.synth2);
     this.node1 = new Gain(0.5);
     this.node2 = new Gain(0.5);
     this.filter = new Filter(defaults.filter);
@@ -64,7 +65,6 @@ class SynthController extends Component<{}, SynthControllerState> {
     this.delay = new FeedbackDelay(defaults.delay);
     this.bitCrusher = new BitCrusher(defaults.bitCrusher);
     this.fft = new FFT(512);
-
     this.init();
   }
 
@@ -78,42 +78,19 @@ class SynthController extends Component<{}, SynthControllerState> {
     document.removeEventListener("keyup", this.onKeyUp);
   }
 
-  initSynths = () => {
-    //set default values for synth1
+  initEnvelopes = () => {
+    //set envelopes values for synth1
     this.synth1.set({
-      volume: defaults.synth1.volume,
-      detune: defaults.synth1.detune,
-      oscillator: {
-        type: defaults.synth1.type,
-        phase: defaults.synth1.phase,
-      },
-      envelope: {
-        attack: defaults.envelope.attack,
-        decay: defaults.envelope.decay,
-        sustain: defaults.envelope.sustain,
-        release: defaults.envelope.release,
-      },
+      envelope: defaults.envelope,
     });
-
-    // set default values for synth2
+    // set envelopes values for synth2
     this.synth2.set({
-      volume: defaults.synth2.volume,
-      detune: defaults.synth2.detune,
-      oscillator: {
-        type: defaults.synth2.type,
-        phase: defaults.synth2.phase,
-      },
-      envelope: {
-        attack: defaults.envelope.attack,
-        decay: defaults.envelope.decay,
-        sustain: defaults.envelope.sustain,
-        release: defaults.envelope.release,
-      },
+      envelope: defaults.envelope,
     });
   };
 
   init = () => {
-    this.initSynths();
+    this.initEnvelopes();
 
     //send each synth through a Gain node to prevent clipping
     this.synth1.connect(this.node1);
@@ -123,7 +100,7 @@ class SynthController extends Component<{}, SynthControllerState> {
     this.node1.connect(this.filter);
     this.node2.connect(this.filter);
 
-    //connect the filter -> distortion -> EQ3 -> bitCrusher -> delay -> reverb -> masterVolume -> fft
+    //connect the filter -> EQ3 -> distortion -> bitCrusher -> delay -> reverb -> masterVolume -> fft
     this.filter.chain(
       this.eq3,
       this.distortion,
