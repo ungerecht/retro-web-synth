@@ -1,35 +1,49 @@
-import { useCallback, memo } from "react";
+import { useCallback, useState, memo } from "react";
 import Slider from "./Slider";
 import { EnvelopeControlsProps } from "../types";
 
-const EnvelopeControls = ({
-  envelopeOptions,
-  setEnvelopeOption,
-}: EnvelopeControlsProps) => {
+const EnvelopeControls = ({ synth1, synth2 }: EnvelopeControlsProps) => {
+  const [attack, setAttack] = useState(Number(synth1.get().envelope.attack));
+  const [decay, setDecay] = useState(Number(synth1.get().envelope.decay));
+  const [sustain, setSustain] = useState(synth1.get().envelope.sustain);
+  const [release, setRelease] = useState(Number(synth1.get().envelope.release));
+
   const handleAttackChange = useCallback(
     (value) => {
-      setEnvelopeOption(value, "attack");
+      synth1.set({ envelope: { attack: value } });
+      synth2.set({ envelope: { attack: value } });
+      setAttack(value);
     },
-    [setEnvelopeOption]
+    [synth1, synth2]
   );
+
   const handleDecayChange = useCallback(
     (value) => {
-      setEnvelopeOption(value, "decay");
+      synth1.set({ envelope: { decay: value } });
+      synth2.set({ envelope: { decay: value } });
+      setDecay(value);
     },
-    [setEnvelopeOption]
+    [synth1, synth2]
   );
+
   const handleSustainChange = useCallback(
     (value) => {
-      setEnvelopeOption(value, "sustain");
+      synth1.set({ envelope: { sustain: value } });
+      synth2.set({ envelope: { sustain: value } });
+      setSustain(value);
     },
-    [setEnvelopeOption]
+    [synth1, synth2]
   );
+
   const handleReleaseChange = useCallback(
     (value) => {
-      setEnvelopeOption(value, "release");
+      synth1.set({ envelope: { release: value } });
+      synth2.set({ envelope: { release: value } });
+      setRelease(value);
     },
-    [setEnvelopeOption]
+    [synth1, synth2]
   );
+
   return (
     <div className="control-container envelope-container">
       <div className="row justify-center">
@@ -45,13 +59,13 @@ const EnvelopeControls = ({
             step={0.01}
             width={50}
             height={96}
-            value={Number(envelopeOptions.attack)}
+            value={attack}
             onValueChange={handleAttackChange}
           />
           <label className="unselectable title-small">ATK</label>
-          <span className="tooltip unselectable value">{`${Number(
-            parseFloat(envelopeOptions.attack.toString()).toFixed(3)
-          )}`}</span>
+          <span className="tooltip unselectable value">
+            {attack.toFixed(3)}
+          </span>
         </div>
         <div className="column hasTooltip">
           <Slider
@@ -60,13 +74,11 @@ const EnvelopeControls = ({
             step={0.01}
             width={50}
             height={96}
-            value={Number(envelopeOptions.decay)}
+            value={decay}
             onValueChange={handleDecayChange}
           />
           <label className="unselectable title-small">DEC</label>
-          <span className="tooltip unselectable value">{`${Number(
-            parseFloat(envelopeOptions.decay.toString()).toFixed(3)
-          )}`}</span>
+          <span className="tooltip unselectable value">{decay.toFixed(3)}</span>
         </div>
         <div className="column hasTooltip">
           <Slider
@@ -75,13 +87,13 @@ const EnvelopeControls = ({
             step={0.01}
             width={50}
             height={96}
-            value={Number(envelopeOptions.sustain)}
+            value={sustain}
             onValueChange={handleSustainChange}
           />
           <label className="unselectable title-small">SUS</label>
-          <span className="tooltip unselectable value">{`${Number(
-            parseFloat(envelopeOptions.sustain.toString()).toFixed(3)
-          )}`}</span>
+          <span className="tooltip unselectable value">
+            {sustain.toFixed(3)}
+          </span>
         </div>
         <div className="column hasTooltip">
           <Slider
@@ -90,13 +102,13 @@ const EnvelopeControls = ({
             step={0.01}
             width={50}
             height={96}
-            value={Number(envelopeOptions.release)}
+            value={release}
             onValueChange={handleReleaseChange}
           />
           <label className="unselectable title-small">REL</label>
-          <span className="tooltip unselectable value">{`${Number(
-            parseFloat(envelopeOptions.release.toString()).toFixed(3)
-          )}`}</span>
+          <span className="tooltip unselectable value">
+            {release.toFixed(3)}
+          </span>
         </div>
       </div>
     </div>

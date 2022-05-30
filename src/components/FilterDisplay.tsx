@@ -1,11 +1,15 @@
 import { useEffect, useRef, memo, useState } from "react";
 import { context } from "tone";
-import { FilterDisplayProps, filterOptions } from "../types";
+import { FilterDisplayProps } from "../types";
 import { getXofFrequency, getFrequencyOfX, dbToY } from "../utils";
 import "../styles/FilterDisplay.css";
 
 const FilterDisplay = ({
-  filterOptions,
+  type,
+  rolloff,
+  q,
+  freq,
+  gain,
   isPlaying,
   fft,
 }: FilterDisplayProps) => {
@@ -71,7 +75,7 @@ const FilterDisplay = ({
   useEffect(() => {
     const middle = height / 2;
     const pixelsPerDb = middle / dbScale;
-    const response = getFreqResponse(width, filterOptions);
+    const response = getFreqResponse(width, type, rolloff, q, freq, gain);
     const context = canvas.current?.getContext("2d");
     if (context) {
       //draw box
@@ -122,7 +126,7 @@ const FilterDisplay = ({
       }
       context.stroke();
     }
-  }, [filterOptions]);
+  }, [type, rolloff, q, freq, gain]);
 
   return (
     <div className="filter-display-container">
@@ -143,7 +147,14 @@ const FilterDisplay = ({
   );
 };
 
-const getFreqResponse = (len: number, filterOptions: filterOptions) => {
+const getFreqResponse = (
+  len: number,
+  type: string,
+  rolloff: number,
+  q: number,
+  freq: number,
+  gain: number
+) => {
   const freqValues = new Float32Array(len);
   for (let i = 0; i < len; i++) {
     freqValues[i] = getFrequencyOfX(i, len);
@@ -153,15 +164,14 @@ const getFreqResponse = (len: number, filterOptions: filterOptions) => {
   const magValues = new Float32Array(len);
   const phaseValues = new Float32Array(len);
   const filterClone = context.createBiquadFilter();
-  filterClone.type = filterOptions.type;
-  filterClone.Q.value = filterOptions.Q;
-  filterClone.frequency.value = filterOptions.frequency;
-  filterClone.gain.value = filterOptions.gain;
+  filterClone.type = type as BiquadFilterType;
+  filterClone.Q.value = q;
+  filterClone.frequency.value = freq;
+  filterClone.gain.value = gain;
   filterClone.getFrequencyResponse(freqValues, magValues, phaseValues);
 
   //get number of times to nest filter response to handle rolloff
-  const numFilters =
-    Math.log(Math.abs(filterOptions.rolloff) / 12) / Math.log(2) + 1;
+  const numFilters = Math.log(Math.abs(rolloff) / 12) / Math.log(2) + 1;
 
   //collect total response of all the filters
   const totalResponse = new Float32Array(len).map(() => 1);

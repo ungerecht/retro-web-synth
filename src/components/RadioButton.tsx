@@ -1,14 +1,13 @@
 import { Fragment, memo } from "react";
 import { RadioButtonProps } from "../types";
 import * as Icons from "../icons";
-import "../styles/Button.css";
+import "../styles/RadioButton.css";
 
 const RadioButton = ({
   value,
   name,
   selected,
-  height,
-  width,
+  size,
   onValueChange,
 }: RadioButtonProps) => {
   const icon = Icons[value as keyof typeof Icons];
@@ -23,25 +22,13 @@ const RadioButton = ({
         onChange={onValueChange}
         className="radio-button"
       />
-      {icon ? (
-        <label
-          className="radio-icon"
-          htmlFor={`${name}${value}`}
-          style={{ width: width, height: height }}
-          data-testid={value + "label"}
-        >
-          {icon}
-        </label>
-      ) : (
-        <label
-          className="radio-icon unselectable"
-          htmlFor={`${name}${value}`}
-          style={{ width: width, height: height }}
-          data-testid={value + "label"}
-        >
-          {value}
-        </label>
-      )}
+      <label
+        className={`radio-icon ${size} unselectable`}
+        htmlFor={`${name}${value}`}
+        data-testid={value + "label"}
+      >
+        {icon ? icon : value}
+      </label>
     </Fragment>
   );
 };

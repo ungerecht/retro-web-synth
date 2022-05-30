@@ -10,10 +10,10 @@ const KeyboardOctave = ({
   stopNote,
 }: KeyboardProps) => {
   const createKeys = () => {
-    return NOTES.map((note, i) => {
+    return NOTES.map((note) => {
       return (
         <Key
-          key={`${note}${octave}${i}`}
+          key={`${note}${octave}`}
           note={note}
           octave={octave}
           notesPlaying={notesPlaying}

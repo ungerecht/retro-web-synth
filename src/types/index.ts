@@ -1,34 +1,31 @@
 import { ChangeEvent } from "react";
-import { FFT, FilterRollOff } from "tone";
+import {
+  FFT,
+  Volume,
+  EQ3,
+  PolySynth,
+  Filter,
+  FeedbackDelay,
+  Reverb,
+  Distortion,
+  BitCrusher,
+  EnvelopeOptions,
+  FilterOptions,
+  OmniOscillatorOptions,
+} from "tone";
 
-export type synthOptions = {
+type synthOptions = {
   volume: number;
   detune: number;
-  type: OscillatorType;
-  phase: number;
+  oscillator: Partial<OmniOscillatorOptions>;
 };
 
-export type envelopeOptions = {
-  attack: number;
-  decay: number;
-  sustain: number;
-  release: number;
-};
-
-export type filterOptions = {
-  Q: number;
-  frequency: number;
-  gain: number;
-  rolloff: FilterRollOff;
-  type: BiquadFilterType;
-};
-
-export type reverbOptions = {
+type reverbOptions = {
   wet: number;
   decay: number;
 };
 
-export type eq3Options = {
+type eq3Options = {
   low: number;
   mid: number;
   high: number;
@@ -36,33 +33,36 @@ export type eq3Options = {
   highFrequency: number;
 };
 
-export type distortionOptions = { distortion: number; wet: number };
+type distortionOptions = { distortion: number; wet: number };
 
-export type delayOptions = {
+type delayOptions = {
   wet: number;
   delayTime: number;
   feedback: number;
 };
 
-export type bitCrusherOptions = {
+type bitCrusherOptions = {
   wet: number;
   bits: number;
+};
+
+export type preset = {
+  synth1: synthOptions;
+  synth2: synthOptions;
+  envelope: Partial<EnvelopeOptions>;
+  filter: Partial<FilterOptions>;
+  reverb: reverbOptions;
+  eq3: eq3Options;
+  distortion: distortionOptions;
+  delay: delayOptions;
+  bitCrusher: bitCrusherOptions;
+  masterVolume: number;
 };
 
 export type SynthControllerState = {
   baseOctave: number;
   notesPlaying: string[];
-  masterVolume: number;
   dragging: boolean;
-  synth1Options: synthOptions;
-  synth2Options: synthOptions;
-  envelopeOptions: envelopeOptions;
-  filterOptions: filterOptions;
-  reverbOptions: reverbOptions;
-  eq3Options: eq3Options;
-  distortionOptions: distortionOptions;
-  delayOptions: delayOptions;
-  bitCrusherOptions: bitCrusherOptions;
 };
 
 export type ControlProps = {
@@ -77,65 +77,45 @@ export type ControlProps = {
 
 export type OscillatorControlsProps = {
   synthNum: 1 | 2;
-  synthOptions: synthOptions;
-  setSynthOption: (
-    value: OscillatorType | number,
-    target: "type" | "phase" | "volume" | "detune",
-    synthNum: 1 | 2
-  ) => void;
+  synth: PolySynth;
 };
 
 export type EnvelopeControlsProps = {
-  envelopeOptions: envelopeOptions;
-  setEnvelopeOption: (
-    value: number,
-    target: "attack" | "decay" | "sustain" | "release"
-  ) => void;
+  synth1: PolySynth;
+  synth2: PolySynth;
 };
 
 export type FilterControlsProps = {
-  filterOptions: filterOptions;
-  setFilterOption: (
-    value: number | FilterRollOff | BiquadFilterType,
-    target: "type" | "rolloff" | "Q" | "frequency" | "gain"
-  ) => void;
+  filter: Filter;
   isPlaying: boolean;
   fft: FFT;
 };
 
 export type FilterDisplayProps = {
-  filterOptions: filterOptions;
+  type: string;
+  rolloff: number;
+  q: number;
+  freq: number;
+  gain: number;
   isPlaying: boolean;
   fft: FFT;
 };
 
 export type EffectsControlsProps = {
-  reverbOptions: reverbOptions;
-  distortionOptions: distortionOptions;
-  delayOptions: delayOptions;
-  bitCrusherOptions: bitCrusherOptions;
-  setReverbOption: (value: number, target: "wet" | "decay") => void;
-  setDistortionOption: (value: number, target: "wet" | "distortion") => void;
-  setDelayOption: (
-    value: number,
-    target: "wet" | "delayTime" | "feedback"
-  ) => void;
-  setBitCrusherOption: (value: number, target: "wet" | "bits") => void;
+  reverb: Reverb;
+  distortion: Distortion;
+  delay: FeedbackDelay;
+  bitCrusher: BitCrusher;
 };
 
 export type EQ3ControlsProps = {
-  eq3Options: eq3Options;
-  setEQ3Option: (
-    value: number,
-    target: "low" | "mid" | "high" | "lowFrequency" | "highFrequency"
-  ) => void;
+  eq3: EQ3;
 };
 
 export type MasterControlsProps = {
-  volume: number;
+  masterVolume: Volume;
   octave: number;
   setOctave: (octave: number) => void;
-  setVolume: (value: number) => void;
 };
 
 export type KeyProps = {
@@ -157,8 +137,7 @@ export type RadioButtonProps = {
   value: string;
   name: string;
   selected: boolean;
-  height: number;
-  width: number;
+  size: string;
   onValueChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -166,8 +145,7 @@ export type RadioButtonGroupProps = {
   items: string[];
   id: string;
   comparator: string;
-  buttonWidth: number;
-  buttonHeight: number;
+  buttonSize: string;
   onValueChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 

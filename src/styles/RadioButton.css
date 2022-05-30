@@ -28,3 +28,18 @@ input:checked + label {
 input:not(:checked) + .radio-icon:hover {
   background-color: white;
 }
+
+.radio-icon.large {
+  width: 28px;
+  height: 28px;
+}
+
+.radio-icon.med {
+  width: 26px;
+  height: 26px;
+}
+
+.radio-icon.small {
+  width: 26px;
+  height: 12px;
+}

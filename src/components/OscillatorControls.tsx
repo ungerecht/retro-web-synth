@@ -1,41 +1,46 @@
-import { useCallback, memo, ChangeEvent } from "react";
+import { useCallback, useState, memo, ChangeEvent } from "react";
 import Knob from "./Knob";
 import RadioButtonGroup from "./RadioButtonGroup";
 import { WAVEFORMS } from "../globals/constants";
 import { OscillatorControlsProps } from "../types";
 
-const OscillatorControls = ({
-  synthNum,
-  synthOptions,
-  setSynthOption,
-}: OscillatorControlsProps) => {
+const OscillatorControls = ({ synthNum, synth }: OscillatorControlsProps) => {
+  const [type, setType] = useState(synth.get().oscillator.type);
+  const [volume, setVolume] = useState(synth.get().volume);
+  const [phase, setPhase] = useState(synth.get().oscillator.phase);
+  const [detune, setDetune] = useState(synth.get().detune);
+
   const handleTypeChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      console.log(e);
-      setSynthOption(e.target.value as OscillatorType, "type", synthNum);
+      const value = e.target.value as OscillatorType;
+      synth.set({ oscillator: { type: value } });
+      setType(value);
     },
-    [setSynthOption, synthNum]
+    [synth]
   );
 
-  const handleVolumechange = useCallback(
+  const handleVolumeChange = useCallback(
     (value: number) => {
-      setSynthOption(value, "volume", synthNum);
+      synth.set({ volume: value });
+      setVolume(value);
     },
-    [setSynthOption, synthNum]
+    [synth]
   );
 
   const handlePhaseChange = useCallback(
     (value: number) => {
-      setSynthOption(value, "phase", synthNum);
+      synth.set({ oscillator: { phase: value } });
+      setPhase(value);
     },
-    [setSynthOption, synthNum]
+    [synth]
   );
 
   const handleDetuneChange = useCallback(
     (value: number) => {
-      setSynthOption(value, "detune", synthNum);
+      synth.set({ detune: value });
+      setDetune(value);
     },
-    [setSynthOption, synthNum]
+    [synth]
   );
 
   return (
@@ -51,9 +56,8 @@ const OscillatorControls = ({
             <RadioButtonGroup
               items={WAVEFORMS}
               id={`waveforms${synthNum}`}
-              comparator={synthOptions.type}
-              buttonWidth={26}
-              buttonHeight={26}
+              comparator={type}
+              buttonSize="med"
               onValueChange={handleTypeChange}
             />
           </div>
@@ -66,15 +70,15 @@ const OscillatorControls = ({
               <Knob
                 min={-60}
                 max={0}
-                value={synthOptions.volume}
-                onValueChange={handleVolumechange}
+                value={volume}
+                onValueChange={handleVolumeChange}
                 width={50}
                 height={50}
                 step={1}
               />
               <label className="unselectable title-small">Level</label>
               <span className="tooltip unselectable value">{`${Math.round(
-                synthOptions.volume
+                volume
               )}db`}</span>
             </div>
           </div>
@@ -85,7 +89,7 @@ const OscillatorControls = ({
               <Knob
                 min={-180}
                 max={180}
-                value={synthOptions.phase}
+                value={phase}
                 onValueChange={handlePhaseChange}
                 width={50}
                 height={50}
@@ -93,7 +97,7 @@ const OscillatorControls = ({
               />
               <label className="unselectable title-small">Phase</label>
               <span className="tooltip unselectable value">{`${Math.round(
-                synthOptions.phase
+                phase
               )}°`}</span>
             </div>
           </div>
@@ -104,7 +108,7 @@ const OscillatorControls = ({
               <Knob
                 min={-1200}
                 max={1200}
-                value={synthOptions.detune}
+                value={detune}
                 onValueChange={handleDetuneChange}
                 width={50}
                 height={50}
@@ -112,7 +116,7 @@ const OscillatorControls = ({
               />
               <label className="unselectable title-small">Detune</label>
               <span className="tooltip unselectable value">{`${Math.round(
-                synthOptions.detune
+                detune
               )}cents`}</span>
             </div>
           </div>

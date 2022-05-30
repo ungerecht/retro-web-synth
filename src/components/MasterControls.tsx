@@ -1,21 +1,24 @@
-import { useCallback, memo } from "react";
+import { useCallback, memo, useState } from "react";
 import Knob from "./Knob";
 import { MasterControlsProps } from "../types";
 import { left, right } from "../icons";
 import "../styles/MasterControls.css";
 
 const MasterControls = ({
+  masterVolume,
   octave,
-  volume,
   setOctave,
-  setVolume,
 }: MasterControlsProps) => {
+  const [volume, setVolume] = useState(masterVolume.volume.value);
+
   const handleVolumeChange = useCallback(
-    (value) => {
+    (value: number) => {
+      masterVolume.set({ volume: value });
       setVolume(value);
     },
-    [setVolume]
+    [masterVolume]
   );
+
   return (
     <div className="master-controls-container">
       <div className="column hasTooltip">

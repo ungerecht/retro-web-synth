@@ -1,39 +1,55 @@
-import { useCallback, memo } from "react";
+import { useState, useCallback, memo } from "react";
 import Knob from "./Knob";
 import { EQ3ControlsProps } from "../types";
 import "../styles/EQ3Controls.css";
 
-const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3ControlsProps) => {
+const EQ3Controls = ({ eq3 }: EQ3ControlsProps) => {
+  const [low, setLow] = useState(eq3.low.value);
+  const [mid, setMid] = useState(eq3.mid.value);
+  const [high, setHigh] = useState(eq3.high.value);
+  const [lowFreq, setLowFreq] = useState(eq3.lowFrequency.value as number);
+  const [highFreq, setHighFreq] = useState(eq3.highFrequency.value as number);
+
   const handleLowChange = useCallback(
     (value: number) => {
-      setEQ3Option(value, "low");
+      eq3.set({ low: value });
+      setLow(value);
     },
-    [setEQ3Option]
+    [eq3]
   );
+
   const handleMidChange = useCallback(
     (value: number) => {
-      setEQ3Option(value, "mid");
+      eq3.set({ mid: value });
+      setMid(value);
     },
-    [setEQ3Option]
+    [eq3]
   );
+
   const handleHighChange = useCallback(
     (value: number) => {
-      setEQ3Option(value, "high");
+      eq3.set({ high: value });
+      setHigh(value);
     },
-    [setEQ3Option]
+    [eq3]
   );
-  const handleLowFrequencyChange = useCallback(
+
+  const handleLowFreqChange = useCallback(
     (value: number) => {
-      setEQ3Option(value, "lowFrequency");
+      eq3.set({ lowFrequency: value });
+      setLowFreq(value);
     },
-    [setEQ3Option]
+    [eq3]
   );
-  const handleHighFrequencyChange = useCallback(
+
+  const handleHighFreqChange = useCallback(
     (value: number) => {
-      setEQ3Option(value, "highFrequency");
+      eq3.set({ highFrequency: value });
+      setHighFreq(value);
     },
-    [setEQ3Option]
+    [eq3]
   );
+
   return (
     <div className="control-container EQ3-container">
       <div className="row justify-center">
@@ -46,7 +62,7 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3ControlsProps) => {
           <Knob
             min={-60}
             max={6}
-            value={eq3Options.low}
+            value={low}
             onValueChange={handleLowChange}
             width={50}
             height={50}
@@ -54,14 +70,14 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3ControlsProps) => {
           />
           <label className="unselectable title-small">Low</label>
           <span className="tooltip unselectable value">{`${Math.round(
-            eq3Options.low
+            low
           )}db`}</span>
         </div>
         <div className="column hasTooltip">
           <Knob
             min={-60}
             max={6}
-            value={eq3Options.mid}
+            value={mid}
             onValueChange={handleMidChange}
             width={50}
             height={50}
@@ -69,14 +85,14 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3ControlsProps) => {
           />
           <label className="unselectable title-small">Mid</label>
           <span className="tooltip unselectable value">{`${Math.round(
-            eq3Options.mid
+            mid
           )}db`}</span>
         </div>
         <div className="column hasTooltip">
           <Knob
             min={-60}
             max={6}
-            value={eq3Options.high}
+            value={high}
             onValueChange={handleHighChange}
             width={50}
             height={50}
@@ -84,7 +100,7 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3ControlsProps) => {
           />
           <label className="unselectable title-small">High</label>
           <span className="tooltip unselectable value">{`${Math.round(
-            eq3Options.high
+            high
           )}db`}</span>
         </div>
       </div>
@@ -93,30 +109,30 @@ const EQ3Controls = ({ eq3Options, setEQ3Option }: EQ3ControlsProps) => {
           <Knob
             min={50}
             max={5000}
-            value={eq3Options.lowFrequency}
-            onValueChange={handleLowFrequencyChange}
+            value={lowFreq}
+            onValueChange={handleLowFreqChange}
             width={50}
             height={50}
             step={1}
           />
           <label className="unselectable title-small">FreqLow</label>
           <span className="tooltip unselectable value">{`${Math.round(
-            eq3Options.lowFrequency
+            lowFreq
           )}hz`}</span>
         </div>
         <div className="column eq-freq-knob hasTooltip">
           <Knob
             min={200}
             max={18000}
-            value={eq3Options.highFrequency}
-            onValueChange={handleHighFrequencyChange}
+            value={highFreq}
+            onValueChange={handleHighFreqChange}
             width={50}
             height={50}
             step={1}
           />
           <label className="unselectable title-small">FreqHigh</label>
           <span className="tooltip unselectable value">{`${Math.round(
-            eq3Options.highFrequency
+            highFreq
           )}hz`}</span>
         </div>
       </div>

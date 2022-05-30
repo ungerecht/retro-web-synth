@@ -1,72 +1,98 @@
-import { useCallback, memo } from "react";
+import { useCallback, useState, memo } from "react";
 import Knob from "./Knob";
 import { EffectsControlsProps } from "../types";
 import "../styles/EffectsControls.css";
 
 const EffectsControls = ({
-  reverbOptions,
-  distortionOptions,
-  delayOptions,
-  bitCrusherOptions,
-  setReverbOption,
-  setDistortionOption,
-  setDelayOption,
-  setBitCrusherOption,
+  reverb,
+  distortion,
+  delay,
+  bitCrusher,
 }: EffectsControlsProps) => {
+  const [delayWet, setDelayWet] = useState(delay.get().wet);
+  const [delayTime, setDelayTime] = useState(Number(delay.get().delayTime));
+  const [delayFeedback, setDelayFeedback] = useState(delay.get().feedback);
+  const [reverbWet, setReverbWet] = useState(reverb.get().wet);
+  const [reverbDecay, setReverbDecay] = useState(reverb.get().decay);
+  const [distortionWet, setDistortionWet] = useState(distortion.get().wet);
+  const [distortionAmount, setDistortionAmount] = useState(
+    distortion.get().distortion
+  );
+  const [bitCrusherWet, setBitCrusherWet] = useState(bitCrusher.get().wet);
+  const [bitCrusherBits, setBitCrusherBits] = useState(bitCrusher.get().bits);
+
   const handleDelayWetChange = useCallback(
     (value: number) => {
-      setDelayOption(value, "wet");
+      delay.set({ wet: value });
+      setDelayWet(value);
     },
-    [setDelayOption]
+    [delay]
   );
+
   const handleDelayTimeChange = useCallback(
     (value: number) => {
-      setDelayOption(value, "delayTime");
+      delay.set({ delayTime: value });
+      setDelayTime(value);
     },
-    [setDelayOption]
+    [delay]
   );
+
   const handleDelayFeedbackChange = useCallback(
     (value: number) => {
-      setDelayOption(value, "feedback");
+      delay.set({ feedback: value });
+      setDelayFeedback(value);
     },
-    [setDelayOption]
+    [delay]
   );
+
   const handleReverbWetChange = useCallback(
     (value: number) => {
-      setReverbOption(value, "wet");
+      reverb.set({ wet: value });
+      setReverbWet(value);
     },
-    [setReverbOption]
+    [reverb]
   );
+
   const handleReverbDecayChange = useCallback(
     (value: number) => {
-      setReverbOption(value, "decay");
+      reverb.set({ decay: value });
+      setReverbDecay(value);
     },
-    [setReverbOption]
+    [reverb]
   );
+
   const handleDistortionWetChange = useCallback(
     (value: number) => {
-      setDistortionOption(value, "wet");
+      distortion.set({ wet: value });
+      setDistortionWet(value);
     },
-    [setDistortionOption]
+    [distortion]
   );
+
   const handleDistortionChange = useCallback(
     (value: number) => {
-      setDistortionOption(value, "distortion");
+      distortion.set({ distortion: value });
+      setDistortionAmount(value);
     },
-    [setDistortionOption]
+    [distortion]
   );
+
   const handleBitCrusherWetChange = useCallback(
     (value: number) => {
-      setBitCrusherOption(value, "wet");
+      bitCrusher.set({ wet: value });
+      setBitCrusherWet(value);
     },
-    [setBitCrusherOption]
+    [bitCrusher]
   );
+
   const handleBitCrusherBitsChange = useCallback(
     (value: number) => {
-      setBitCrusherOption(value, "bits");
+      bitCrusher.set({ bits: value });
+      setBitCrusherBits(value);
     },
-    [setBitCrusherOption]
+    [bitCrusher]
   );
+
   return (
     <div className="control-container effects-container">
       <div className="row justify-center">
@@ -82,7 +108,7 @@ const EffectsControls = ({
               <Knob
                 min={0}
                 max={1}
-                value={delayOptions.wet}
+                value={delayWet}
                 onValueChange={handleDelayWetChange}
                 width={45.5}
                 height={45.5}
@@ -90,14 +116,14 @@ const EffectsControls = ({
               />
               <label className="unselectable title-small">Wet</label>
               <span className="tooltip unselectable value">{`${(
-                delayOptions.wet * 100
+                delayWet * 100
               ).toFixed(0)}%`}</span>
             </div>
             <div className="column hasTooltip">
               <Knob
                 min={0}
                 max={1}
-                value={delayOptions.delayTime}
+                value={delayTime}
                 onValueChange={handleDelayTimeChange}
                 width={45.5}
                 height={45.5}
@@ -105,7 +131,7 @@ const EffectsControls = ({
               />
               <label className="unselectable title-small">Time</label>
               <span className="tooltip unselectable value">{`${Math.round(
-                delayOptions.delayTime * 1000
+                delayTime * 1000
               )}ms`}</span>
             </div>
           </div>
@@ -114,7 +140,7 @@ const EffectsControls = ({
               <Knob
                 min={0}
                 max={1}
-                value={delayOptions.feedback}
+                value={delayFeedback}
                 onValueChange={handleDelayFeedbackChange}
                 width={45.5}
                 height={45.5}
@@ -122,7 +148,7 @@ const EffectsControls = ({
               />
               <label className="unselectable title-small">Feedbk</label>
               <span className="tooltip unselectable value">{`${(
-                delayOptions.feedback * 100
+                delayFeedback * 100
               ).toFixed(0)}%`}</span>
             </div>
           </div>
@@ -134,7 +160,7 @@ const EffectsControls = ({
               <Knob
                 min={0}
                 max={1}
-                value={bitCrusherOptions.wet}
+                value={bitCrusherWet}
                 onValueChange={handleBitCrusherWetChange}
                 width={45.5}
                 height={45.5}
@@ -142,7 +168,7 @@ const EffectsControls = ({
               />
               <label className="unselectable title-small">Wet</label>
               <span className="tooltip unselectable value">{`${(
-                bitCrusherOptions.wet * 100
+                bitCrusherWet * 100
               ).toFixed(0)}%`}</span>
             </div>
           </div>
@@ -151,7 +177,7 @@ const EffectsControls = ({
               <Knob
                 min={1}
                 max={16}
-                value={bitCrusherOptions.bits}
+                value={bitCrusherBits}
                 onValueChange={handleBitCrusherBitsChange}
                 width={45.5}
                 height={45.5}
@@ -159,7 +185,7 @@ const EffectsControls = ({
               />
               <label className="unselectable title-small">Bits</label>
               <span className="tooltip unselectable value">{`${Math.round(
-                bitCrusherOptions.bits
+                bitCrusherBits
               )}`}</span>
             </div>
           </div>
@@ -171,7 +197,7 @@ const EffectsControls = ({
               <Knob
                 min={0}
                 max={1}
-                value={distortionOptions.wet}
+                value={distortionWet}
                 onValueChange={handleDistortionWetChange}
                 width={45.5}
                 height={45.5}
@@ -179,7 +205,7 @@ const EffectsControls = ({
               />
               <label className="unselectable title-small">Wet</label>
               <span className="tooltip unselectable value">{`${(
-                distortionOptions.wet * 100
+                distortionWet * 100
               ).toFixed(0)}%`}</span>
             </div>
           </div>
@@ -188,7 +214,7 @@ const EffectsControls = ({
               <Knob
                 min={0}
                 max={1}
-                value={distortionOptions.distortion}
+                value={distortionAmount}
                 onValueChange={handleDistortionChange}
                 width={45.5}
                 height={45.5}
@@ -196,7 +222,7 @@ const EffectsControls = ({
               />
               <label className="unselectable title-small">Amount</label>
               <span className="tooltip unselectable value">{`${(
-                distortionOptions.distortion * 100
+                distortionAmount * 100
               ).toFixed(0)}%`}</span>
             </div>
           </div>
@@ -207,7 +233,7 @@ const EffectsControls = ({
             <Knob
               min={0}
               max={1}
-              value={reverbOptions.wet}
+              value={reverbWet}
               onValueChange={handleReverbWetChange}
               width={45.5}
               height={45.5}
@@ -215,14 +241,14 @@ const EffectsControls = ({
             />
             <label className="unselectable title-small">Wet</label>
             <span className="tooltip unselectable value">{`${(
-              reverbOptions.wet * 100
+              reverbWet * 100
             ).toFixed(0)}%`}</span>
           </div>
           <div className="column hasTooltip">
             <Knob
               min={1}
               max={30}
-              value={reverbOptions.decay}
+              value={reverbDecay}
               onValueChange={handleReverbDecayChange}
               width={45.5}
               height={45.5}
@@ -230,7 +256,7 @@ const EffectsControls = ({
             />
             <label className="unselectable title-small">Decay</label>
             <span className="tooltip unselectable value">{`${Math.round(
-              reverbOptions.decay
+              reverbDecay
             )}`}</span>
           </div>
         </div>
