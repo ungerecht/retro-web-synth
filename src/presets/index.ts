@@ -4,20 +4,24 @@ const defaults: preset = {
   synth1: {
     volume: 0, // -60 - 0
     detune: 0, //-1200 - 1200
-    type: "sine", //sine | square | triangle | saw
-    phase: 0, //-180 - 180
+    oscillator: {
+      type: "sine", //sine | square | triangle | sawtooth
+      phase: 0, //-180 - 180
+    },
   },
   synth2: {
     volume: -10,
     detune: 0,
-    type: "square",
-    phase: 0,
+    oscillator: {
+      type: "square",
+      phase: 0,
+    },
   },
   envelope: {
     attack: 0.01, // 0 - 2
-    decay: 1, // 0 - 2
-    sustain: 0.1, // 0 - 1
-    release: 1, // 0 - 5
+    decay: 0, // 0 - 2
+    sustain: 1, // 0 - 1
+    release: 0.01, // 0 - 5
   },
   filter: {
     Q: 2, // 0 - 20

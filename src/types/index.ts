@@ -11,13 +11,13 @@ import {
   BitCrusher,
   EnvelopeOptions,
   FilterOptions,
+  OmniOscillatorOptions,
 } from "tone";
 
 type synthOptions = {
   volume: number;
   detune: number;
-  type: OscillatorType;
-  phase: number;
+  oscillator: Partial<OmniOscillatorOptions>;
 };
 
 type reverbOptions = {
