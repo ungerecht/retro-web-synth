@@ -1,4 +1,4 @@
-import { useCallback, useState, memo, ChangeEvent } from "react";
+import { useCallback, useState, memo, ChangeEvent, useEffect } from "react";
 import FilterDisplay from "./FilterDisplay";
 import Knob from "./Knob";
 import RadioButtonGroup from "./RadioButtonGroup";
@@ -7,7 +7,12 @@ import { FilterControlsProps } from "../types";
 import "../styles/FilterControls.css";
 import { FilterRollOff } from "tone";
 
-const FilterControls = ({ filter, isPlaying, fft }: FilterControlsProps) => {
+const FilterControls = ({
+  filter,
+  isPlaying,
+  fft,
+  update,
+}: FilterControlsProps) => {
   const [type, setType] = useState(filter.type);
   const [rolloff, setRolloff] = useState(filter.rolloff);
   const [q, setQ] = useState(filter.get().Q);
@@ -15,6 +20,13 @@ const FilterControls = ({ filter, isPlaying, fft }: FilterControlsProps) => {
     filter.frequency.toFrequency(filter.frequency.value)
   );
   const [gain, setGain] = useState(filter.get().gain);
+
+  useEffect(() => {
+    setType(filter.type);
+    setRolloff(filter.rolloff);
+    setQ(filter.get().Q);
+    setFreq(filter.frequency.toFrequency(filter.frequency.value));
+  }, [update, filter]);
 
   const handleFilterTypeChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -75,6 +87,7 @@ const FilterControls = ({ filter, isPlaying, fft }: FilterControlsProps) => {
             gain={gain}
             isPlaying={isPlaying}
             fft={fft}
+            update={update}
           />
         </div>
       </div>

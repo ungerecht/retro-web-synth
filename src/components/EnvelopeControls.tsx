@@ -1,12 +1,23 @@
-import { useCallback, useState, memo } from "react";
+import { useCallback, useState, memo, useEffect } from "react";
 import Slider from "./Slider";
 import { EnvelopeControlsProps } from "../types";
 
-const EnvelopeControls = ({ synth1, synth2 }: EnvelopeControlsProps) => {
+const EnvelopeControls = ({
+  synth1,
+  synth2,
+  update,
+}: EnvelopeControlsProps) => {
   const [attack, setAttack] = useState(Number(synth1.get().envelope.attack));
   const [decay, setDecay] = useState(Number(synth1.get().envelope.decay));
   const [sustain, setSustain] = useState(synth1.get().envelope.sustain);
   const [release, setRelease] = useState(Number(synth1.get().envelope.release));
+
+  useEffect(() => {
+    setAttack(Number(synth1.get().envelope.attack));
+    setDecay(Number(synth1.get().envelope.decay));
+    setSustain(Number(synth1.get().envelope.sustain));
+    setRelease(Number(synth1.get().envelope.release));
+  }, [update, synth1]);
 
   const handleAttackChange = useCallback(
     (value) => {

@@ -1,4 +1,4 @@
-import { useCallback, useState, memo } from "react";
+import { useCallback, useState, memo, useEffect } from "react";
 import Knob from "./Knob";
 import { EffectsControlsProps } from "../types";
 import "../styles/EffectsControls.css";
@@ -8,6 +8,7 @@ const EffectsControls = ({
   distortion,
   delay,
   bitCrusher,
+  update,
 }: EffectsControlsProps) => {
   const [delayWet, setDelayWet] = useState(delay.get().wet);
   const [delayTime, setDelayTime] = useState(Number(delay.get().delayTime));
@@ -20,6 +21,16 @@ const EffectsControls = ({
   );
   const [bitCrusherWet, setBitCrusherWet] = useState(bitCrusher.get().wet);
   const [bitCrusherBits, setBitCrusherBits] = useState(bitCrusher.get().bits);
+
+  useEffect(() => {
+    setDelayWet(delay.get().wet);
+    setDelayTime(Number(delay.get().delayTime));
+    setDelayFeedback(delay.get().feedback);
+    setReverbWet(reverb.get().wet);
+    setReverbDecay(reverb.get().decay);
+    setDistortionWet(distortion.get().wet);
+    setDistortionAmount(distortion.get().distortion);
+  }, [update, reverb, distortion, delay, bitCrusher]);
 
   const handleDelayWetChange = useCallback(
     (value: number) => {

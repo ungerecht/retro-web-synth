@@ -1,14 +1,25 @@
-import { useCallback, useState, memo, ChangeEvent } from "react";
+import { useCallback, useState, memo, ChangeEvent, useEffect } from "react";
 import Knob from "./Knob";
 import RadioButtonGroup from "./RadioButtonGroup";
 import { WAVEFORMS } from "../globals/constants";
 import { OscillatorControlsProps } from "../types";
 
-const OscillatorControls = ({ synthNum, synth }: OscillatorControlsProps) => {
+const OscillatorControls = ({
+  synthNum,
+  synth,
+  update,
+}: OscillatorControlsProps) => {
   const [type, setType] = useState(synth.get().oscillator.type);
   const [volume, setVolume] = useState(synth.get().volume);
   const [phase, setPhase] = useState(synth.get().oscillator.phase);
   const [detune, setDetune] = useState(synth.get().detune);
+
+  useEffect(() => {
+    setType(synth.get().oscillator.type);
+    setVolume(synth.get().volume);
+    setPhase(synth.get().oscillator.phase);
+    setDetune(synth.get().detune);
+  }, [update, synth]);
 
   const handleTypeChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {

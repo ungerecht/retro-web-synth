@@ -1,4 +1,4 @@
-import { useCallback, memo, useState } from "react";
+import { useCallback, memo, useState, useEffect } from "react";
 import Knob from "./Knob";
 import { MasterControlsProps } from "../types";
 import { left, right } from "../icons";
@@ -8,8 +8,13 @@ const MasterControls = ({
   masterVolume,
   octave,
   setOctave,
+  update,
 }: MasterControlsProps) => {
   const [volume, setVolume] = useState(masterVolume.volume.value);
+
+  useEffect(() => {
+    setVolume(masterVolume.volume.value);
+  }, [update, masterVolume]);
 
   const handleVolumeChange = useCallback(
     (value: number) => {

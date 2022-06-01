@@ -1,14 +1,22 @@
-import { useState, useCallback, memo } from "react";
+import { useState, useCallback, memo, useEffect } from "react";
 import Knob from "./Knob";
 import { EQ3ControlsProps } from "../types";
 import "../styles/EQ3Controls.css";
 
-const EQ3Controls = ({ eq3 }: EQ3ControlsProps) => {
+const EQ3Controls = ({ eq3, update }: EQ3ControlsProps) => {
   const [low, setLow] = useState(eq3.low.value);
   const [mid, setMid] = useState(eq3.mid.value);
   const [high, setHigh] = useState(eq3.high.value);
   const [lowFreq, setLowFreq] = useState(eq3.lowFrequency.value as number);
   const [highFreq, setHighFreq] = useState(eq3.highFrequency.value as number);
+
+  useEffect(() => {
+    setLow(eq3.low.value);
+    setMid(eq3.mid.value);
+    setLow(eq3.high.value);
+    setLowFreq(eq3.lowFrequency.value as number);
+    setHighFreq(eq3.highFrequency.value as number);
+  }, [update, eq3]);
 
   const handleLowChange = useCallback(
     (value: number) => {
