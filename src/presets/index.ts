@@ -1,6 +1,7 @@
 import { preset } from "../types";
 
 const defaults: preset = {
+  name: "defaults",
   synth1: {
     volume: 0, // -60 - 0
     detune: 0, //-1200 - 1200
@@ -57,4 +58,62 @@ const defaults: preset = {
   masterVolume: -2, // -60 - 0
 };
 
-export { defaults };
+const supersaw: preset = {
+  name: "supersaw",
+  synth1: {
+    volume: 0,
+    detune: -200,
+    oscillator: {
+      type: "sawtooth", //sine | square | triangle | sawtooth
+      phase: 0, //-180 - 180
+    },
+  },
+  synth2: {
+    volume: -10,
+    detune: 200,
+    oscillator: {
+      type: "sawtooth",
+      phase: 90,
+    },
+  },
+  envelope: {
+    attack: 0,
+    decay: 0,
+    sustain: 0.2,
+    release: 0,
+  },
+  filter: {
+    Q: 0,
+    frequency: 200,
+    gain: 0,
+    rolloff: -24,
+    type: "highpass",
+  },
+  reverb: {
+    decay: 10,
+    wet: 0.35,
+  },
+  eq3: {
+    low: 0,
+    mid: 0,
+    high: 0,
+    lowFrequency: 250,
+    highFrequency: 2500,
+  },
+  distortion: {
+    distortion: 0.5,
+    wet: 0.5,
+  },
+  delay: {
+    wet: 0,
+    delayTime: 0,
+    feedback: 0.2,
+  },
+  bitCrusher: {
+    wet: 0,
+    bits: 16,
+  },
+  masterVolume: 0,
+};
+
+export { defaults, supersaw };
