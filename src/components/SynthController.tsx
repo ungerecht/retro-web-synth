@@ -23,10 +23,11 @@ import Keyboard from "./Keyboard";
 import EffectsControls from "./EffectsControls";
 import EQ3Controls from "./EQ3Controls";
 import Midi from "./Midi";
+import Presets from "./Presets";
 
 import { KEY_TO_FULLNOTE, VALID_KEYS } from "../globals/constants";
 
-import { SynthControllerState } from "../types";
+import { preset, SynthControllerState } from "../types";
 
 import { defaults } from "../presets";
 
@@ -52,6 +53,7 @@ class SynthController extends Component<{}, SynthControllerState> {
       baseOctave: 3,
       notesPlaying: [],
       dragging: false,
+      toggleRerender: false,
     };
     this.synth1 = new PolySynth(Synth, defaults.synth1);
     this.synth2 = new PolySynth(Synth, defaults.synth2);
@@ -189,27 +191,57 @@ class SynthController extends Component<{}, SynthControllerState> {
     });
   };
 
+  changePreset = (preset: preset) => {
+    this.synth1.set(preset.synth1);
+    this.synth2.set(preset.synth2);
+    this.synth1.set({ envelope: preset.envelope });
+    this.synth2.set({ envelope: preset.envelope });
+    this.filter.set(preset.filter);
+    this.masterVolume.set({ volume: preset.masterVolume });
+    this.reverb.set(preset.reverb);
+    this.eq3.set(preset.eq3);
+    this.distortion.set(preset.distortion);
+    this.delay.set(preset.delay);
+    this.bitCrusher.set(preset.bitCrusher);
+    this.setState({ toggleRerender: !this.state.toggleRerender });
+  };
+
   render() {
     return (
       <div className="container">
         <div className="top-bar">
           <Midi playNote={this.playNote} stopNote={this.stopNote} />
+          <Presets changePreset={this.changePreset} />
         </div>
         <div className="top-container">
-          <OscillatorControls synthNum={1} synth={this.synth1} />
-          <OscillatorControls synthNum={2} synth={this.synth2} />
-          <EnvelopeControls synth1={this.synth1} synth2={this.synth2} />
+          <OscillatorControls
+            synthNum={1}
+            synth={this.synth1}
+            update={this.state.toggleRerender}
+          />
+          <OscillatorControls
+            synthNum={2}
+            synth={this.synth2}
+            update={this.state.toggleRerender}
+          />
+          <EnvelopeControls
+            synth1={this.synth1}
+            synth2={this.synth2}
+            update={this.state.toggleRerender}
+          />
           <FilterControls
             filter={this.filter}
             isPlaying={this.state.notesPlaying.length > 0}
             fft={this.fft}
+            update={this.state.toggleRerender}
           />
-          <EQ3Controls eq3={this.eq3} />
+          <EQ3Controls eq3={this.eq3} update={this.state.toggleRerender} />
           <EffectsControls
             reverb={this.reverb}
             distortion={this.distortion}
             delay={this.delay}
             bitCrusher={this.bitCrusher}
+            update={this.state.toggleRerender}
           />
         </div>
         <div className="bottom-container">
@@ -217,6 +249,7 @@ class SynthController extends Component<{}, SynthControllerState> {
             masterVolume={this.masterVolume}
             octave={this.state.baseOctave}
             setOctave={this.setBaseOctave}
+            update={this.state.toggleRerender}
           />
           <Keyboard
             notesPlaying={this.state.notesPlaying}
