@@ -42,7 +42,8 @@ Synthesizers can be pretty intimidating if you're not familiar with them, but ar
   > The oscillator's volume output in decibels.
 - Phase
   > The starting position within the oscillator's cycle in degrees. For example a phase of 180° would start halfway through the oscillator's cycle.
-- Detune > The detune control signal in cents. For example a detune of 100 cents would shift the sound forward a half step.<br/>
+- Detune 
+  > The detune control signal in cents. For example a detune of 100 cents would shift the sound forward a half step.<br/>
   Tip: Try setting one oscillator to -1200 and the other one to 1200 for a cool effect!
 
 ### Envelope
@@ -64,7 +65,8 @@ Synthesizers can be pretty intimidating if you're not familiar with them, but ar
 
 - Display
   > Graph which visualizes the frequency data (FFT) and the filter's frequency response. Y-axis is decibels and X-axis is the frequencies in hertz (log base 10 scale).
-- Type > The shape of the filter. Can be set to: allpass, lowpass, highpass, lowshelf, highshelf, notch, or bandpass.<br/>
+- Type 
+  > The shape of the filter. Can be set to: allpass, lowpass, highpass, lowshelf, highshelf, notch, or bandpass.<br/>
   Note: Some types are unaffected by certain settings, for example allpass lets all frequencies through regardless of settings.
 - Rolloff
   > The drop in decibels per octave.
