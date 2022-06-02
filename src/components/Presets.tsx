@@ -1,11 +1,11 @@
 import React, { useState, ChangeEvent } from "react";
 
 import { PresetsProps } from "../types";
-import { defaults, supersaw } from "../presets";
+import { defaults, supersaw, waterTemple } from "../presets";
 
 const Presets = ({ changePreset }: PresetsProps) => {
   const [selected, setSelected] = useState(defaults.name);
-  const presets = [defaults, supersaw];
+  const presets = [defaults, supersaw, waterTemple];
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     const name = event.target.value;

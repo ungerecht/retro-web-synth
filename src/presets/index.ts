@@ -1,7 +1,7 @@
 import { preset } from "../types";
 
 const defaults: preset = {
-  name: "defaults",
+  name: "Default",
   synth1: {
     volume: 0, // -60 - 0
     detune: 0, //-1200 - 1200
@@ -59,7 +59,7 @@ const defaults: preset = {
 };
 
 const supersaw: preset = {
-  name: "supersaw",
+  name: "Supersaw",
   synth1: {
     volume: 0,
     detune: -200,
@@ -116,4 +116,62 @@ const supersaw: preset = {
   masterVolume: 0,
 };
 
-export { defaults, supersaw };
+const waterTemple: preset = {
+  name: "Water Temple",
+  synth1: {
+    volume: 0,
+    detune: 0,
+    oscillator: {
+      type: "sine", //sine | square | triangle | sawtooth
+      phase: 0, //-180 - 180
+    },
+  },
+  synth2: {
+    volume: 0,
+    detune: 600,
+    oscillator: {
+      type: "triangle",
+      phase: 90,
+    },
+  },
+  envelope: {
+    attack: 0.01,
+    decay: 1,
+    sustain: 0.5,
+    release: 0.01,
+  },
+  filter: {
+    Q: 0,
+    frequency: 200,
+    gain: 0,
+    rolloff: -12,
+    type: "allpass",
+  },
+  reverb: {
+    decay: 20,
+    wet: 0.1,
+  },
+  eq3: {
+    low: 0,
+    mid: 0,
+    high: -6,
+    lowFrequency: 250,
+    highFrequency: 2500,
+  },
+  distortion: {
+    distortion: 0,
+    wet: 0,
+  },
+  delay: {
+    wet: 0.2,
+    delayTime: 0.2,
+    feedback: 0.4,
+  },
+  bitCrusher: {
+    wet: 0,
+    bits: 16,
+  },
+  masterVolume: 0,
+};
+
+export { defaults, supersaw, waterTemple };
