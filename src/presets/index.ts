@@ -174,4 +174,62 @@ const waterTemple: preset = {
   masterVolume: 0,
 };
 
-export { defaults, supersaw, waterTemple };
+const sleepy: preset = {
+  name: "Sleepy",
+  synth1: {
+    volume: 0,
+    detune: 1200,
+    oscillator: {
+      type: "square", //sine | square | triangle | sawtooth
+      phase: 0, //-180 - 180
+    },
+  },
+  synth2: {
+    volume: 0,
+    detune: -1200,
+    oscillator: {
+      type: "triangle",
+      phase: 0,
+    },
+  },
+  envelope: {
+    attack: 1,
+    decay: 1.5,
+    sustain: 1,
+    release: 5,
+  },
+  filter: {
+    Q: 0,
+    frequency: 300,
+    gain: 0,
+    rolloff: -24,
+    type: "highpass",
+  },
+  reverb: {
+    decay: 30,
+    wet: 0.05,
+  },
+  eq3: {
+    low: 0,
+    mid: 0,
+    high: -6,
+    lowFrequency: 250,
+    highFrequency: 2500,
+  },
+  distortion: {
+    distortion: 0,
+    wet: 0,
+  },
+  delay: {
+    wet: 0.3,
+    delayTime: 0.5,
+    feedback: 0.3,
+  },
+  bitCrusher: {
+    wet: 1,
+    bits: 8,
+  },
+  masterVolume: 0,
+};
+
+export { defaults, supersaw, waterTemple, sleepy };
