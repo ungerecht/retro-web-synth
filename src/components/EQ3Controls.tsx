@@ -13,7 +13,7 @@ const EQ3Controls = ({ eq3, update }: EQ3ControlsProps) => {
   useEffect(() => {
     setLow(eq3.low.value);
     setMid(eq3.mid.value);
-    setLow(eq3.high.value);
+    setHigh(eq3.high.value);
     setLowFreq(eq3.lowFrequency.value as number);
     setHighFreq(eq3.highFrequency.value as number);
   }, [update, eq3]);
