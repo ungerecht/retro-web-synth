@@ -212,7 +212,7 @@ const sleepy: preset = {
   eq3: {
     low: 0,
     mid: 0,
-    high: -6,
+    high: -60,
     lowFrequency: 250,
     highFrequency: 2500,
   },
@@ -226,8 +226,8 @@ const sleepy: preset = {
     feedback: 0.3,
   },
   bitCrusher: {
-    wet: 1,
-    bits: 8,
+    wet: 0,
+    bits: 16,
   },
   masterVolume: 0,
 };
