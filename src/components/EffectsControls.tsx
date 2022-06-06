@@ -30,6 +30,8 @@ const EffectsControls = ({
     setReverbDecay(reverb.get().decay);
     setDistortionWet(distortion.get().wet);
     setDistortionAmount(distortion.get().distortion);
+    setBitCrusherWet(bitCrusher.get().wet);
+    setBitCrusherBits(bitCrusher.get().bits);
   }, [update, reverb, distortion, delay, bitCrusher]);
 
   const handleDelayWetChange = useCallback(
