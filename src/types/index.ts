@@ -46,7 +46,7 @@ type bitCrusherOptions = {
   bits: number;
 };
 
-export type preset = {
+export type options = {
   name: string;
   synth1: synthOptions;
   synth2: synthOptions;
@@ -64,7 +64,7 @@ export type SynthControllerState = {
   baseOctave: number;
   notesPlaying: string[];
   dragging: boolean;
-  toggleRerender: boolean;
+  options: options;
 };
 
 export type ControlProps = {
@@ -80,20 +80,17 @@ export type ControlProps = {
 export type OscillatorControlsProps = {
   synthNum: 1 | 2;
   synth: PolySynth;
-  update: boolean;
 };
 
 export type EnvelopeControlsProps = {
   synth1: PolySynth;
   synth2: PolySynth;
-  update: boolean;
 };
 
 export type FilterControlsProps = {
   filter: Filter;
   isPlaying: boolean;
   fft: FFT;
-  update: boolean;
 };
 
 export type FilterDisplayProps = {
@@ -104,7 +101,6 @@ export type FilterDisplayProps = {
   gain: number;
   isPlaying: boolean;
   fft: FFT;
-  update: boolean;
 };
 
 export type EffectsControlsProps = {
@@ -112,19 +108,16 @@ export type EffectsControlsProps = {
   distortion: Distortion;
   delay: FeedbackDelay;
   bitCrusher: BitCrusher;
-  update: boolean;
 };
 
 export type EQ3ControlsProps = {
   eq3: EQ3;
-  update: boolean;
 };
 
 export type MasterControlsProps = {
   masterVolume: Volume;
   octave: number;
   setOctave: (octave: number) => void;
-  update: boolean;
 };
 
 export type KeyProps = {
@@ -164,5 +157,5 @@ export type MidiProps = {
 };
 
 export type PresetsProps = {
-  changePreset: (preset: preset) => void;
+  changePreset: (preset: options) => void;
 };
