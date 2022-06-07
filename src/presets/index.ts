@@ -1,6 +1,6 @@
-import { preset } from "../types";
+import { options } from "../types";
 
-const defaults: preset = {
+const defaults: options = {
   name: "Default",
   synth1: {
     volume: 0, // -60 - 0
@@ -58,7 +58,7 @@ const defaults: preset = {
   masterVolume: -2, // -60 - 0
 };
 
-const supersaw: preset = {
+const supersaw: options = {
   name: "Supersaw",
   synth1: {
     volume: 0,
@@ -116,7 +116,7 @@ const supersaw: preset = {
   masterVolume: 0,
 };
 
-const waterTemple: preset = {
+const waterTemple: options = {
   name: "Water Temple",
   synth1: {
     volume: 0,
@@ -174,7 +174,7 @@ const waterTemple: preset = {
   masterVolume: 0,
 };
 
-const sleepy: preset = {
+const sleepy: options = {
   name: "Sleepy",
   synth1: {
     volume: 0,
