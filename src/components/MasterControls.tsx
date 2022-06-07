@@ -1,27 +1,29 @@
-import { useCallback, memo, useState, useEffect } from "react";
+import { useCallback, memo, useContext } from "react";
 import Knob from "./Knob";
 import { MasterControlsProps } from "../types";
 import { left, right } from "../icons";
 import "../styles/MasterControls.css";
 
+import { OptionsContext } from "../contexts/OptionsContext";
+
 const MasterControls = ({
   masterVolume,
   octave,
   setOctave,
-  update,
 }: MasterControlsProps) => {
-  const [volume, setVolume] = useState(masterVolume.volume.value);
+  const volume = masterVolume.volume.value;
 
-  useEffect(() => {
-    setVolume(masterVolume.volume.value);
-  }, [update, masterVolume]);
+  const optionsContext = useContext(OptionsContext);
 
   const handleVolumeChange = useCallback(
     (value: number) => {
       masterVolume.set({ volume: value });
-      setVolume(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.masterVolume = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [masterVolume]
+    [masterVolume, optionsContext]
   );
 
   return (

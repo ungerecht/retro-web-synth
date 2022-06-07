@@ -1,4 +1,4 @@
-import { useCallback, useState, memo, ChangeEvent, useEffect } from "react";
+import { useCallback, memo, ChangeEvent, useContext } from "react";
 import FilterDisplay from "./FilterDisplay";
 import Knob from "./Knob";
 import RadioButtonGroup from "./RadioButtonGroup";
@@ -6,68 +6,72 @@ import { FILTER_TYPES, ROLLOFFS } from "../globals/constants";
 import { FilterControlsProps } from "../types";
 import "../styles/FilterControls.css";
 import { FilterRollOff } from "tone";
+import { OptionsContext } from "../contexts/OptionsContext";
 
-const FilterControls = ({
-  filter,
-  isPlaying,
-  fft,
-  update,
-}: FilterControlsProps) => {
-  const [type, setType] = useState(filter.type);
-  const [rolloff, setRolloff] = useState(filter.rolloff);
-  const [q, setQ] = useState(filter.get().Q);
-  const [freq, setFreq] = useState(
-    filter.frequency.toFrequency(filter.frequency.value)
-  );
-  const [gain, setGain] = useState(filter.get().gain);
+const FilterControls = ({ filter, isPlaying, fft }: FilterControlsProps) => {
+  const type = filter.type;
+  const rolloff = filter.rolloff;
+  const q = filter.get().Q;
+  const freq = filter.frequency.toFrequency(filter.frequency.value);
+  const gain = filter.get().gain;
 
-  useEffect(() => {
-    setType(filter.type);
-    setRolloff(filter.rolloff);
-    setQ(filter.get().Q);
-    setFreq(filter.frequency.toFrequency(filter.frequency.value));
-  }, [update, filter]);
+  const optionsContext = useContext(OptionsContext);
 
   const handleFilterTypeChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value as BiquadFilterType;
       filter.set({ type: value });
-      setType(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.filter.type = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [filter]
+    [filter, optionsContext]
   );
 
   const handleFilterRolloffChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const value = Number(e.target.value) as FilterRollOff;
       filter.set({ rolloff: value });
-      setRolloff(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.filter.rolloff = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [filter]
+    [filter, optionsContext]
   );
 
   const handleFilterQChange = useCallback(
     (value: number) => {
       filter.set({ Q: value });
-      setQ(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.filter.Q = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [filter]
+    [filter, optionsContext]
   );
 
   const handleFilterFrequencyChange = useCallback(
     (value: number) => {
       filter.set({ frequency: value });
-      setFreq(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.filter.frequency = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [filter]
+    [filter, optionsContext]
   );
 
   const handleFilterGainChange = useCallback(
     (value: number) => {
       filter.set({ gain: value });
-      setGain(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.filter.gain = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [filter]
+    [filter, optionsContext]
   );
 
   return (
@@ -87,7 +91,6 @@ const FilterControls = ({
             gain={gain}
             isPlaying={isPlaying}
             fft={fft}
-            update={update}
           />
         </div>
       </div>

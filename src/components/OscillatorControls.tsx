@@ -1,57 +1,73 @@
-import { useCallback, useState, memo, ChangeEvent, useEffect } from "react";
+import { useCallback, memo, ChangeEvent, useContext } from "react";
 import Knob from "./Knob";
 import RadioButtonGroup from "./RadioButtonGroup";
 import { WAVEFORMS } from "../globals/constants";
 import { OscillatorControlsProps } from "../types";
+import { OptionsContext } from "../contexts/OptionsContext";
 
-const OscillatorControls = ({
-  synthNum,
-  synth,
-  update,
-}: OscillatorControlsProps) => {
-  const [type, setType] = useState(synth.get().oscillator.type);
-  const [volume, setVolume] = useState(synth.get().volume);
-  const [phase, setPhase] = useState(synth.get().oscillator.phase);
-  const [detune, setDetune] = useState(synth.get().detune);
+const OscillatorControls = ({ synthNum, synth }: OscillatorControlsProps) => {
+  const type = synth.get().oscillator.type;
+  const volume = synth.get().volume;
+  const phase = synth.get().oscillator.phase;
+  const detune = synth.get().detune;
 
-  useEffect(() => {
-    setType(synth.get().oscillator.type);
-    setVolume(synth.get().volume);
-    setPhase(synth.get().oscillator.phase);
-    setDetune(synth.get().detune);
-  }, [update, synth]);
+  const optionsContext = useContext(OptionsContext);
 
   const handleTypeChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value as OscillatorType;
       synth.set({ oscillator: { type: value } });
-      setType(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      synthNum === 1
+        ? (optionsCopy.synth1.oscillator.type = value)
+        : (optionsCopy.synth2.oscillator.type = value);
+
+      optionsContext.setOptions(optionsCopy);
     },
-    [synth]
+    [synth, optionsContext, synthNum]
   );
 
   const handleVolumeChange = useCallback(
     (value: number) => {
       synth.set({ volume: value });
-      setVolume(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      synthNum === 1
+        ? (optionsCopy.synth1.volume = value)
+        : (optionsCopy.synth2.volume = value);
+
+      optionsContext.setOptions(optionsCopy);
     },
-    [synth]
+    [synth, optionsContext, synthNum]
   );
 
   const handlePhaseChange = useCallback(
     (value: number) => {
       synth.set({ oscillator: { phase: value } });
-      setPhase(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      synthNum === 1
+        ? (optionsCopy.synth1.oscillator.phase = value)
+        : (optionsCopy.synth2.oscillator.phase = value);
+
+      optionsContext.setOptions(optionsCopy);
     },
-    [synth]
+    [synth, optionsContext, synthNum]
   );
 
   const handleDetuneChange = useCallback(
     (value: number) => {
       synth.set({ detune: value });
-      setDetune(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      synthNum === 1
+        ? (optionsCopy.synth1.detune = value)
+        : (optionsCopy.synth2.detune = value);
+
+      optionsContext.setOptions(optionsCopy);
     },
-    [synth]
+    [synth, optionsContext, synthNum]
   );
 
   return (

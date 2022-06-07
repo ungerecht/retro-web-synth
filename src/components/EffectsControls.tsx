@@ -1,109 +1,124 @@
-import { useCallback, useState, memo, useEffect } from "react";
+import { useCallback, memo, useContext } from "react";
 import Knob from "./Knob";
 import { EffectsControlsProps } from "../types";
 import "../styles/EffectsControls.css";
+import { OptionsContext } from "../contexts/OptionsContext";
 
 const EffectsControls = ({
   reverb,
   distortion,
   delay,
   bitCrusher,
-  update,
 }: EffectsControlsProps) => {
-  const [delayWet, setDelayWet] = useState(delay.get().wet);
-  const [delayTime, setDelayTime] = useState(Number(delay.get().delayTime));
-  const [delayFeedback, setDelayFeedback] = useState(delay.get().feedback);
-  const [reverbWet, setReverbWet] = useState(reverb.get().wet);
-  const [reverbDecay, setReverbDecay] = useState(reverb.get().decay);
-  const [distortionWet, setDistortionWet] = useState(distortion.get().wet);
-  const [distortionAmount, setDistortionAmount] = useState(
-    distortion.get().distortion
-  );
-  const [bitCrusherWet, setBitCrusherWet] = useState(bitCrusher.get().wet);
-  const [bitCrusherBits, setBitCrusherBits] = useState(bitCrusher.get().bits);
+  const delayWet = delay.get().wet;
+  const delayTime = Number(delay.get().delayTime);
+  const delayFeedback = delay.get().feedback;
+  const reverbWet = reverb.get().wet;
+  const reverbDecay = reverb.get().decay;
+  const distortionWet = distortion.get().wet;
+  const distortionAmount = distortion.get().distortion;
+  const bitCrusherWet = bitCrusher.get().wet;
+  const bitCrusherBits = bitCrusher.get().bits;
 
-  useEffect(() => {
-    setDelayWet(delay.get().wet);
-    setDelayTime(Number(delay.get().delayTime));
-    setDelayFeedback(delay.get().feedback);
-    setReverbWet(reverb.get().wet);
-    setReverbDecay(reverb.get().decay);
-    setDistortionWet(distortion.get().wet);
-    setDistortionAmount(distortion.get().distortion);
-    setBitCrusherWet(bitCrusher.get().wet);
-    setBitCrusherBits(bitCrusher.get().bits);
-  }, [update, reverb, distortion, delay, bitCrusher]);
+  const optionsContext = useContext(OptionsContext);
 
   const handleDelayWetChange = useCallback(
     (value: number) => {
       delay.set({ wet: value });
-      setDelayWet(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.delay.wet = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [delay]
+    [delay, optionsContext]
   );
 
   const handleDelayTimeChange = useCallback(
     (value: number) => {
       delay.set({ delayTime: value });
-      setDelayTime(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.delay.delayTime = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [delay]
+    [delay, optionsContext]
   );
 
   const handleDelayFeedbackChange = useCallback(
     (value: number) => {
       delay.set({ feedback: value });
-      setDelayFeedback(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.delay.feedback = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [delay]
+    [delay, optionsContext]
   );
 
   const handleReverbWetChange = useCallback(
     (value: number) => {
       reverb.set({ wet: value });
-      setReverbWet(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.reverb.wet = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [reverb]
+    [reverb, optionsContext]
   );
 
   const handleReverbDecayChange = useCallback(
     (value: number) => {
       reverb.set({ decay: value });
-      setReverbDecay(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.reverb.decay = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [reverb]
+    [reverb, optionsContext]
   );
 
   const handleDistortionWetChange = useCallback(
     (value: number) => {
       distortion.set({ wet: value });
-      setDistortionWet(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.distortion.wet = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [distortion]
+    [distortion, optionsContext]
   );
 
   const handleDistortionChange = useCallback(
     (value: number) => {
       distortion.set({ distortion: value });
-      setDistortionAmount(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.distortion.distortion = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [distortion]
+    [distortion, optionsContext]
   );
 
   const handleBitCrusherWetChange = useCallback(
     (value: number) => {
       bitCrusher.set({ wet: value });
-      setBitCrusherWet(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.bitCrusher.wet = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [bitCrusher]
+    [bitCrusher, optionsContext]
   );
 
   const handleBitCrusherBitsChange = useCallback(
     (value: number) => {
       bitCrusher.set({ bits: value });
-      setBitCrusherBits(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.bitCrusher.bits = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [bitCrusher]
+    [bitCrusher, optionsContext]
   );
 
   return (

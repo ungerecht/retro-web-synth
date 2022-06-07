@@ -1,61 +1,71 @@
-import { useState, useCallback, memo, useEffect } from "react";
+import { useCallback, memo, useContext } from "react";
 import Knob from "./Knob";
 import { EQ3ControlsProps } from "../types";
 import "../styles/EQ3Controls.css";
+import { OptionsContext } from "../contexts/OptionsContext";
 
-const EQ3Controls = ({ eq3, update }: EQ3ControlsProps) => {
-  const [low, setLow] = useState(eq3.low.value);
-  const [mid, setMid] = useState(eq3.mid.value);
-  const [high, setHigh] = useState(eq3.high.value);
-  const [lowFreq, setLowFreq] = useState(eq3.lowFrequency.value as number);
-  const [highFreq, setHighFreq] = useState(eq3.highFrequency.value as number);
+const EQ3Controls = ({ eq3 }: EQ3ControlsProps) => {
+  const low = eq3.low.value;
+  const mid = eq3.mid.value;
+  const high = eq3.high.value;
+  const lowFreq = eq3.lowFrequency.value as number;
+  const highFreq = eq3.highFrequency.value as number;
 
-  useEffect(() => {
-    setLow(eq3.low.value);
-    setMid(eq3.mid.value);
-    setHigh(eq3.high.value);
-    setLowFreq(eq3.lowFrequency.value as number);
-    setHighFreq(eq3.highFrequency.value as number);
-  }, [update, eq3]);
+  const optionsContext = useContext(OptionsContext);
 
   const handleLowChange = useCallback(
     (value: number) => {
       eq3.set({ low: value });
-      setLow(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.eq3.low = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [eq3]
+    [eq3, optionsContext]
   );
 
   const handleMidChange = useCallback(
     (value: number) => {
       eq3.set({ mid: value });
-      setMid(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.eq3.mid = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [eq3]
+    [eq3, optionsContext]
   );
 
   const handleHighChange = useCallback(
     (value: number) => {
       eq3.set({ high: value });
-      setHigh(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.eq3.high = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [eq3]
+    [eq3, optionsContext]
   );
 
   const handleLowFreqChange = useCallback(
     (value: number) => {
       eq3.set({ lowFrequency: value });
-      setLowFreq(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.eq3.lowFrequency = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [eq3]
+    [eq3, optionsContext]
   );
 
   const handleHighFreqChange = useCallback(
     (value: number) => {
       eq3.set({ highFrequency: value });
-      setHighFreq(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.eq3.highFrequency = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [eq3]
+    [eq3, optionsContext]
   );
 
   return (
