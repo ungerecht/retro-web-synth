@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 
 import { PresetsProps } from "../types";
 import { defaults, supersaw, waterTemple, sleepy } from "../presets";
