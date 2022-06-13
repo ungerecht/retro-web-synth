@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 
 import {
   PolySynth,
@@ -15,6 +15,8 @@ import {
   Synth,
 } from "tone";
 
+import { OptionsContext } from "../contexts/OptionsContext";
+
 import OscillatorControls from "./OscillatorControls";
 import MasterControls from "./MasterControls";
 import EnvelopeControls from "./EnvelopeControls";
@@ -23,10 +25,11 @@ import Keyboard from "./Keyboard";
 import EffectsControls from "./EffectsControls";
 import EQ3Controls from "./EQ3Controls";
 import Midi from "./Midi";
+import Presets from "./Presets";
 
 import { KEY_TO_FULLNOTE, VALID_KEYS } from "../globals/constants";
 
-import { SynthControllerState } from "../types";
+import { options, SynthControllerState } from "../types";
 
 import { defaults } from "../presets";
 
@@ -52,6 +55,7 @@ class SynthController extends Component<{}, SynthControllerState> {
       baseOctave: 3,
       notesPlaying: [],
       dragging: false,
+      options: defaults,
     };
     this.synth1 = new PolySynth(Synth, defaults.synth1);
     this.synth2 = new PolySynth(Synth, defaults.synth2);
@@ -189,42 +193,66 @@ class SynthController extends Component<{}, SynthControllerState> {
     });
   };
 
+  changePreset = (preset: options) => {
+    this.synth1.set(preset.synth1);
+    this.synth2.set(preset.synth2);
+    this.synth1.set({ envelope: preset.envelope });
+    this.synth2.set({ envelope: preset.envelope });
+    this.filter.set(preset.filter);
+    this.masterVolume.set({ volume: preset.masterVolume });
+    this.reverb.set(preset.reverb);
+    this.eq3.set(preset.eq3);
+    this.distortion.set(preset.distortion);
+    this.delay.set(preset.delay);
+    this.bitCrusher.set(preset.bitCrusher);
+    this.setState({ options: preset });
+  };
+
+  setOptions = (options: options) => {
+    this.setState({ options: options });
+  };
+
   render() {
     return (
       <div className="container">
         <div className="top-bar">
           <Midi playNote={this.playNote} stopNote={this.stopNote} />
+          <Presets changePreset={this.changePreset} />
         </div>
-        <div className="top-container">
-          <OscillatorControls synthNum={1} synth={this.synth1} />
-          <OscillatorControls synthNum={2} synth={this.synth2} />
-          <EnvelopeControls synth1={this.synth1} synth2={this.synth2} />
-          <FilterControls
-            filter={this.filter}
-            isPlaying={this.state.notesPlaying.length > 0}
-            fft={this.fft}
-          />
-          <EQ3Controls eq3={this.eq3} />
-          <EffectsControls
-            reverb={this.reverb}
-            distortion={this.distortion}
-            delay={this.delay}
-            bitCrusher={this.bitCrusher}
-          />
-        </div>
-        <div className="bottom-container">
-          <MasterControls
-            masterVolume={this.masterVolume}
-            octave={this.state.baseOctave}
-            setOctave={this.setBaseOctave}
-          />
-          <Keyboard
-            notesPlaying={this.state.notesPlaying}
-            octave={this.state.baseOctave}
-            playNote={this.playNote}
-            stopNote={this.stopNote}
-          />
-        </div>
+        <OptionsContext.Provider
+          value={{ options: this.state.options, setOptions: this.setOptions }}
+        >
+          <div className="top-container">
+            <OscillatorControls synthNum={1} synth={this.synth1} />
+            <OscillatorControls synthNum={2} synth={this.synth2} />
+            <EnvelopeControls synth1={this.synth1} synth2={this.synth2} />
+            <FilterControls
+              filter={this.filter}
+              isPlaying={this.state.notesPlaying.length > 0}
+              fft={this.fft}
+            />
+            <EQ3Controls eq3={this.eq3} />
+            <EffectsControls
+              reverb={this.reverb}
+              distortion={this.distortion}
+              delay={this.delay}
+              bitCrusher={this.bitCrusher}
+            />
+          </div>
+          <div className="bottom-container">
+            <MasterControls
+              masterVolume={this.masterVolume}
+              octave={this.state.baseOctave}
+              setOctave={this.setBaseOctave}
+            />
+            <Keyboard
+              notesPlaying={this.state.notesPlaying}
+              octave={this.state.baseOctave}
+              playNote={this.playNote}
+              stopNote={this.stopNote}
+            />
+          </div>
+        </OptionsContext.Provider>
       </div>
     );
   }

@@ -1,47 +1,62 @@
-import { useCallback, useState, memo } from "react";
+import { useCallback, memo, useContext } from "react";
 import Slider from "./Slider";
 import { EnvelopeControlsProps } from "../types";
+import { OptionsContext } from "../contexts/OptionsContext";
 
 const EnvelopeControls = ({ synth1, synth2 }: EnvelopeControlsProps) => {
-  const [attack, setAttack] = useState(Number(synth1.get().envelope.attack));
-  const [decay, setDecay] = useState(Number(synth1.get().envelope.decay));
-  const [sustain, setSustain] = useState(synth1.get().envelope.sustain);
-  const [release, setRelease] = useState(Number(synth1.get().envelope.release));
+  const attack = Number(synth1.get().envelope.attack);
+  const decay = Number(synth1.get().envelope.decay);
+  const sustain = synth1.get().envelope.sustain;
+  const release = Number(synth1.get().envelope.release);
+
+  const optionsContext = useContext(OptionsContext);
 
   const handleAttackChange = useCallback(
     (value) => {
       synth1.set({ envelope: { attack: value } });
       synth2.set({ envelope: { attack: value } });
-      setAttack(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.envelope.attack = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [synth1, synth2]
+    [synth1, synth2, optionsContext]
   );
 
   const handleDecayChange = useCallback(
     (value) => {
       synth1.set({ envelope: { decay: value } });
       synth2.set({ envelope: { decay: value } });
-      setDecay(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.envelope.decay = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [synth1, synth2]
+    [synth1, synth2, optionsContext]
   );
 
   const handleSustainChange = useCallback(
     (value) => {
       synth1.set({ envelope: { sustain: value } });
       synth2.set({ envelope: { sustain: value } });
-      setSustain(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.envelope.sustain = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [synth1, synth2]
+    [synth1, synth2, optionsContext]
   );
 
   const handleReleaseChange = useCallback(
     (value) => {
       synth1.set({ envelope: { release: value } });
       synth2.set({ envelope: { release: value } });
-      setRelease(value);
+
+      const optionsCopy = Object.assign({}, optionsContext.options);
+      optionsCopy.envelope.release = value;
+      optionsContext.setOptions(optionsCopy);
     },
-    [synth1, synth2]
+    [synth1, synth2, optionsContext]
   );
 
   return (

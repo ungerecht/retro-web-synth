@@ -1,4 +1,3 @@
-import React from "react";
 import { github } from "../icons";
 import "../styles/Footer.css";
 

@@ -8,7 +8,20 @@
 }
 
 .top-bar {
+  display: flex;
+  justify-content: space-between;
   padding: 10px 20px 0px;
+}
+
+.midi-select,
+.presets-select {
+  width: 160px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(147, 192, 192);
+  font-family: PressStart2P;
+  font-size: 8px;
+  padding: 3px;
 }
 
 .top-container {

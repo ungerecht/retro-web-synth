@@ -8,16 +8,6 @@
   margin: 0px 5px;
 }
 
-.midi-select {
-  width: 160px;
-  border-radius: 5px;
-  border: none;
-  background-color: rgb(147, 192, 192);
-  font-family: PressStart2P;
-  font-size: 8px;
-  padding: 3px;
-}
-
 .lightbulb {
   width: 8px;
   height: 8px;

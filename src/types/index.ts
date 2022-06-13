@@ -46,7 +46,8 @@ type bitCrusherOptions = {
   bits: number;
 };
 
-export type preset = {
+export type options = {
+  name: string;
   synth1: synthOptions;
   synth2: synthOptions;
   envelope: Partial<EnvelopeOptions>;
@@ -63,6 +64,7 @@ export type SynthControllerState = {
   baseOctave: number;
   notesPlaying: string[];
   dragging: boolean;
+  options: options;
 };
 
 export type ControlProps = {
@@ -152,4 +154,8 @@ export type RadioButtonGroupProps = {
 export type MidiProps = {
   playNote: (fullNote: string, startDrag?: boolean) => void;
   stopNote: (fullNote: string, stopDrag?: boolean) => void;
+};
+
+export type PresetsProps = {
+  changePreset: (preset: options) => void;
 };
