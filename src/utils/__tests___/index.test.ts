@@ -2,7 +2,7 @@ import {
   dbToY,
   getXofFrequency,
   keyIsPressed,
-  keyIsFlat,
+  keyIsSharp,
   valueToPercentage,
   percentageToValue,
   polarToCartesian,
@@ -55,11 +55,11 @@ describe("Key utils", () => {
   test("keyIsPressed returns false when note + octave is not in notesPlaying", () => {
     expect(keyIsPressed(note2, octave, notesPlaying)).toBe(false);
   });
-  test("keyIsFlat returns true when note is flat", () => {
-    expect(keyIsFlat(note2)).toBe(true);
+  test("keyIsSharp returns true when note is sharp", () => {
+    expect(keyIsSharp(note2)).toBe(true);
   });
-  test("keyIsFlat returns false when note is not flat", () => {
-    expect(keyIsFlat(note1)).toBe(false);
+  test("keyIsSharp returns false when note is not sharp", () => {
+    expect(keyIsSharp(note1)).toBe(false);
   });
 });
 
