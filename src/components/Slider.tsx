@@ -4,6 +4,7 @@ import {
   getBarCoordinates,
   calculateSliderNewValue,
   drawSliderTickCoordinates,
+  markAsInteracting,
 } from "../utils";
 
 const Slider = ({
@@ -103,6 +104,7 @@ const Slider = ({
       event.preventDefault();
       const bounding = slider.current?.getBoundingClientRect();
       setIsDragging(true);
+      markAsInteracting(slider, true);
       let newValue = calculateSliderNewValue(
         event,
         min,
@@ -136,6 +138,7 @@ const Slider = ({
       event.preventDefault();
       if (isDragging) {
         setIsDragging(false);
+        markAsInteracting(slider, false);
       }
     };
 

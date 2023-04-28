@@ -94,7 +94,8 @@ body {
   position: relative;
 }
 
-.hasTooltip:hover .tooltip {
+.hasTooltip .dragging ~ .tooltip,
+body:not(.interacting) .hasTooltip:hover .tooltip {
   display: block;
 }
 
