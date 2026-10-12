@@ -2,7 +2,7 @@
 
 An open-source web-based sound synthesizer built with React, TypeScript, and Tone.js. This polysynth features two oscillators that can be played in tandem by pressing the piano keys. Each oscillator has four waveforms to choose from and is routed through an amplitude envelope, biquadratic filter, and a three bin equalizer allowing full control over the shape and frequencies of the sound. The sound can be altered further with effects including feedback delay, bit-crusher, distortion, and reverb. Output of the instrument is also visualized in the display while notes are being played.
 
-[Live Demo](https://retro-synth.herokuapp.com/)
+~[Live Demo](https://retro-synth.herokuapp.com/)~
 
 ![screenshot](/screenshots/synth.png)
 
@@ -177,8 +177,8 @@ This project was created as a portfolio piece to practice and learn new front-en
 
 ## Contributing
 
-Feel free to contribute by submitting issues or pull requests on Github. Suggestions for improvements and constructive criticism are welcome!
+Feel free to contribute by submitting issues or pull requests on GitHub. Suggestions for improvements and constructive criticism are welcome!
 
 ## Contact
 
-You can contact me by sending me a message on [Linked In](https://www.linkedin.com/in/kevin-ungerecht-228610123).
+You can contact me by sending me a message on [Linked In](https://www.linkedin.com/in/ungerecht).
