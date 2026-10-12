@@ -4,6 +4,7 @@ import {
   getEndCoordinates,
   calculateKnobNewValue,
   drawKnobTickCoordinates,
+  markAsInteracting,
 } from "../utils";
 
 const Knob = ({
@@ -112,6 +113,7 @@ const Knob = ({
       event.preventDefault();
       const bounding = knob.current?.getBoundingClientRect();
       setIsDragging(true);
+      markAsInteracting(knob, true);
       let newValue = calculateKnobNewValue(
         event,
         min,
@@ -151,6 +153,7 @@ const Knob = ({
       event.preventDefault();
       if (isDragging) {
         setIsDragging(false);
+        markAsInteracting(knob, false);
       }
     };
 

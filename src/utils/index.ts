@@ -1,3 +1,5 @@
+import { RefObject } from "react";
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~FilterDisplay functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 export const getXofFrequency = (freq: number, width: number) => {
   if (width <= 0) {
@@ -210,4 +212,14 @@ export const calculateSliderNewValue = (
   if (newValue > max) newValue = max;
   if (newValue < min) newValue = min;
   return newValue;
+};
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Tooltip functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+export const markAsInteracting = (ref: RefObject<Element>, interacting: boolean) => {
+  if (interacting) {
+    document.body.classList.add("interacting");
+    ref.current?.classList.add("dragging");
+  } else {
+    document.body.classList.remove("interacting");
+    ref.current?.classList.remove("dragging");
+  }
 };
