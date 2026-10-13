@@ -16,7 +16,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Kevin Ungerecht
+              Avery Ungerecht
             </a>
           </span>
         </div>
